@@ -12,7 +12,7 @@ namespace ElasticSearchClient.Playground.Samples
     public class SimpleQuery
     {
         [Test]
-        public void ExecuteSimpleQuery()
+        public void ExecuteTermQuery()
         {
 
             ElasticSearchClient client = new ElasticSearchClient("http://172.22.1.31:9200/");
@@ -27,6 +27,24 @@ namespace ElasticSearchClient.Playground.Samples
 
             Assert.AreNotEqual(0, result.Items.Count);
             Assert.IsTrue(result.Items.All(i => i.Type == "rep-sec"));
+        }
+
+        [Test]
+        public void ExecuteMatchAllQuery()
+        {
+
+            ElasticSearchClient client = new ElasticSearchClient("http://172.22.1.31:9200/");
+
+            QueryBuilder builder = new QueryBuilder();
+
+            builder.SetQuery(new MatchAll());
+            builder.SetSize(1);
+
+            builder.PrintQuery();
+
+            ElasticSearchResult result = client.ExecuteQuery(builder);
+
+            Assert.AreEqual(1, result.Items.Count);
         }
     }
 }

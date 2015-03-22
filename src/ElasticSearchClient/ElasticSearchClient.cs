@@ -1,5 +1,6 @@
 ﻿using System;
 using ElasticSearchClient.ElasticSearch;
+using ElasticSearchClient.ElasticSearch.Index;
 using ElasticSearchClient.Query.IndexListGenerator;
 using ElasticSearchClient.Query.QueryGenerator;
 using ElasticSearchClient.Utils;
@@ -9,12 +10,12 @@ namespace ElasticSearchClient
 {
     public class ElasticSearchClient
     {
-        private readonly IndexDescriptor[] _indexDescriptors;
+        private readonly ElasticSearchIndexDescriptor[] _indexDescriptors;
         private readonly ElasticSearchQueryExecutor _elasticSearchExecutor;
 
 
 
-        public ElasticSearchClient(string elasticSearchServiceUrl, params IndexDescriptor[] indexDescriptors)
+        public ElasticSearchClient(string elasticSearchServiceUrl, params ElasticSearchIndexDescriptor[] indexDescriptors)
         {
             _indexDescriptors = indexDescriptors;
             if (elasticSearchServiceUrl == null)

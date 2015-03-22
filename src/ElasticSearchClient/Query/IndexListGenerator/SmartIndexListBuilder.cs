@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using ElasticSearchClient.ElasticSearch;
+using ElasticSearchClient.ElasticSearch.Index;
 using ElasticSearchClient.Query.QueryGenerator;
 using ElasticSearchClient.Query.QueryGenerator.Models;
 using ElasticSearchClient.Query.QueryGenerator.QueryComponents;
@@ -14,10 +15,10 @@ namespace ElasticSearchClient.Query.IndexListGenerator
     // Based on the requested timeframes specified in range queries
     public class SmartIndexListBuilder
     {
-        private readonly IndexDescriptor[] _indexDescriptors;
+        private readonly ElasticSearchIndexDescriptor[] _indexDescriptors;
         private readonly QueryBuilder _filledQuery;
 
-        public SmartIndexListBuilder(IndexDescriptor[] indexDescriptors, QueryBuilder filledQuery)
+        public SmartIndexListBuilder(ElasticSearchIndexDescriptor[] indexDescriptors, QueryBuilder filledQuery)
         {
             if (indexDescriptors == null)
                 throw new ArgumentNullException("indexDescriptors");
@@ -32,30 +33,17 @@ namespace ElasticSearchClient.Query.IndexListGenerator
         {
             var lookupIndexes = new List<string>(2 * _indexDescriptors.Length);
 
-            foreach (IndexDescriptor indexDescriptor in _indexDescriptors)
+            foreach (ElasticSearchIndexDescriptor indexDescriptor in _indexDescriptors)
             {
                 QueryDate queryDate = LookupBestQueryRange(indexDescriptor.IndexTimeStampField);
 
                 if (queryDate == null)
                 {
-                    lookupIndexes.Add(indexDescriptor.IndexPrefix + "*");
-                    Debug.WriteLine(
-                        "WARNING: Index {0} contains no index count limiting filters\r\n{1}",
-                        indexDescriptor.IndexPrefix,
-                        JsonConvert.SerializeObject(_filledQuery.BuildRequestObject())
-                    );
+                    lookupIndexes.AddRange(indexDescriptor.GetIndexDescriptors());
                 }
                 else
                 {
-                    foreach (
-                        DateTime shardTime in
-                            IndexTimeStampGenerator.Generate(queryDate.RequestFrom, queryDate.RequestTo,
-                                indexDescriptor.IndexStep))
-                    {
-                        string lookupIndexName = indexDescriptor.IndexPrefix +
-                                                    shardTime.ToString(indexDescriptor.IndexTimePattern);
-                        lookupIndexes.Add(lookupIndexName);
-                    }
+                    lookupIndexes.AddRange(indexDescriptor.GetIndexDescriptors(queryDate.RequestFrom, queryDate.RequestTo));
                 }
             }
 

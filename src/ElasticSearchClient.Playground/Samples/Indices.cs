@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Linq;
 using ElasticSearchClient.ElasticSearch;
+using ElasticSearchClient.ElasticSearch.Index;
 using ElasticSearchClient.Playground.Utils;
 using ElasticSearchClient.Query.QueryGenerator;
 using ElasticSearchClient.Query.QueryGenerator.Models;
@@ -16,9 +17,9 @@ namespace ElasticSearchClient.Playground.Samples
         [Test]
         public void IndiceMatchQuery()
         {
-            IndexDescriptor repSecIndex = new IndexDescriptor("rep-sec-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
-            IndexDescriptor reptempIndex = new IndexDescriptor("rep-templates-reader-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
-            ElasticSearchClient client = new ElasticSearchClient("http://172.22.1.31:9200/", repSecIndex, reptempIndex);
+            var repSecIndex = new TimeStampedIndexDescriptor("rep-sec-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
+            var repTempIndex = new TimeStampedIndexDescriptor("rep-templates-reader-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
+            ElasticSearchClient client = new ElasticSearchClient("http://172.22.1.31:9200/", repSecIndex, repTempIndex);
 
             QueryBuilder builder = new QueryBuilder();
             builder.Indices.AddIndices("rep-templates-reader-*");
@@ -35,8 +36,8 @@ namespace ElasticSearchClient.Playground.Samples
         [Test]
         public void IndiceNotMatchQuery()
         {
-            IndexDescriptor repSecIndex = new IndexDescriptor("rep-sec-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
-            IndexDescriptor reptempIndex = new IndexDescriptor("rep-templates-reader-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
+            var repSecIndex = new TimeStampedIndexDescriptor("rep-sec-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
+            var reptempIndex = new TimeStampedIndexDescriptor("rep-templates-reader-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
             ElasticSearchClient client = new ElasticSearchClient("http://172.22.1.31:9200/", repSecIndex, reptempIndex);
 
             QueryBuilder builder = new QueryBuilder();

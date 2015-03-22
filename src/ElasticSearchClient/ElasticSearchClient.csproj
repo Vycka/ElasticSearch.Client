@@ -45,10 +45,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ElasticSearchClient.cs" />
-    <Compile Include="ElasticSearch\IndexDescriptor.cs" />
     <Compile Include="ElasticSearch\ElasticSearchQuery.cs" />
     <Compile Include="ElasticSearch\ElasticSearchQueryExecutor.cs" />
     <Compile Include="ElasticSearch\ElasticSearchResult.cs" />
+    <Compile Include="ElasticSearch\Index\ConcreteIndex.cs" />
+    <Compile Include="ElasticSearch\Index\ElasticSearchIndexDescriptor.cs" />
+    <Compile Include="ElasticSearch\Index\TimeStampedIndexDescriptor.cs" />
     <Compile Include="ElasticSearch\ResultItem.cs" />
     <Compile Include="Query\IndexListGenerator\IndexPeriodGenerators\DayPeriodGenerator.cs" />
     <Compile Include="Query\IndexListGenerator\IndexPeriodGenerators\HourPeriodGenerator.cs" />

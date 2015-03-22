@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using ElasticSearchClient.ElasticSearch;
+using ElasticSearchClient.ElasticSearch.Index;
 using ElasticSearchClient.Query.IndexListGenerator.IndexPeriodGenerators;
 
 namespace ElasticSearchClient.Query.IndexListGenerator
