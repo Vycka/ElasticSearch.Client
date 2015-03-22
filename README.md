@@ -1,4 +1,4 @@
-Trying to create friendly, yet functional ElasticSearch C# Client.
+Trying to create friendly, yet functional __ElasticSearch C# Client__.
 
 You can execute queries as simple as these
 
