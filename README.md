@@ -19,11 +19,10 @@ Or as complex as those
   ElasticSearchClient client = new ElasticSearchClient("http://localhost:9200/", rabbitIndex, securityIndex);
 
   QueryBuilder builder = new QueryBuilder();
-  builder.SetQuery(new TermQuery("_type", "errors"));
-
   builder.Filtered.Queries.Add(QueryType.Should, new TermQuery("Level","ERROR"));
   builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
   builder.Filtered.Filters.Add(FilterType.MustNot, new LuceneFilter("EventType:IrrelevantError"));
+
   ElasticSearchResult result = client.ExecuteQuery(builder);
 ```
 
