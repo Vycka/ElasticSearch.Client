@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ElasticSearch.Query.QueryGenerator.QueryComponents.Filters
+namespace ElasticSearchClient.Query.QueryGenerator.QueryComponents.Filters
 {
     public class MovingTimeRange : FromToRange, IFilterComponent
     {

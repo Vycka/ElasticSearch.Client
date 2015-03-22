@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace ElasticSearch.ElasticSearch
+namespace ElasticSearchClient.ElasticSearch
 {
     [DataContract]
     public class ResultItem

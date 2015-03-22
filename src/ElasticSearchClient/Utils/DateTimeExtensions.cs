@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace ElasticSearch.Utils
+namespace ElasticSearchClient.Utils
 {
     public static class DateTimeExtensions
     {

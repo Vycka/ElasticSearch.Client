@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Dynamic;
-using ElasticSearch.Query.QueryGenerator.QueryComponents;
-using ElasticSearch.Utils;
+using ElasticSearchClient.Query.QueryGenerator.QueryComponents;
+using ElasticSearchClient.Utils;
 
-namespace ElasticSearch.Query.QueryGenerator.SectionBuilders
+namespace ElasticSearchClient.Query.QueryGenerator.SectionBuilders
 {
     public class IndicesSectionBuilder
     {
@@ -33,6 +34,9 @@ namespace ElasticSearch.Query.QueryGenerator.SectionBuilders
         {
             if (_indicesList.Count == 0 && _query == null && _notQuery == null)
                 return null;
+
+            if (_indicesList.Count > 0 && _query == null) 
+                Debug.WriteLine("WARNING: Query might fail: If at least one Indice is provided, MatchingQuery must be defined too!");
 
             ExpandoObject indicesObject = new ExpandoObject();
             

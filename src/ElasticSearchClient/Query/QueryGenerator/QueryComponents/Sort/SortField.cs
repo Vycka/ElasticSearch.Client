@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Dynamic;
 
-namespace ElasticSearch.Query.QueryGenerator.QueryComponents.Sort
+namespace ElasticSearchClient.Query.QueryGenerator.QueryComponents.Sort
 {
     public class SortField : ISortComponent
     {

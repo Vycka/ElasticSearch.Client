@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Dynamic;
-using ElasticSearch.Utils;
+using ElasticSearchClient.Utils;
 
-namespace ElasticSearch.Query.QueryGenerator.QueryComponents.Queries
+namespace ElasticSearchClient.Query.QueryGenerator.QueryComponents.Queries
 {
     public class MatchAll : IQueryComponent
     {

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using ElasticSearch.Query.QueryGenerator.Models;
-using ElasticSearch.Query.QueryGenerator.QueryComponents;
-using ElasticSearch.Utils;
+using ElasticSearchClient.Query.QueryGenerator.Models;
+using ElasticSearchClient.Query.QueryGenerator.QueryComponents;
+using ElasticSearchClient.Utils;
 
-namespace ElasticSearch.Query.QueryGenerator.SectionBuilders
+namespace ElasticSearchClient.Query.QueryGenerator.SectionBuilders
 {
     public class QueryListBuilder
     {

@@ -1,32 +1,39 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
 
-namespace ElasticSearch.Utils
+namespace ElasticSearchClient.Utils
 {
-    
     public class HttpRequest
     {
-        #region Fields
+        #region Properties
 
         public readonly CookieContainer SessionCookies;
         private readonly string _baseUrl;
-        
+
+        private string _requestData;
+
         #endregion
 
         #region Constructors
 
         // Disables SSL Verifications
-        //static HttpRequest()
-        //{
-        //    ServicePointManager.ServerCertificateValidationCallback = ((sender, certificate, chain, sslPolicyErrors) => true);
-        //}
+        static HttpRequest()
+        {
+            ServicePointManager.ServerCertificateValidationCallback = ((sender, certificate, chain, sslPolicyErrors) => true);
+        }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="baseUrl">Base request uri used for relative requests</param>
         public HttpRequest(string baseUrl)
         {
+            if (baseUrl == null) 
+                throw new ArgumentNullException("baseUrl");
+
             _baseUrl = baseUrl;
 
             SessionCookies = new CookieContainer();
@@ -36,21 +43,18 @@ namespace ElasticSearch.Utils
 
         #region Exposed Requests
 
-        // GET
         public string MakeGetRequest(string relativeUrl)
         {
             HttpWebRequest httpRequest = BuildRelativeBaseHttpWebRequest(relativeUrl, "GET");
             return ExecuteWebRequest(httpRequest);
         }
 
-        // GET Absolute
         public string MakeGetRequest(string baseUrl, string relativeUrl)
         {
             HttpWebRequest httpRequest = BuildAbsoluteBaseHttpWebRequest(new Uri(baseUrl + relativeUrl), "GET");
             return ExecuteWebRequest(httpRequest);
         }
 
-        // POST
         public string MakePostJsonRequest(string relativeUrl, string jsonContent)
         {
             HttpWebRequest httpRequest = BuildRelativeBaseHttpWebRequest(relativeUrl, "POST");
@@ -58,7 +62,6 @@ namespace ElasticSearch.Utils
             return ExecuteWebRequest(httpRequest);
         }
 
-        // POST Absolute
         public string MakePostJsonRequest(string baseUrl, string relativeUrl, string jsonContent)
         {
             HttpWebRequest httpRequest = BuildAbsoluteBaseHttpWebRequest(new Uri(baseUrl + relativeUrl), "POST");
@@ -66,7 +69,13 @@ namespace ElasticSearch.Utils
             return ExecuteWebRequest(httpRequest);
         }
 
-        // PUT 
+        public string MakePutJsonRequest(string baseUrl, string relativeUrl, string jsonContent)
+        {
+            HttpWebRequest httpRequest = BuildAbsoluteBaseHttpWebRequest(new Uri(baseUrl + relativeUrl), "PUT");
+            InsertSubmitRequestStream(httpRequest, jsonContent, SubmitRequestType.JSON);
+            return ExecuteWebRequest(httpRequest);
+        }
+
         public string MakePutJsonRequest(string relativeUrl, string jsonContent)
         {
             HttpWebRequest httpRequest = BuildRelativeBaseHttpWebRequest(relativeUrl, "PUT");
@@ -79,7 +88,7 @@ namespace ElasticSearch.Utils
         #region Generic HTTP Request utils
 
         /// <summary>
-        /// Executes Provided Http Request, But doesn't have ability to check response headers
+        /// Executes Provided Http Request, But doesn't have ability to check webResponse headers
         /// </summary>
         /// <param name="httpRequest">Http Request</param>
         /// <returns>Response Data</returns>
@@ -97,18 +106,66 @@ namespace ElasticSearch.Utils
         /// <returns>Response Data</returns>
         private string ExecuteWebRequest(HttpWebRequest httpRequest, out WebResponse webResponse)
         {
+            PrintRequestInformation(httpRequest);
+
             string responseString;
 
-            webResponse = httpRequest.GetResponse();
+            try
+            {
+                webResponse = httpRequest.GetResponse();
 
-            Stream httpStream = webResponse.GetResponseStream();
+                Stream httpStream = webResponse.GetResponseStream();
 
-            var httpResponseReader = new StreamReader(httpStream, Encoding.UTF8);
-            responseString = httpResponseReader.ReadToEnd();
-            httpResponseReader.Close();
+                var httpResponseReader = new StreamReader(httpStream, Encoding.UTF8);
+                responseString = httpResponseReader.ReadToEnd();
 
+                httpResponseReader.Close();
+
+            }
+            catch (WebException ex)
+            {
+                Stream responseStream = ex.Response == null ? null : ex.Response.GetResponseStream();
+                string response = "";
+                if (responseStream != null)
+                {
+                    response = new StreamReader(responseStream).ReadToEnd();
+                }
+
+                // If no EventNum found, its still error, throw extended exception, which includes response stream.
+                if (ex.Response == null)
+                {
+                    throw new ExtendedWebException(ex.Message, httpRequest.Address.ToString(), _requestData, response, ex);
+                }
+                else
+                {
+                    throw new ExtendedWebException(ex.Message, ex.Response.ResponseUri.ToString(), _requestData, response, ex);
+                }
+            }
+            finally
+            {
+                _requestData = null;
+            }
 
             return responseString;
+        }
+
+        private void PrintRequestInformation(HttpWebRequest httpRequest)
+        {
+            Debug.WriteLine(" # API {0} [{1}]", httpRequest.Method, httpRequest.Address);
+            
+            if (!String.IsNullOrWhiteSpace(_requestData))
+            {
+                const int trimLength = 200;
+
+                bool trimData = _requestData.Length > trimLength;
+                
+                string trimmedString = trimData ? _requestData.Substring(0, trimLength) : _requestData;
+                if (trimData)
+                    trimmedString += "...";
+
+                Console.WriteLine(" # REQ -> [{0}]", trimmedString);
+                Console.WriteLine("##");
+            }
         }
 
         /// <summary>
@@ -132,6 +189,8 @@ namespace ElasticSearch.Utils
                     httpRequest.ContentType = "application/x-www-form-urlencoded";
                     break;
             }
+
+            _requestData = requestContent;
 
             byte[] requestBytes = Encoding.UTF8.GetBytes(requestContent);
             httpRequest.ContentLength = requestBytes.Length;
@@ -173,10 +232,56 @@ namespace ElasticSearch.Utils
         {
             JSON,
             X_WWW_FORM
-
         }
         // ReSharper restore InconsistentNaming
 
         #endregion
+
+        #region ToString()
+
+        public override string ToString()
+        {
+            return _baseUrl;
+        }
+
+        #endregion
+    }
+
+    public class ExtendedWebException : Exception
+    {
+        private readonly string _requestUrl;
+        public readonly string WebResponse;
+        private readonly string _requestData;
+
+        public ExtendedWebException(string message, string requestUrl, string requestData, string webResponse, Exception innerException)
+            : base(message, innerException)
+        {
+            if (requestUrl == null)
+                throw new ArgumentNullException("requestUrl");
+
+            _requestUrl = requestUrl;
+            WebResponse = webResponse;
+            _requestData = requestData ?? "NULL";
+        }
+
+        public override string Message
+        {
+            get
+            {
+                return string.Concat(
+                    "\r\nMessage: ", base.Message,
+                    "\r\nResponse URL:  ", _requestUrl,
+                    "\r\nRequest:       ", _requestData,
+                    "\r\nResponse:      ", WebResponse);
+            }
+        }
+
+        public override string ToString()
+        {
+            return string.Concat(base.ToString(),
+                "\r\nResponse URL: ", _requestUrl,
+                "\r\nRequest:      ", _requestData,
+                "\r\nResponse:     ", WebResponse);
+        }
     }
 }

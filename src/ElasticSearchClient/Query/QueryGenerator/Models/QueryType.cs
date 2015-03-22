@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ElasticSearch.Query.QueryGenerator.Models
+namespace ElasticSearchClient.Query.QueryGenerator.Models
 {
     public enum QueryType
     {

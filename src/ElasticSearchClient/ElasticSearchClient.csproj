@@ -7,8 +7,8 @@
     <ProjectGuid>{21BD3C8E-D3ED-4445-B68D-A401CB6124FC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ElasticSearch</RootNamespace>
-    <AssemblyName>ElasticSearch</AssemblyName>
+    <RootNamespace>ElasticSearchClient</RootNamespace>
+    <AssemblyName>ElasticSearchClient</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,7 +32,7 @@
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ElasticSearchClient.cs" />
-    <Compile Include="ElasticSearch\ElasticSearchIndexDescriptor.cs" />
+    <Compile Include="ElasticSearch\IndexDescriptor.cs" />
     <Compile Include="ElasticSearch\ElasticSearchQuery.cs" />
     <Compile Include="ElasticSearch\ElasticSearchQueryExecutor.cs" />
     <Compile Include="ElasticSearch\ElasticSearchResult.cs" />
@@ -85,7 +85,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

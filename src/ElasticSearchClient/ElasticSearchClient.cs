@@ -1,18 +1,20 @@
 ﻿using System;
-using ElasticSearch.ElasticSearch;
-using ElasticSearch.Query.IndexListGenerator;
-using ElasticSearch.Query.QueryGenerator;
-using ElasticSearch.Utils;
+using ElasticSearchClient.ElasticSearch;
+using ElasticSearchClient.Query.IndexListGenerator;
+using ElasticSearchClient.Query.QueryGenerator;
+using ElasticSearchClient.Utils;
 using Newtonsoft.Json;
 
-namespace ElasticSearch
+namespace ElasticSearchClient
 {
     public class ElasticSearchClient
     {
-        private readonly ElasticSearchIndexDescriptor[] _indexDescriptors;
+        private readonly IndexDescriptor[] _indexDescriptors;
         private readonly ElasticSearchQueryExecutor _elasticSearchExecutor;
 
-        public ElasticSearchClient(string elasticSearchServiceUrl, params ElasticSearchIndexDescriptor[] indexDescriptors)
+
+
+        public ElasticSearchClient(string elasticSearchServiceUrl, params IndexDescriptor[] indexDescriptors)
         {
             _indexDescriptors = indexDescriptors;
             if (elasticSearchServiceUrl == null)

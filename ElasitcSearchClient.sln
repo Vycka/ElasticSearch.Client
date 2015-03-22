@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElasticSearchClient", "src\ElasticSearchClient\ElasticSearchClient.csproj", "{21BD3C8E-D3ED-4445-B68D-A401CB6124FC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElasticSearchClient.Playground", "src\ElasticSearchClient.Playground\ElasticSearchClient.Playground.csproj", "{692D558F-DAFF-4FD2-8414-11A21091979B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{21BD3C8E-D3ED-4445-B68D-A401CB6124FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21BD3C8E-D3ED-4445-B68D-A401CB6124FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21BD3C8E-D3ED-4445-B68D-A401CB6124FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{692D558F-DAFF-4FD2-8414-11A21091979B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{692D558F-DAFF-4FD2-8414-11A21091979B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{692D558F-DAFF-4FD2-8414-11A21091979B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{692D558F-DAFF-4FD2-8414-11A21091979B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

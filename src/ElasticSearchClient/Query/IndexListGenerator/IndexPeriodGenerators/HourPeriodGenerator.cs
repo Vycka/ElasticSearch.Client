@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using ElasticSearch.Utils;
+using ElasticSearchClient.Utils;
 
-namespace ElasticSearch.Query.IndexListGenerator.IndexPeriodGenerators
+namespace ElasticSearchClient.Query.IndexListGenerator.IndexPeriodGenerators
 {
     internal static class HourPeriodGenerator
     {

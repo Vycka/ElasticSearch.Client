@@ -1,8 +1,8 @@
 ﻿using System.Dynamic;
-using ElasticSearch.Query.QueryGenerator.SectionBuilders;
-using ElasticSearch.Utils;
+using ElasticSearchClient.Query.QueryGenerator.SectionBuilders;
+using ElasticSearchClient.Utils;
 
-namespace ElasticSearch.Query.QueryGenerator
+namespace ElasticSearchClient.Query.QueryGenerator
 {
     public class QueryBuilder
     {

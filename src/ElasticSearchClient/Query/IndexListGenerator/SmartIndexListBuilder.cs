@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using ElasticSearch.ElasticSearch;
-using ElasticSearch.Query.QueryGenerator;
-using ElasticSearch.Query.QueryGenerator.Models;
-using ElasticSearch.Query.QueryGenerator.QueryComponents;
+using ElasticSearchClient.ElasticSearch;
+using ElasticSearchClient.Query.QueryGenerator;
+using ElasticSearchClient.Query.QueryGenerator.Models;
+using ElasticSearchClient.Query.QueryGenerator.QueryComponents;
 using Newtonsoft.Json;
 
-namespace ElasticSearch.Query.IndexListGenerator
+namespace ElasticSearchClient.Query.IndexListGenerator
 {
     // It's Smart, because it analyses a query, and tries to optimize queried indexes to ES
     // Based on the requested timeframes specified in range queries
     public class SmartIndexListBuilder
     {
-        private readonly ElasticSearchIndexDescriptor[] _indexDescriptors;
+        private readonly IndexDescriptor[] _indexDescriptors;
         private readonly QueryBuilder _filledQuery;
 
-        public SmartIndexListBuilder(ElasticSearchIndexDescriptor[] indexDescriptors, QueryBuilder filledQuery)
+        public SmartIndexListBuilder(IndexDescriptor[] indexDescriptors, QueryBuilder filledQuery)
         {
             if (indexDescriptors == null)
                 throw new ArgumentNullException("indexDescriptors");
@@ -31,42 +32,36 @@ namespace ElasticSearch.Query.IndexListGenerator
         {
             var lookupIndexes = new List<string>(2 * _indexDescriptors.Length);
 
-            foreach (ElasticSearchIndexDescriptor indexDescriptor in _indexDescriptors)
+            foreach (IndexDescriptor indexDescriptor in _indexDescriptors)
             {
-                if (indexDescriptor.IsAll == true)
+                QueryDate queryDate = LookupBestQueryRange(indexDescriptor.IndexTimeStampField);
+
+                if (queryDate == null)
                 {
-                    lookupIndexes.Add("_all");
+                    lookupIndexes.Add(indexDescriptor.IndexPrefix + "*");
+                    Debug.WriteLine(
+                        "WARNING: Index {0} contains no index count limiting filters\r\n{1}",
+                        indexDescriptor.IndexPrefix,
+                        JsonConvert.SerializeObject(_filledQuery.BuildRequestObject())
+                    );
                 }
                 else
                 {
-                    QueryDate queryDate = LookupBestQueryRange(indexDescriptor.IndexTimeStampField);
-
-                    if (queryDate == null)
+                    foreach (
+                        DateTime shardTime in
+                            IndexTimeStampGenerator.Generate(queryDate.RequestFrom, queryDate.RequestTo,
+                                indexDescriptor.IndexStep))
                     {
-                        lookupIndexes.Add(indexDescriptor.IndexPrefix + "*");
-                        System.Diagnostics.Trace.Write(
-                            string.Format(
-                                "WARNING: Index {0} contains no index count limiting filters\r\n{1}",
-                                indexDescriptor.IndexPrefix,
-                                JsonConvert.SerializeObject(_filledQuery.BuildRequestObject())
-                            )
-                        );
-                    }
-                    else
-                    {
-                        foreach (
-                            DateTime shardTime in
-                                IndexTimeStampGenerator.Generate(queryDate.RequestFrom, queryDate.RequestTo,
-                                    indexDescriptor.IndexStep))
-                        {
-                            string lookupIndexName = indexDescriptor.IndexPrefix +
-                                                     shardTime.ToString(indexDescriptor.IndexTimePattern);
-                            lookupIndexes.Add(lookupIndexName);
-                        }
+                        string lookupIndexName = indexDescriptor.IndexPrefix +
+                                                    shardTime.ToString(indexDescriptor.IndexTimePattern);
+                        lookupIndexes.Add(lookupIndexName);
                     }
                 }
-
             }
+
+            if (lookupIndexes.Count == 0)
+                lookupIndexes.Add("_all");
+
             return lookupIndexes.ToArray();
         }
 

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using ElasticSearch.Utils;
+using ElasticSearchClient.Utils;
 using Newtonsoft.Json;
 
-namespace ElasticSearch.ElasticSearch
+namespace ElasticSearchClient.ElasticSearch
 {
     public class ElasticSearchQueryExecutor
     {

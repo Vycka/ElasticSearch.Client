@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ElasticSearch.Query.QueryGenerator.QueryComponents
+namespace ElasticSearchClient.Query.QueryGenerator.QueryComponents
 {
     public interface IFilterComponent
     {

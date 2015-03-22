@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
-namespace ElasticSearch.Query.QueryGenerator.Models
+namespace ElasticSearchClient.Query.QueryGenerator.Models
 {
     public enum FilterType
     {

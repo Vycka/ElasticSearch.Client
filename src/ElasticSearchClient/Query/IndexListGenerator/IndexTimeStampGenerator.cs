@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using ElasticSearch.ElasticSearch;
-using ElasticSearch.Query.IndexListGenerator.IndexPeriodGenerators;
+using ElasticSearchClient.ElasticSearch;
+using ElasticSearchClient.Query.IndexListGenerator.IndexPeriodGenerators;
 
-namespace ElasticSearch.Query.IndexListGenerator
+namespace ElasticSearchClient.Query.IndexListGenerator
 {
     public static class IndexTimeStampGenerator
     {

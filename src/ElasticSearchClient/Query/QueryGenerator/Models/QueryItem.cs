@@ -1,7 +1,7 @@
 ﻿using System;
-using ElasticSearch.Query.QueryGenerator.QueryComponents;
+using ElasticSearchClient.Query.QueryGenerator.QueryComponents;
 
-namespace ElasticSearch.Query.QueryGenerator.Models
+namespace ElasticSearchClient.Query.QueryGenerator.Models
 {
     public class QueryItem
     {

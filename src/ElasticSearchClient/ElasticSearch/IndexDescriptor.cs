@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ElasticSearch.ElasticSearch
+namespace ElasticSearchClient.ElasticSearch
 {
     public enum IndexStep
     {
@@ -8,17 +8,14 @@ namespace ElasticSearch.ElasticSearch
         Day
     };
 
-    public class ElasticSearchIndexDescriptor
+    public class IndexDescriptor
     {
         public string IndexPrefix { get; private set; }
         public string IndexTimePattern { get; private set; }
         public string IndexTimeStampField { get; private set; }
         public IndexStep IndexStep { get; private set; }
 
-        public bool IsAll { get; private set; }
-
-
-        public ElasticSearchIndexDescriptor(string indexPrefix, string indexTimePattern, string indexTimeStampField, IndexStep indexStep)
+        public IndexDescriptor(string indexPrefix, string indexTimePattern, string indexTimeStampField, IndexStep indexStep)
         {
             if (indexPrefix == null) throw new ArgumentNullException("indexPrefix");
             if (indexTimePattern == null) throw new ArgumentNullException("indexTimePattern");
@@ -28,15 +25,6 @@ namespace ElasticSearch.ElasticSearch
             IndexPrefix = indexPrefix;
             IndexTimePattern = indexTimePattern;
             IndexStep = indexStep;
-            IsAll = false;
-        }
-        
-        /// <summary>
-        /// Descriptionless index, also known as ALL
-        /// </summary>
-        public ElasticSearchIndexDescriptor()
-        {
-            IsAll = true;
         }
     }
 }

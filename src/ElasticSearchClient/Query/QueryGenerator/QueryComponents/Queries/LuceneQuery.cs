@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ElasticSearch.Query.QueryGenerator.QueryComponents.Queries
+namespace ElasticSearchClient.Query.QueryGenerator.QueryComponents.Queries
 {
     public class LuceneQuery : IQueryComponent
     {
