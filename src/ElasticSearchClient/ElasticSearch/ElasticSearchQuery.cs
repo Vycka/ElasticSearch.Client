@@ -9,8 +9,10 @@ namespace ElasticSearchClient.ElasticSearch
 
         public ElasticSearchQuery(string queryJson, string[] lookupIndexes)
         {
-            if (queryJson == null) throw new ArgumentNullException("queryJson");
-            if (lookupIndexes == null) throw new ArgumentNullException("lookupIndexes");
+            if (queryJson == null) 
+                throw new ArgumentNullException("queryJson");
+            if (lookupIndexes == null) 
+                throw new ArgumentNullException("lookupIndexes");
 
             QueryJson = queryJson;
             LookupIndexes = lookupIndexes;

@@ -70,8 +70,8 @@ namespace ElasticSearchClient.Query.IndexListGenerator
             var relatedQueries = _filledQuery.Filtered.Filters.Items
                 .Where(
                     qd => 
-                        qd.FilterComponent != null
-                        && qd.FilterType != FilterType.MustNot
+                        qd.FilterType != FilterType.MustNot
+                        && qd.FilterComponent.GetQueryDate() != null
                         && qd.FilterComponent.GetQueryDate().FieldName == fieldName
                 )
                 .Select(f => f.FilterComponent.GetQueryDate())

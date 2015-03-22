@@ -1,4 +1,6 @@
-﻿using System.Dynamic;
+﻿using System;
+using System.Dynamic;
+using ElasticSearchClient.Query.QueryGenerator.QueryComponents;
 using ElasticSearchClient.Query.QueryGenerator.SectionBuilders;
 using ElasticSearchClient.Utils;
 
@@ -9,11 +11,16 @@ namespace ElasticSearchClient.Query.QueryGenerator
         
 
         public int Size = 500;
+        public IQueryComponent Query;
 
         public FilteredSectionBuilder Filtered = new FilteredSectionBuilder();
         public IndicesSectionBuilder Indices = new IndicesSectionBuilder();
         public SortListBuilder Sort = new SortListBuilder();
 
+        public void SetQuery(IQueryComponent queryComponent)
+        {
+            Query = queryComponent;
+        }
         public void SetSize(int size)
         {
             Size = size;
@@ -23,7 +30,15 @@ namespace ElasticSearchClient.Query.QueryGenerator
         {
             ExpandoObject requestObject = new ExpandoObject();
 
-            requestObject.AddIfNotNull("query", BuildQuerySection());
+            ExpandoObject querySection = BuildQuerySection();
+
+            if (querySection != null && Query != null)
+                throw new InvalidOperationException("Simple QUERY must be alone, it can't work with INDICES or FILTERED");
+
+            if (Query != null)
+                requestObject.Add("query", Query.BuildQueryComponent());
+
+            requestObject.AddIfNotNull("query", querySection);
             requestObject.Add("size",Size);
             requestObject.AddIfNotNull("sort", Sort.BuildSortSection());
 

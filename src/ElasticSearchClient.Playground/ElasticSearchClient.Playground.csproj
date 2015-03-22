@@ -50,7 +50,9 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Samples\FilteredQueries.cs" />
     <Compile Include="Samples\Indices.cs" />
+    <Compile Include="Samples\SimpleQuery.cs" />
     <Compile Include="Samples\Term.cs" />
     <Compile Include="Utils\QueryBuilderExtension.cs" />
     <Compile Include="Samples\EmptyQuery.cs" />
