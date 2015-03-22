@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Dynamic;
-using ElasticSearch.Playground.Query.QueryGenerator.QueryComponents;
-using ElasticSearch.Playground.Query.QueryGenerator.SectionBuilders;
-using ElasticSearch.Playground.Utils;
+using ElasticSearch.Client.Query.QueryGenerator.QueryComponents;
+using ElasticSearch.Client.Query.QueryGenerator.SectionBuilders;
+using ElasticSearch.Client.Utils;
 
-namespace ElasticSearch.Playground.Query.QueryGenerator
+namespace ElasticSearch.Client.Query.QueryGenerator
 {
     public class QueryBuilder
     {

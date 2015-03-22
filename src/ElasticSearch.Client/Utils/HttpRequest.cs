@@ -4,7 +4,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 
-namespace ElasticSearch.Playground.Utils
+namespace ElasticSearch.Client.Utils
 {
     public class HttpRequest
     {

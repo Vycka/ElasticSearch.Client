@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
 
-namespace ElasticSearch.Playground.Utils
+namespace ElasticSearch.Client.Utils
 {
     public static class ExpandoObjectExtensions
     {

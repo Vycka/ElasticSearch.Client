@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using ElasticSearch.Playground.Query.QueryGenerator;
+using ElasticSearch.Client.Query.QueryGenerator;
 using Newtonsoft.Json;
 
 namespace ElasticSearch.Playground.Utils

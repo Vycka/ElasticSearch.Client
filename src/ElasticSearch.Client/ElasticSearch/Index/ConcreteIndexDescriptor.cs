@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ElasticSearch.Playground.ElasticSearch.Index
+namespace ElasticSearch.Client.ElasticSearch.Index
 {
     public class ConcreteIndexDescriptor : ElasticSearchIndexDescriptor
     {

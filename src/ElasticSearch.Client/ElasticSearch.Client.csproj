@@ -7,8 +7,8 @@
     <ProjectGuid>{21BD3C8E-D3ED-4445-B68D-A401CB6124FC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ElasticSearch.Playground</RootNamespace>
-    <AssemblyName>ElasticSearch.Playground</AssemblyName>
+    <RootNamespace>ElasticSearch.Client</RootNamespace>
+    <AssemblyName>ElasticSearch.Client</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -47,11 +47,12 @@
     <Compile Include="ElasticSearchClient.cs" />
     <Compile Include="ElasticSearch\ElasticSearchQuery.cs" />
     <Compile Include="ElasticSearch\ElasticSearchQueryExecutor.cs" />
-    <Compile Include="ElasticSearch\ElasticSearchResult.cs" />
+    <Compile Include="ElasticSearch\Results\ElasticSearchResult.cs" />
+    <Compile Include="ElasticSearch\Results\SearchResult.cs" />
     <Compile Include="ElasticSearch\Index\ConcreteIndexDescriptor.cs" />
     <Compile Include="ElasticSearch\Index\ElasticSearchIndexDescriptor.cs" />
     <Compile Include="ElasticSearch\Index\TimeStampedIndexDescriptor.cs" />
-    <Compile Include="ElasticSearch\ResultItem.cs" />
+    <Compile Include="ElasticSearch\Results\ResultItem.cs" />
     <Compile Include="Query\IndexListGenerator\IndexPeriodGenerators\DayPeriodGenerator.cs" />
     <Compile Include="Query\IndexListGenerator\IndexPeriodGenerators\HourPeriodGenerator.cs" />
     <Compile Include="Query\IndexListGenerator\IndexTimeStampGenerator.cs" />

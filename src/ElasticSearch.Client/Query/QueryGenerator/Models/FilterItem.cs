@@ -1,7 +1,7 @@
 ﻿using System;
-using ElasticSearch.Playground.Query.QueryGenerator.QueryComponents;
+using ElasticSearch.Client.Query.QueryGenerator.QueryComponents;
 
-namespace ElasticSearch.Playground.Query.QueryGenerator.Models
+namespace ElasticSearch.Client.Query.QueryGenerator.Models
 {
     public class FilterItem
     {

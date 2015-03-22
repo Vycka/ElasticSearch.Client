@@ -1,4 +1,4 @@
-﻿namespace ElasticSearch.Playground.Query.QueryGenerator.QueryComponents
+﻿namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents
 {
     public interface IQueryComponent
     {

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ElasticSearch.Playground.ElasticSearch.Index;
-using ElasticSearch.Playground.Query.QueryGenerator;
-using ElasticSearch.Playground.Query.QueryGenerator.Models;
-using ElasticSearch.Playground.Query.QueryGenerator.QueryComponents;
+using ElasticSearch.Client.ElasticSearch.Index;
+using ElasticSearch.Client.Query.QueryGenerator;
+using ElasticSearch.Client.Query.QueryGenerator.Models;
+using ElasticSearch.Client.Query.QueryGenerator.QueryComponents;
 
-namespace ElasticSearch.Playground.Query.IndexListGenerator
+namespace ElasticSearch.Client.Query.IndexListGenerator
 {
     // It's Smart, because it analyses a query, and tries to optimize queried indexes to ES
     // Based on the requested timeframes specified in range queries

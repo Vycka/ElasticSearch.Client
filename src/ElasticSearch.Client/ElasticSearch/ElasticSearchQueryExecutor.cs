@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using ElasticSearch.Playground.Utils;
+using ElasticSearch.Client.ElasticSearch.Results;
+using ElasticSearch.Client.Utils;
 using Newtonsoft.Json;
 
-namespace ElasticSearch.Playground.ElasticSearch
+namespace ElasticSearch.Client.ElasticSearch
 {
     public class ElasticSearchQueryExecutor
     {
@@ -15,12 +16,12 @@ namespace ElasticSearch.Playground.ElasticSearch
             _httpRequest = httpRequest;
         }
 
-        public ElasticSearchResult ExecuteQuery(ElasticSearchQuery query)
+        public SearchResult<TResultModel> ExecuteQuery<TResultModel>(ElasticSearchQuery query)
         {
             // First, try to execute query by quering all shards (try to save one http request for getting shard names)
             try
             {
-                return ExecuteQueryInner(query);
+                return ExecuteQueryInner<TResultModel>(query);
             }
             catch (Exception ex)
             {
@@ -29,13 +30,13 @@ namespace ElasticSearch.Playground.ElasticSearch
                 {
                     query = RemoveInexistingShards(query);
 
-                    return ExecuteQueryInner(query);
+                    return ExecuteQueryInner<TResultModel>(query);
                 }
                 throw;
             }
         }
 
-        private ElasticSearchResult ExecuteQueryInner(ElasticSearchQuery query)
+        private SearchResult<TResultModel> ExecuteQueryInner<TResultModel>(ElasticSearchQuery query)
         {
             if (query.LookupIndexes.Length == 0)
                 throw new NoShardsException(
@@ -47,7 +48,7 @@ namespace ElasticSearch.Playground.ElasticSearch
 
             string jsonResponse = _httpRequest.MakePostJsonRequest(requestUrl, query.QueryJson);
 
-            var result = new ElasticSearchResult(jsonResponse);
+            var result = new SearchResult<TResultModel>(jsonResponse);
 
             if (result.TimedOut)
                 throw new TimeoutException("There was a timeout while getting data from ElasticSearch");

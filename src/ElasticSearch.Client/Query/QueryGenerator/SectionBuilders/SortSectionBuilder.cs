@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ElasticSearch.Playground.Query.QueryGenerator.QueryComponents;
+using ElasticSearch.Client.Query.QueryGenerator.QueryComponents;
 
-namespace ElasticSearch.Playground.Query.QueryGenerator.SectionBuilders
+namespace ElasticSearch.Client.Query.QueryGenerator.SectionBuilders
 {
     public class SortListBuilder
     {

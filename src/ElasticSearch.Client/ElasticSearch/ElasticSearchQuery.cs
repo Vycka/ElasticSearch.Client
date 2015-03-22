@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ElasticSearch.Playground.ElasticSearch
+namespace ElasticSearch.Client.ElasticSearch
 {
     public class ElasticSearchQuery
     {

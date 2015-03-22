@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Dynamic;
-using ElasticSearch.Playground.Query.QueryGenerator.QueryComponents;
-using ElasticSearch.Playground.Utils;
+using ElasticSearch.Client.Query.QueryGenerator.QueryComponents;
+using ElasticSearch.Client.Utils;
 
-namespace ElasticSearch.Playground.Query.QueryGenerator.SectionBuilders
+namespace ElasticSearch.Client.Query.QueryGenerator.SectionBuilders
 {
     public class IndicesSectionBuilder
     {

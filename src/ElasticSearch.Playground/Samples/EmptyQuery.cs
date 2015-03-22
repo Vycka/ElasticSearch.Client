@@ -1,6 +1,8 @@
-﻿using ElasticSearch.Playground.ElasticSearch;
-using ElasticSearch.Playground.ElasticSearch.Index;
-using ElasticSearch.Playground.Query.QueryGenerator;
+﻿using ElasticSearch.Client;
+using ElasticSearch.Client.ElasticSearch;
+using ElasticSearch.Client.ElasticSearch.Index;
+using ElasticSearch.Client.ElasticSearch.Results;
+using ElasticSearch.Client.Query.QueryGenerator;
 using ElasticSearch.Playground.Utils;
 using NUnit.Framework;
 

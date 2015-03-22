@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Dynamic;
 
-namespace ElasticSearch.Playground.Query.QueryGenerator.QueryComponents.Queries
+namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Queries
 {
     public class TermQuery : IQueryComponent
     {

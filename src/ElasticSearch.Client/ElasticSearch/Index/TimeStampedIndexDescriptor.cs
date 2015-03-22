@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using ElasticSearch.Playground.Query.IndexListGenerator;
+using ElasticSearch.Client.Query.IndexListGenerator;
 
-namespace ElasticSearch.Playground.ElasticSearch.Index
+namespace ElasticSearch.Client.ElasticSearch.Index
 {
     public class TimeStampedIndexDescriptor : ElasticSearchIndexDescriptor
     {
@@ -18,7 +18,6 @@ namespace ElasticSearch.Playground.ElasticSearch.Index
         {
             if (indexPrefix == null) throw new ArgumentNullException("indexPrefix");
             if (indexTimePattern == null) throw new ArgumentNullException("indexTimePattern");
-            if (indexTimeStampField == null) throw new ArgumentNullException("indexTimeStampField");
 
             IndexPrefix = indexPrefix;
             IndexTimePattern = indexTimePattern;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Dynamic;
 
-namespace ElasticSearch.Playground.Query.QueryGenerator.QueryComponents.Filters
+namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters
 {
     public abstract class FromToRange 
     {

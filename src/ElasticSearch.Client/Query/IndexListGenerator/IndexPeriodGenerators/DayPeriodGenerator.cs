@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using ElasticSearch.Playground.Utils;
+using ElasticSearch.Client.Utils;
 
-namespace ElasticSearch.Playground.Query.IndexListGenerator.IndexPeriodGenerators
+namespace ElasticSearch.Client.Query.IndexListGenerator.IndexPeriodGenerators
 {
     internal static class DayPeriodGenerator
     {

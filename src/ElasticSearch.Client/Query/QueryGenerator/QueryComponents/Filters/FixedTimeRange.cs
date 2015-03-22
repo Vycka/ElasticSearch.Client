@@ -1,7 +1,7 @@
 ﻿using System;
-using ElasticSearch.Playground.Utils;
+using ElasticSearch.Client.Utils;
 
-namespace ElasticSearch.Playground.Query.QueryGenerator.QueryComponents.Filters
+namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters
 {
     public class FixedTimeRange : FromToRange, IFilterComponent
     {

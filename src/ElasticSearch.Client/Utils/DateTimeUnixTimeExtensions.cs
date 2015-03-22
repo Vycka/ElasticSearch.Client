@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ElasticSearch.Playground.Utils
+namespace ElasticSearch.Client.Utils
 {
     public static class DateTimeUnixTimeExtensions
     {

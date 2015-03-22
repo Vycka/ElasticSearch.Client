@@ -1,10 +1,9 @@
 ﻿using System;
 
-namespace ElasticSearch.Playground.ElasticSearch.Index
+namespace ElasticSearch.Client.ElasticSearch.Index
 {
     public abstract class ElasticSearchIndexDescriptor
     {
-        private readonly string _indexTimeStampField;
         public string IndexTimeStampField { get; private set; }
 
         protected ElasticSearchIndexDescriptor(string indexTimeStampField)
@@ -12,7 +11,7 @@ namespace ElasticSearch.Playground.ElasticSearch.Index
             if (indexTimeStampField == null)
                 throw new ArgumentNullException("indexTimeStampField");
 
-            _indexTimeStampField = indexTimeStampField;
+            IndexTimeStampField = indexTimeStampField;
         }
 
         public abstract string[] GetIndexDescriptors(DateTime fromUtcTime, DateTime toUtc);

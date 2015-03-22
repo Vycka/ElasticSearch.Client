@@ -1,12 +1,13 @@
 ﻿using System;
-using ElasticSearch.Playground.ElasticSearch;
-using ElasticSearch.Playground.ElasticSearch.Index;
-using ElasticSearch.Playground.Query.IndexListGenerator;
-using ElasticSearch.Playground.Query.QueryGenerator;
-using ElasticSearch.Playground.Utils;
+using ElasticSearch.Client.ElasticSearch;
+using ElasticSearch.Client.ElasticSearch.Index;
+using ElasticSearch.Client.ElasticSearch.Results;
+using ElasticSearch.Client.Query.IndexListGenerator;
+using ElasticSearch.Client.Query.QueryGenerator;
+using ElasticSearch.Client.Utils;
 using Newtonsoft.Json;
 
-namespace ElasticSearch.Playground
+namespace ElasticSearch.Client
 {
     public class ElasticSearchClient
     {
@@ -30,21 +31,31 @@ namespace ElasticSearch.Playground
 
         public ElasticSearchResult ExecuteQuery(QueryBuilder filledQuery)
         {
+            return new ElasticSearchResult(ExecuteQuery<ResultItem>(filledQuery).SearchResultObject.ToString());
+        }
+
+        public ElasticSearchResult ExecuteQuery(QueryBuilder filledQuery, params string[] executeOnIndexes)
+        {
+            return new ElasticSearchResult(ExecuteQuery<ResultItem>(filledQuery, executeOnIndexes).SearchResultObject.ToString());
+        }
+
+        public SearchResult<TResultModel> ExecuteQuery<TResultModel>(QueryBuilder filledQuery)
+        {
             var indexBuilder = new SmartIndexListBuilder(_indexDescriptors, filledQuery);
 
             string queryJson = BuildJsonQuery(filledQuery);
             string[] queryInexes = indexBuilder.BuildLookupIndexes();
 
             ElasticSearchQuery query = new ElasticSearchQuery(queryJson, queryInexes);
-            return _elasticSearchExecutor.ExecuteQuery(query);
+            return _elasticSearchExecutor.ExecuteQuery<TResultModel>(query);
         }
 
-        public ElasticSearchResult ExecuteQuery(QueryBuilder filledQuery, params string[] executeOnIndexes)
+        public SearchResult<TResultModel> ExecuteQuery<TResultModel>(QueryBuilder filledQuery, params string[] executeOnIndexes)
         {
             string queryJson = BuildJsonQuery(filledQuery);
 
             ElasticSearchQuery query = new ElasticSearchQuery(queryJson, executeOnIndexes);
-            return _elasticSearchExecutor.ExecuteQuery(query);
+            return _elasticSearchExecutor.ExecuteQuery<TResultModel>(query);
         }
 
         private static string BuildJsonQuery(QueryBuilder filledQuery)

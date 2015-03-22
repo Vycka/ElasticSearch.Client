@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ElasticSearch.Playground.Query.QueryGenerator.QueryComponents.Filters
+namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters
 {
     public class LuceneFilter : IFilterComponent
     {

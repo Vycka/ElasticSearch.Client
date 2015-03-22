@@ -1,7 +1,7 @@
 ﻿using System.Dynamic;
-using ElasticSearch.Playground.Utils;
+using ElasticSearch.Client.Utils;
 
-namespace ElasticSearch.Playground.Query.QueryGenerator.SectionBuilders
+namespace ElasticSearch.Client.Query.QueryGenerator.SectionBuilders
 {
     public class FilteredSectionBuilder
     {

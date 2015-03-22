@@ -1,37 +1,43 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace ElasticSearch.Playground.ElasticSearch
-{    
-    public class ElasticSearchResult
+namespace ElasticSearch.Client.ElasticSearch.Results
+{
+    public class SearchResult<TResultModel>
     {
         public int Took { get; private set; }
         public bool TimedOut { get; private set; }
         public ShardResult Shards { get; private set; }
 
-        private readonly List<ResultItem> _logItems; 
+        internal dynamic SearchResultObject;
 
-        internal ElasticSearchResult(string jsonElasticSearchResponse)
+        internal SearchResult(string searchResultJson)
         {
             //{"took":15,"timed_out":false,"_shards":{"total":4,"successful":4,"failed":0},"hits":{"total":0,"max_score":null,"hits":[]}}
-            var logsParsed = JsonConvert.DeserializeObject<dynamic>(jsonElasticSearchResponse);
 
-            Took = logsParsed.took;
-            TimedOut = logsParsed.timed_out;
+            SearchResultObject = JsonConvert.DeserializeObject<dynamic>(searchResultJson);
 
-            Shards = new ShardResult(logsParsed._shards);
+            Took = SearchResultObject.took;
+            TimedOut = SearchResultObject.timed_out;
 
-            _logItems = new List<ResultItem>(
-                JsonConvert.DeserializeObject<List<ResultItem>>(
-                    logsParsed.hits.hits.ToString()
-                )
-            );
+            Shards = new ShardResult(SearchResultObject._shards);
+
+
         }
 
-        public IReadOnlyList<ResultItem> Items
+
+        private List<TResultModel> _logItems; 
+        public IReadOnlyList<TResultModel> Items
         {
             get
             {
+                if (_logItems == null)
+                    _logItems = new List<TResultModel>(
+                        JsonConvert.DeserializeObject<List<TResultModel>>(
+                            SearchResultObject.hits.hits.ToString()
+                        )
+                    );
+
                 return _logItems.AsReadOnly();
             }
         }
