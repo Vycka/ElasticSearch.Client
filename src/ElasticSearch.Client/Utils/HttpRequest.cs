@@ -112,15 +112,12 @@ namespace ElasticSearch.Client.Utils
 
             try
             {
-                webResponse = httpRequest.GetResponse();
-
-                Stream httpStream = webResponse.GetResponseStream();
-
-                var httpResponseReader = new StreamReader(httpStream, Encoding.UTF8);
-                responseString = httpResponseReader.ReadToEnd();
-
-                httpResponseReader.Close();
-
+                using (webResponse = httpRequest.GetResponse())
+                using (Stream httpStream = webResponse.GetResponseStream())
+                using (var httpResponseReader = new StreamReader(httpStream, Encoding.UTF8))
+                {
+                    responseString = httpResponseReader.ReadToEnd();
+                }
             }
             catch (WebException ex)
             {
