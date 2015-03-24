@@ -88,23 +88,11 @@ namespace ElasticSearch.Client.Utils
         #region Generic HTTP Request utils
 
         /// <summary>
-        /// Executes Provided Http Request, But doesn't have ability to check webResponse headers
+        /// Executes Provided Http Request
         /// </summary>
         /// <param name="httpRequest">Http Request</param>
         /// <returns>Response Data</returns>
         private string ExecuteWebRequest(HttpWebRequest httpRequest)
-        {
-            WebResponse webResponse;
-            return ExecuteWebRequest(httpRequest, out webResponse);
-        }
-
-        /// <summary>
-        /// Executes Provided Http Request
-        /// </summary>
-        /// <param name="httpRequest">Http Request</param>
-        /// <param name="webResponse">Response Headers</param>
-        /// <returns>Response Data</returns>
-        private string ExecuteWebRequest(HttpWebRequest httpRequest, out WebResponse webResponse)
         {
             PrintRequestInformation(httpRequest);
 
@@ -112,7 +100,7 @@ namespace ElasticSearch.Client.Utils
 
             try
             {
-                using (webResponse = httpRequest.GetResponse())
+                using (var webResponse = httpRequest.GetResponse())
                 using (Stream httpStream = webResponse.GetResponseStream())
                 using (var httpResponseReader = new StreamReader(httpStream, Encoding.UTF8))
                 {

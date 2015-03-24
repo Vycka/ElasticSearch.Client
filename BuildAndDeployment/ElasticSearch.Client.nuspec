@@ -4,9 +4,9 @@
     <title>ElasticSearch C# Client</title>
     <id>ElasticSearch.Client</id>
     <version></version>
-    <authors>Vytautas.klum@gmail.com</authors>
+    <authors>Vytautas Klumbys</authors>
     <owners></owners>
-    <description>User-Friendly ElasticSearch c# querying client. It's still early in development, so things like the namespaces can still change</description>
+    <description>User-Friendly ElasticSearch c# querying client. It's still in early in development, so things like the name-spaces can still change.</description>
 
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <releaseNotes></releaseNotes>
