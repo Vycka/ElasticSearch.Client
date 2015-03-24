@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using ElasticSearch.Client;
-using ElasticSearch.Client.ElasticSearch;
 using ElasticSearch.Client.ElasticSearch.Results;
 using ElasticSearch.Client.Query.QueryGenerator;
 using ElasticSearch.Client.Query.QueryGenerator.Models;

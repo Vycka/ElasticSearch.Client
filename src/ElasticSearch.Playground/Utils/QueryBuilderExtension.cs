@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using ElasticSearch.Client.Query.QueryGenerator;
 using Newtonsoft.Json;
 
@@ -16,7 +17,7 @@ namespace ElasticSearch.Playground.Utils
                 }
             );
 
-            Debug.WriteLine(result);
+            Console.WriteLine(result);
         }
     }
 }

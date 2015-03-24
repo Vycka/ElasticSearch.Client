@@ -160,8 +160,8 @@ namespace ElasticSearch.Client.Utils
                 if (trimData)
                     trimmedString += "...";
 
-                Console.WriteLine(" # REQ -> [{0}]", trimmedString);
-                Console.WriteLine("##");
+                Debug.WriteLine(" # REQ -> [{0}]", trimmedString);
+                Debug.WriteLine("##");
             }
         }
 

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <title>ElasticSearch C# Client</title>
+    <id>ElasticSearch.Client</id>
+    <version></version>
+    <authors>Vytautas.klum@gmail.com</authors>
+    <owners></owners>
+    <description>User-Friendly ElasticSearch c# querying client. It's still early in development, so things like the namespaces can still change</description>
+
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <releaseNotes></releaseNotes>
+	<licenseUrl>https://github.com/Vycka/ElasitcSearchClient/blob/master/LICENSE</licenseUrl>
+	<projectUrl>https://github.com/Vycka/ElasitcSearchClient</projectUrl>
+    <copyright>2015</copyright>
+    <tags>ElasticSearch ES C# CS connection client </tags>
+    <dependencies>
+        <dependency id="Newtonsoft.Json" version="6.0.0" />
+    </dependencies>
+  </metadata>
+</package>

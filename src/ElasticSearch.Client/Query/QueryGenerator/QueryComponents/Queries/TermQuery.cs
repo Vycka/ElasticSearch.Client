@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
+﻿using System.Dynamic;
+using ElasticSearch.Client.Utils;
 
 namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Queries
 {
     public class TermQuery : IQueryComponent
     {
-        private readonly string _key;
-        private readonly object _value;
+        private readonly object _termQuery;
 
         public TermQuery(string key, int value)
             : this(key, (object)value)
@@ -44,23 +42,23 @@ namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Queries
         {
         }
 
+        public TermQuery(object termQuery)
+        {
+            _termQuery = termQuery;
+        }
+
         private TermQuery(string key, object value)
         {
-            if (key == null)
-                throw new ArgumentNullException("key");
-
-            _key = key;
-            _value = value;
+            var termQuery = new ExpandoObject();
+            termQuery.Add(key, value);
+            _termQuery = termQuery;
         }
 
         public object BuildQueryComponent()
         {
-            ExpandoObject termKeyValue = new ExpandoObject();
-            ((IDictionary<string, object>)termKeyValue).Add(_key, _value);
-
             object result = new
             {
-                term = termKeyValue
+                term = _termQuery
             };
 
             return result;
