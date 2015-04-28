@@ -82,6 +82,6 @@ POST: http://localhost:9200/
 ```
 
 ElasticSearch DB query-wise is very feature-rich, so it takes a lot of work to represent it all in QueryBuilder.
-Thats Because now it only supports mostly what I added, when I needed it.
+Because of that, it only supports mostly those features which I added, when I needed them.
 
 But if you are missing a feature: contact me, or branch it; develop it; and merge request it :)
