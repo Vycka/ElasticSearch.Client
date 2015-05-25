@@ -24,12 +24,12 @@ namespace ElasticSearch.Client.ElasticSearch
             return result.Aggregations;
         }
 
-        public SearchResult<TResultModel> ExecuteQuery<TResultModel>(ElasticSearchQuery query)
+        public SearchResult<TResultModel> ExecuteQuery<TResultModel>(ElasticSearchQuery query, params Tuple<string, string>[] additionalGetParams)
         {
             // First, try to execute query by quering all shards (try to save one http request for getting shard names)
             try
             {
-                return ExecuteQueryInner<TResultModel>(query);
+                return ExecuteQueryInner<TResultModel>(query, additionalGetParams);
             }
             catch (Exception ex)
             {
@@ -38,7 +38,7 @@ namespace ElasticSearch.Client.ElasticSearch
                 {
                     query = RemoveInexistingShards(query);
 
-                    return ExecuteQueryInner<TResultModel>(query);
+                    return ExecuteQueryInner<TResultModel>(query, additionalGetParams);
                 }
                 throw;
             }
@@ -69,6 +69,8 @@ namespace ElasticSearch.Client.ElasticSearch
 
             return result;
         }
+
+
 
         private ElasticSearchQuery RemoveInexistingShards(ElasticSearchQuery query)
         {

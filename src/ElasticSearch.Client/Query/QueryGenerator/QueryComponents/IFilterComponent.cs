@@ -2,10 +2,8 @@
 
 namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents
 {
-    public interface IFilterComponent
+    public interface IFilterComponent : IRequestComponent
     {
-        object BuildFilterComponent();
-
         /// <summary>
         /// Tell about its timerange filter properites, so request index space will not execute ES query on all available indices
         /// Return null if it doesn't apply to that filter

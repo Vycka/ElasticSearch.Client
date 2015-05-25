@@ -18,7 +18,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Sort
             _sortOrder = sortOrder;
         }
 
-        public object BuildSortComponent()
+        public object BuildRequestComponent()
         {
             var sortComponent = new ExpandoObject();
 

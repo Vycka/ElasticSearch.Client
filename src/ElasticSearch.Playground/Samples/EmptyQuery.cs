@@ -1,5 +1,4 @@
 ﻿using ElasticSearch.Client;
-using ElasticSearch.Client.ElasticSearch;
 using ElasticSearch.Client.ElasticSearch.Index;
 using ElasticSearch.Client.ElasticSearch.Results;
 using ElasticSearch.Client.Query.QueryGenerator;
@@ -11,7 +10,6 @@ namespace ElasticSearch.Playground.Samples
     [TestFixture]
     public class EmptyQuery
     {
-
         [Test]
         public void ExpectDefaultCountReturned()
         {
@@ -24,7 +22,7 @@ namespace ElasticSearch.Playground.Samples
 
             ElasticSearchResult result = client.ExecuteQuery(builder);
 
-            Assert.AreEqual(500, result.Items.Count);
+            Assert.AreEqual(10, result.Items.Count);
         }
     }
 }

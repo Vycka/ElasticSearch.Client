@@ -31,9 +31,10 @@ namespace ElasticSearch.Client.Query.QueryGenerator.SectionBuilders
             ExpandoObject requestObject = new ExpandoObject();
             foreach (FilterType filterType in Enum.GetValues(typeof(FilterType)))
             {
+                var localFilterType = filterType;
                 var filterObjects = Items
-                    .Where(q => q.FilterType == filterType)
-                    .Select(qq => qq.FilterComponent.BuildFilterComponent()).ToList();
+                    .Where(q => q.FilterType == localFilterType)
+                    .Select(qq => qq.FilterComponent.BuildRequestComponent()).ToList();
 
                 if (filterObjects.Count != 0)
                     requestObject.Add(FilterTypeMapping.GetName(filterType), filterObjects);

@@ -43,8 +43,8 @@ namespace ElasticSearch.Client.Query.QueryGenerator.SectionBuilders
             if (IndcesItems.Count != 0)
                 indicesObject.Add("indices", IndcesItems);
 
-            indicesObject.AddIfNotNull("query", (_query == null ? null : _query.BuildQueryComponent()));
-            indicesObject.AddIfNotNull("no_match_query", (_notQuery == null ? null : _notQuery.BuildQueryComponent()));
+            indicesObject.AddIfNotNull("query", (_query == null ? null : _query.BuildRequestComponent()));
+            indicesObject.AddIfNotNull("no_match_query", (_notQuery == null ? null : _notQuery.BuildRequestComponent()));
 
             return indicesObject;
         }

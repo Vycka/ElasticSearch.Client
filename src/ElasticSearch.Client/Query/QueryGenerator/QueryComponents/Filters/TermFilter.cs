@@ -57,7 +57,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters
             _termFilter = termFilter;
         }
 
-        public object BuildFilterComponent()
+        public object BuildRequestComponent()
         {
             object result = new
             {

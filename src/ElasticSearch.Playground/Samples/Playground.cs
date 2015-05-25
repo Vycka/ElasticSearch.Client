@@ -43,16 +43,16 @@ namespace ElasticSearch.Playground.Samples
 
             QueryBuilder builder = new QueryBuilder();
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
-            builder.Aggregation = new
-            {
-                veryCoolAggregate = new
-                {
-                    avg = new
-                    {
-                        field = "Event.TotalDuration"
-                    }
-                }
-            };
+            //builder.Aggregation = new
+            //{
+            //    veryCoolAggregate = new
+            //    {
+            //        avg = new
+            //        {
+            //            field = "Event.TotalDuration"
+            //        }
+            //    }
+            //};
 
             builder.PrintQuery();
 

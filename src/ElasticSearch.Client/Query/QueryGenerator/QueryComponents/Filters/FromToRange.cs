@@ -24,7 +24,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters
             FieldTo = fieldTo;
         }
 
-        public object BuildFilterComponent()
+        public object BuildRequestComponent()
         {
             var rangeFilter = new ExpandoObject();
 

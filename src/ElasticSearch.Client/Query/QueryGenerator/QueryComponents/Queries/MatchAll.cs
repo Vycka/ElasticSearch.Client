@@ -21,7 +21,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Queries
         {
         }
 
-        public object BuildQueryComponent()
+        public object BuildRequestComponent()
         {
             ExpandoObject matchAllValue = new ExpandoObject();
 

@@ -12,6 +12,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters
             _lookupTimeSeconds = lookupTimeSeconds;
         }
 
+
         public QueryDate GetQueryDate()
         {
             DateTime utcNow = DateTime.UtcNow;

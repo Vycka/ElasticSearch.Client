@@ -4,8 +4,8 @@ using ElasticSearch.Client.ElasticSearch.Index;
 using ElasticSearch.Client.ElasticSearch.Results;
 using ElasticSearch.Client.Query.IndexListGenerator;
 using ElasticSearch.Client.Query.QueryGenerator;
+using ElasticSearch.Client.Serializer;
 using ElasticSearch.Client.Utils;
-using Newtonsoft.Json;
 
 namespace ElasticSearch.Client
 {
@@ -14,7 +14,7 @@ namespace ElasticSearch.Client
         private readonly ElasticSearchIndexDescriptor[] _indexDescriptors;
         private readonly ElasticSearchQueryExecutor _elasticSearchExecutor;
 
-
+        private readonly JsonQuerySerializer _querySerializer = new JsonQuerySerializer();
 
         public ElasticSearchClient(string elasticSearchServiceUrl, params ElasticSearchIndexDescriptor[] indexDescriptors)
         {
@@ -33,7 +33,7 @@ namespace ElasticSearch.Client
         {
             SmartIndexListBuilder indexBuilder = new SmartIndexListBuilder(_indexDescriptors, filledQuery);
 
-            string queryJson = BuildJsonQuery(filledQuery);
+            string queryJson = _querySerializer.BuildJsonQuery(filledQuery);
             string[] queryInexes = indexBuilder.BuildLookupIndexes();
 
             ElasticSearchQuery query = new ElasticSearchQuery(queryJson, queryInexes);
@@ -45,41 +45,30 @@ namespace ElasticSearch.Client
             return new ElasticSearchResult(ExecuteQuery<ResultItem>(filledQuery).SearchResultObject.ToString());
         }
 
-        public ElasticSearchResult ExecuteQuery(QueryBuilder filledQuery, params string[] executeOnIndexes)
+        public ElasticSearchResult ExecuteQuery(QueryBuilder filledQuery, params string[] overrideExecuteIndexes)
         {
-            return new ElasticSearchResult(ExecuteQuery<ResultItem>(filledQuery, executeOnIndexes).SearchResultObject.ToString());
+            return new ElasticSearchResult(ExecuteQuery<ResultItem>(filledQuery, overrideExecuteIndexes).SearchResultObject.ToString());
         }
 
         public SearchResult<TResultModel> ExecuteQuery<TResultModel>(QueryBuilder filledQuery)
         {
             var indexBuilder = new SmartIndexListBuilder(_indexDescriptors, filledQuery);
 
-            string queryJson = BuildJsonQuery(filledQuery);
+            string queryJson = _querySerializer.BuildJsonQuery(filledQuery);
             string[] queryInexes = indexBuilder.BuildLookupIndexes();
 
             ElasticSearchQuery query = new ElasticSearchQuery(queryJson, queryInexes);
             return _elasticSearchExecutor.ExecuteQuery<TResultModel>(query);
         }
 
-        public SearchResult<TResultModel> ExecuteQuery<TResultModel>(QueryBuilder filledQuery, params string[] executeOnIndexes)
+        public SearchResult<TResultModel> ExecuteQuery<TResultModel>(QueryBuilder filledQuery, params string[] overrideExecuteIndexes)
         {
-            string queryJson = BuildJsonQuery(filledQuery);
+            string queryJson = _querySerializer.BuildJsonQuery(filledQuery);
 
-            ElasticSearchQuery query = new ElasticSearchQuery(queryJson, executeOnIndexes);
+            ElasticSearchQuery query = new ElasticSearchQuery(queryJson, overrideExecuteIndexes);
             return _elasticSearchExecutor.ExecuteQuery<TResultModel>(query);
         }
 
-        private static string BuildJsonQuery(QueryBuilder filledQuery)
-        {
-            string queryJson = JsonConvert.SerializeObject(
-                filledQuery.BuildRequestObject(),
-                new JsonSerializerSettings
-                {
-                    Formatting = Formatting.Indented
-                }
-            );
 
-            return queryJson;
-        }
     }
 }

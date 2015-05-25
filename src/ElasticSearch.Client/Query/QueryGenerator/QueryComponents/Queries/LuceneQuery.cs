@@ -14,7 +14,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Queries
             _queryString = queryString;
         }
 
-        public object BuildQueryComponent()
+        public object BuildRequestComponent()
         {
             return new {  query_string = new { query = _queryString } };
         }

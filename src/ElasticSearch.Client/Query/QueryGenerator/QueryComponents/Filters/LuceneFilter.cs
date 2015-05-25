@@ -14,7 +14,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters
             _queryString = queryString;
         }
 
-        public object BuildFilterComponent()
+        public object BuildRequestComponent()
         {
             return new { fquery = new { query = new { query_string = new { query = _queryString } }, _cache = true } };
         }

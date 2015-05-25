@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Dynamic;
+using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents;
 using ElasticSearch.Client.Query.QueryGenerator.QueryComponents;
 using ElasticSearch.Client.Query.QueryGenerator.SectionBuilders;
 using ElasticSearch.Client.Utils;
@@ -8,24 +9,21 @@ namespace ElasticSearch.Client.Query.QueryGenerator
 {
     public class QueryBuilder
     {
-        public int Size = 500;
+        public int? Size = null;
         public IQueryComponent Query;
 
-        public FilteredSectionBuilder Filtered = new FilteredSectionBuilder();
-        public IndicesSectionBuilder Indices = new IndicesSectionBuilder();
-        public SortListBuilder Sort = new SortListBuilder();
+        public readonly FilteredSectionBuilder Filtered = new FilteredSectionBuilder();
+        public readonly IndicesSectionBuilder Indices = new IndicesSectionBuilder();
+        public readonly SortListBuilder Sort = new SortListBuilder();
         // Aggregation is temporary, proper builder should be created
-        public object Aggregation = null;
+        public readonly AggregationQueryBuilder Aggregates = new AggregationQueryBuilder();
 
         public void SetQuery(IQueryComponent queryComponent)
         {
             Query = queryComponent;
         }
-        public void SetSize(int size)
-        {
-            Size = size;
-        }
         
+        // TODO: Enough of those ifs, create IRequestComponent or smth
         public object BuildRequestObject()
         {
             ExpandoObject requestObject = new ExpandoObject();
@@ -36,19 +34,18 @@ namespace ElasticSearch.Client.Query.QueryGenerator
                 throw new InvalidOperationException("Simple QUERY must be alone, it can't work with INDICES or FILTERED");
 
             if (Query != null)
-                requestObject.Add("query", Query.BuildQueryComponent());
+                requestObject.Add("query", Query.BuildRequestComponent());
 
-            if (Aggregation != null)
-                requestObject.Add("aggs", Aggregation);
 
             requestObject.AddIfNotNull("query", querySection);
-            requestObject.Add("size",Size);
+            querySection.AddIfNotNull("aggs", Aggregates.BuildRequestEntity());
+            requestObject.AddIfNotNull("size", Size);
             requestObject.AddIfNotNull("sort", Sort.BuildSortSection());
 
             return requestObject;
         }
 
-        internal ExpandoObject BuildQuerySection()
+        private ExpandoObject BuildQuerySection()
         {
             ExpandoObject querySection = new ExpandoObject();
 

@@ -54,7 +54,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Queries
             _termQuery = termQuery;
         }
 
-        public object BuildQueryComponent()
+        public object BuildRequestComponent()
         {
             object result = new
             {

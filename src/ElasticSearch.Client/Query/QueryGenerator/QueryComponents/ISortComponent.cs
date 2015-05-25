@@ -1,7 +1,7 @@
 ﻿namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents
 {
-    public interface ISortComponent
+    public interface ISortComponent : IRequestComponent
     {
-        object BuildSortComponent();
+
     }
 }

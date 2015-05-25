@@ -40,7 +40,7 @@ namespace ElasticSearch.Playground.Samples
             QueryBuilder builder = new QueryBuilder();
 
             builder.SetQuery(new MatchAll());
-            builder.SetSize(1);
+            builder.Size = 1;
 
             builder.PrintQuery();
 

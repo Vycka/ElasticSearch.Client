@@ -27,9 +27,10 @@ namespace ElasticSearch.Client.Query.QueryGenerator.SectionBuilders
             ExpandoObject requestObject = new ExpandoObject();
             foreach (QueryType queryType in Enum.GetValues(typeof(QueryType)))
             {
+                QueryType localQueryType = queryType;
                 var queryObjects = Items
-                    .Where(q => q.QueryType == queryType)
-                    .Select(qq => qq.QueryComponent.BuildQueryComponent()).ToList();
+                    .Where(q => q.QueryType == localQueryType)
+                    .Select(qq => qq.QueryComponent.BuildRequestComponent()).ToList();
 
                 if (queryObjects.Count != 0)
                     requestObject.Add(QueryTypeMapping.GetName(queryType), queryObjects);

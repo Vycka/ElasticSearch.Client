@@ -22,7 +22,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator.SectionBuilders
             if (Items.Count == 0)
                 return null;
 
-            var sortObjects = Items.Select(qq => qq.BuildSortComponent()).ToList();
+            var sortObjects = Items.Select(qq => qq.BuildRequestComponent()).ToList();
             return sortObjects;
         }
     }

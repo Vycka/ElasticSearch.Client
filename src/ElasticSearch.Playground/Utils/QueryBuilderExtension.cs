@@ -1,23 +1,20 @@
 ﻿using System;
-using System.Diagnostics;
 using ElasticSearch.Client.Query.QueryGenerator;
+using ElasticSearch.Client.Serializer;
 using Newtonsoft.Json;
 
 namespace ElasticSearch.Playground.Utils
 {
     public static class QueryBuilderExtension
     {
+        
+
         public static void PrintQuery(this QueryBuilder queryBuilder)
         {
-            string result = JsonConvert.SerializeObject(
-                queryBuilder.BuildRequestObject(),
-                new JsonSerializerSettings
-                {
-                    Formatting = Formatting.Indented
-                }
-            );
+            JsonQuerySerializer querySerializer = new JsonQuerySerializer();
+            querySerializer.PrettyPrint = true;
 
-            Console.WriteLine(result);
+            Console.Out.WriteLine(querySerializer.BuildJsonQuery(queryBuilder));
         }
     }
 }

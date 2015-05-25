@@ -25,7 +25,7 @@ namespace ElasticSearch.Playground.Samples
 
             ElasticSearchResult result = client.ExecuteQuery(builder);
 
-            Assert.AreEqual(500, result.Items.Count);
+            Assert.AreEqual(10, result.Items.Count);
             Assert.IsTrue(result.Items.All(i => i.Type == "rep-sec"));
         }
     }

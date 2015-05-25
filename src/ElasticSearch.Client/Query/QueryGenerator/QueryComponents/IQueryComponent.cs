@@ -1,7 +1,6 @@
 ﻿namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents
 {
-    public interface IQueryComponent
+    public interface IQueryComponent : IRequestComponent
     {
-        object BuildQueryComponent();
     }
 }
