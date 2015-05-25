@@ -24,15 +24,39 @@ namespace ElasticSearch.Playground.Samples
             ElasticSearchClient client = new ElasticSearchClient("http://10.0.22.16:9200/", repSecIndex, repTempIndex);
 
             QueryBuilder builder = new QueryBuilder();
-            builder.Filtered.Queries.Add(QueryType.Should, new MatchAll());
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp",864000));
-            builder.Filtered.Filters.Add(FilterType.Must, new TermFilter("Event.Exception.ClassName", "System.InvalidOperationException"));
 
             builder.PrintQuery();
 
             ElasticSearchResult result = client.ExecuteQuery(builder);
 
             Assert.AreNotEqual(0, result.Items.Count);
+        }
+
+
+        [Test]
+        [Ignore]
+        public void AggregateTest()
+        {
+            var repSecIndex = new TimeStampedIndexDescriptor("rep-sec-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
+            ElasticSearchClient client = new ElasticSearchClient("http://10.0.22.16:9200/", repSecIndex);
+
+            QueryBuilder builder = new QueryBuilder();
+            builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
+            builder.Aggregation = new
+            {
+                veryCoolAggregate = new
+                {
+                    avg = new
+                    {
+                        field = "Event.TotalDuration"
+                    }
+                }
+            };
+
+            builder.PrintQuery();
+
+            dynamic result = client.ExecuteAggregate(builder);
         }
     }
 }

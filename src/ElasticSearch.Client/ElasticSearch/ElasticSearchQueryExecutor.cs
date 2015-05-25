@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ElasticSearch.Client.ElasticSearch.Results;
 using ElasticSearch.Client.Utils;
 using Newtonsoft.Json;
@@ -14,6 +15,13 @@ namespace ElasticSearch.Client.ElasticSearch
         {
             if (httpRequest == null) throw new ArgumentNullException("httpRequest");
             _httpRequest = httpRequest;
+        }
+
+        public dynamic ExecuteAggregateQuery(ElasticSearchQuery query)
+        {
+            SearchResult<ResultItem> result = ExecuteQueryInner<ResultItem>(query, new Tuple<string, string>("search_type", "count"));
+
+            return result.Aggregations;
         }
 
         public SearchResult<TResultModel> ExecuteQuery<TResultModel>(ElasticSearchQuery query)
@@ -36,15 +44,19 @@ namespace ElasticSearch.Client.ElasticSearch
             }
         }
 
-        private SearchResult<TResultModel> ExecuteQueryInner<TResultModel>(ElasticSearchQuery query)
+        private SearchResult<TResultModel> ExecuteQueryInner<TResultModel>(ElasticSearchQuery query, params Tuple<string,string>[] additionalGetParams)
         {
             if (query.LookupIndexes.Length == 0)
                 throw new NoShardsException(
                     string.Format("Not even a single shard overlaps with requested time period!")
                 );
 
+            string additionalParams = "";
+            if (additionalGetParams.Length != 0)
+                additionalParams = "?" + String.Join("&", additionalGetParams.Select(p => String.Concat(p.Item1, "=", p.Item2)));
+
             string concatedShardNames = String.Join(",", query.LookupIndexes);
-            string requestUrl = concatedShardNames + "/_search";
+            string requestUrl = concatedShardNames + "/_search" + additionalParams;
 
             string jsonResponse = _httpRequest.MakePostJsonRequest(requestUrl, query.QueryJson);
 

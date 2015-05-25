@@ -8,14 +8,14 @@ namespace ElasticSearch.Client.Query.QueryGenerator
 {
     public class QueryBuilder
     {
-        
-
         public int Size = 500;
         public IQueryComponent Query;
 
         public FilteredSectionBuilder Filtered = new FilteredSectionBuilder();
         public IndicesSectionBuilder Indices = new IndicesSectionBuilder();
         public SortListBuilder Sort = new SortListBuilder();
+        // Aggregation is temporary, proper builder should be created
+        public object Aggregation = null;
 
         public void SetQuery(IQueryComponent queryComponent)
         {
@@ -37,6 +37,9 @@ namespace ElasticSearch.Client.Query.QueryGenerator
 
             if (Query != null)
                 requestObject.Add("query", Query.BuildQueryComponent());
+
+            if (Aggregation != null)
+                requestObject.Add("aggs", Aggregation);
 
             requestObject.AddIfNotNull("query", querySection);
             requestObject.Add("size",Size);

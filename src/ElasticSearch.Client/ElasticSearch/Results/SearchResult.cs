@@ -9,6 +9,8 @@ namespace ElasticSearch.Client.ElasticSearch.Results
         public bool TimedOut { get; private set; }
         public ShardResult Shards { get; private set; }
 
+        public dynamic Aggregations { get; private set; }
+
         internal dynamic SearchResultObject;
 
         internal SearchResult(string searchResultJson)
@@ -16,6 +18,7 @@ namespace ElasticSearch.Client.ElasticSearch.Results
             //{"took":15,"timed_out":false,"_shards":{"total":4,"successful":4,"failed":0},"hits":{"total":0,"max_score":null,"hits":[]}}
 
             SearchResultObject = JsonConvert.DeserializeObject<dynamic>(searchResultJson);
+            Aggregations = SearchResultObject.aggregations;
 
             Took = SearchResultObject.took;
             TimedOut = SearchResultObject.timed_out;

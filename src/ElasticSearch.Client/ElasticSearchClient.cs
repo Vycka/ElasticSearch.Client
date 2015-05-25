@@ -29,6 +29,17 @@ namespace ElasticSearch.Client
             _elasticSearchExecutor = new ElasticSearchQueryExecutor(httpRequest);
         }
 
+        public dynamic ExecuteAggregate(QueryBuilder filledQuery)
+        {
+            SmartIndexListBuilder indexBuilder = new SmartIndexListBuilder(_indexDescriptors, filledQuery);
+
+            string queryJson = BuildJsonQuery(filledQuery);
+            string[] queryInexes = indexBuilder.BuildLookupIndexes();
+
+            ElasticSearchQuery query = new ElasticSearchQuery(queryJson, queryInexes);
+            return _elasticSearchExecutor.ExecuteAggregateQuery(query);
+        }
+
         public ElasticSearchResult ExecuteQuery(QueryBuilder filledQuery)
         {
             return new ElasticSearchResult(ExecuteQuery<ResultItem>(filledQuery).SearchResultObject.ToString());
