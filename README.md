@@ -1,6 +1,15 @@
 Trying to create friendly, yet functional __ElasticSearch C# Client__.
 
-You can execute queries as simple as these
+__Currently supported__
+* Basic Query section support (Useful for retrieving raw data)
+  * Query, Filter
+  * Lucene, Term, Indices, TimeRange
+* Few Aggregations
+  * Average, Extended Stats, Min, Max, Percentiles, Stats, Sum, Value Count
+  
+___See Playground (Tests?) project for more usage examples___
+
+__You can execute queries as simple as these__
 
 ```cs
   ElasticSearchClient client = new ElasticSearchClient("http://localhost:9200/");
@@ -11,7 +20,7 @@ You can execute queries as simple as these
   ElasticSearchResult result = client.ExecuteQuery(builder);
 ```
 
-Or as complex as those
+__Or as complex as those__
 
 ```cs
   var rabbitIndex = new TimeStampedIndexDescriptor("RabbitMQ-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
