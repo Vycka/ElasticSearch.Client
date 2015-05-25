@@ -148,7 +148,7 @@ namespace ElasticSearch.Client.Utils
                 if (trimData)
                     trimmedString += "...";
 
-                Debug.WriteLine(" # REQ -> [{0}]", trimmedString);
+                Debug.WriteLine(string.Format(" # REQ -> [{0}]", trimmedString));
                 Debug.WriteLine("##");
             }
         }

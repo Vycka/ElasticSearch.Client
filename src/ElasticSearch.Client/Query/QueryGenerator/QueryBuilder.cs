@@ -38,7 +38,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator
 
 
             requestObject.AddIfNotNull("query", querySection);
-            querySection.AddIfNotNull("aggs", Aggregates.BuildRequestEntity());
+            requestObject.AddIfNotNull("aggs", Aggregates.BuildRequestEntity());
             requestObject.AddIfNotNull("size", Size);
             requestObject.AddIfNotNull("sort", Sort.BuildSortSection());
 

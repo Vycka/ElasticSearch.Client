@@ -12,10 +12,10 @@ namespace ElasticSearch.Client.Query.IndexListGenerator
     // Based on the requested timeframes specified in range queries
     public class SmartIndexListBuilder
     {
-        private readonly ElasticSearchIndexDescriptor[] _indexDescriptors;
+        private readonly List<ElasticSearchIndexDescriptor> _indexDescriptors;
         private readonly QueryBuilder _filledQuery;
 
-        public SmartIndexListBuilder(ElasticSearchIndexDescriptor[] indexDescriptors, QueryBuilder filledQuery)
+        public SmartIndexListBuilder(List<ElasticSearchIndexDescriptor> indexDescriptors, QueryBuilder filledQuery)
         {
             if (indexDescriptors == null)
                 throw new ArgumentNullException("indexDescriptors");
@@ -28,7 +28,7 @@ namespace ElasticSearch.Client.Query.IndexListGenerator
 
         public string[] BuildLookupIndexes()
         {
-            var lookupIndexes = new List<string>(2 * _indexDescriptors.Length);
+            var lookupIndexes = new List<string>(2 * _indexDescriptors.Count);
 
             foreach (ElasticSearchIndexDescriptor indexDescriptor in _indexDescriptors)
             {

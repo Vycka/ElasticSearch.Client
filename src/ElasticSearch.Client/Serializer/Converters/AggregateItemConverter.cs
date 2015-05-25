@@ -8,7 +8,7 @@ namespace ElasticSearch.Client.Serializer.Converters
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteValue(((IAggregateComponent)value).BuildRequestComponent());
+            serializer.Serialize(writer,((IAggregateComponent)value).BuildRequestComponent());
         }
 
         public override bool CanConvert(Type objectType)

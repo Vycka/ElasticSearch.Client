@@ -59,6 +59,14 @@
     <Compile Include="Query\IndexListGenerator\IndexTimeStampGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\AggregateComponentBase.cs" />
+    <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\AverageAggregate.cs" />
+    <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\ExtendedStatsAggregate.cs" />
+    <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\MaxAggregate.cs" />
+    <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\MinAggregate.cs" />
+    <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\PercentilesAggregate.cs" />
+    <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\StatsAggregate.cs" />
+    <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\SumAggregate.cs" />
+    <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\ValueCountAggregate.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\AggregationQueryBuilder.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\IAggregateComponent.cs" />
     <Compile Include="Query\QueryGenerator\IRequestComponent.cs" />

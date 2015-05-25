@@ -1,11 +1,14 @@
-﻿using ElasticSearch.Client;
+﻿using System;
+using ElasticSearch.Client;
 using ElasticSearch.Client.ElasticSearch.Index;
 using ElasticSearch.Client.ElasticSearch.Results;
 using ElasticSearch.Client.Query.QueryGenerator;
+using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates;
 using ElasticSearch.Client.Query.QueryGenerator.Models;
 using ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters;
 using ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Queries;
 using ElasticSearch.Playground.Utils;
+using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace ElasticSearch.Playground.Samples
@@ -39,24 +42,17 @@ namespace ElasticSearch.Playground.Samples
         public void AggregateTest()
         {
             var repSecIndex = new TimeStampedIndexDescriptor("rep-sec-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
-            ElasticSearchClient client = new ElasticSearchClient("http://10.0.22.16:9200/", repSecIndex);
+            ElasticSearchClient client = new ElasticSearchClient("http://172.22.1.31:9200/", repSecIndex);
 
             QueryBuilder builder = new QueryBuilder();
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
-            //builder.Aggregation = new
-            //{
-            //    veryCoolAggregate = new
-            //    {
-            //        avg = new
-            //        {
-            //            field = "Event.TotalDuration"
-            //        }
-            //    }
-            //};
+            builder.Aggregates.Add("my_minimum", new MinAggregate("Event.TotalDuration"));
 
             builder.PrintQuery();
 
             dynamic result = client.ExecuteAggregate(builder);
+
+            Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
         }
     }
 }
