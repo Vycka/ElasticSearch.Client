@@ -231,6 +231,8 @@ namespace ElasticSearch.Playground.Samples
             dynamic result = client.ExecuteAggregate(builder);
 
             Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
+
+            Assert.IsNotNull(result.errors_count.buckets);
         }
     }
 }

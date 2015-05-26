@@ -7,7 +7,15 @@
     <authors>Vytautas Klumbys</authors>
     <owners></owners>
     <description>User-Friendly ElasticSearch c# querying client. It's still in early in development, so things like the name-spaces can still change.</description>
-
+	<summary>Currently supported:
+* Basic Query section support (Useful for retrieving raw data)
+  - Query, Filter
+  - Lucene, Term, Indices, TimeRange
+* Few Aggregations
+  - Average, Extended Stats, Min, Max, Percentiles, Stats, Sum, Value Count, Terms
+* Grouping
+  - By Term, By Range
+* See Project site for details</summary>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <releaseNotes></releaseNotes>
 	<licenseUrl>https://github.com/Vycka/ElasitcSearchClient/blob/master/LICENSE</licenseUrl>
