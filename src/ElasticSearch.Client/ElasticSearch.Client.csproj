@@ -108,6 +108,7 @@
     <Compile Include="Utils\ExpandoObjectExtensions.cs" />
     <Compile Include="Utils\HttpRequest.cs" />
     <Compile Include="Serializer\Converters\ObjectDictionaryConverter.cs" />
+    <Compile Include="Utils\QueryBuilderExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -6,7 +6,6 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents
     public class AggregationQuery : IAggregateComponent
     {
         private readonly Dictionary<string, IAggregateComponent> _aggregateItems;
-        public  IGroupComponent GroupItem;
 
         public AggregationQuery()
         {
@@ -21,7 +20,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents
             _aggregateItems.Add(aggregateName, aggregateComponent);
         }
 
-        public IReadOnlyDictionary<string, IAggregateComponent> AggregateItems
+        public IReadOnlyDictionary<string, IAggregateComponent> Items
         {
             get
             {
@@ -31,10 +30,10 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents
 
         public object BuildRequestComponent()
         {
-            if (AggregateItems.Count == 0)
+            if (Items.Count == 0)
                 return null;
 
-            return AggregateItems;
+            return Items;
         }
     }
 }

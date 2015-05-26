@@ -4,7 +4,7 @@ using ElasticSearch.Client.ElasticSearch.Index;
 using ElasticSearch.Client.ElasticSearch.Results;
 using ElasticSearch.Client.Query.QueryGenerator;
 using ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Queries;
-using ElasticSearch.Playground.Utils;
+using ElasticSearch.Client.Utils;
 using NUnit.Framework;
 
 namespace ElasticSearch.Playground.Samples

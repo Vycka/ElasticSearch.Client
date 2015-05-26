@@ -41,6 +41,16 @@ namespace ElasticSearch.Client.ElasticSearch.Results
             }
         }
 
+        public int? Total
+        {
+            get { return SearchResultObject.hits.total; }
+        }
+
+        public double? MaxScore
+        {
+            get { return SearchResultObject.hits.max_score; }
+        }
+
         // Aggregations
         private dynamic _aggregations;
         public dynamic Aggregations

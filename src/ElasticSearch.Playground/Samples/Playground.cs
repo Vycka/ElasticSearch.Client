@@ -6,7 +6,7 @@ using ElasticSearch.Client.Query.QueryGenerator;
 using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates;
 using ElasticSearch.Client.Query.QueryGenerator.Models;
 using ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters;
-using ElasticSearch.Playground.Utils;
+using ElasticSearch.Client.Utils;
 using Newtonsoft.Json;
 using NUnit.Framework;
 

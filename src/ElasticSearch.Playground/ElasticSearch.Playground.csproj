@@ -59,7 +59,6 @@
     <Compile Include="Samples\Playground.cs" />
     <Compile Include="Samples\SimpleQuery.cs" />
     <Compile Include="Samples\Term.cs" />
-    <Compile Include="Utils\QueryBuilderExtension.cs" />
     <Compile Include="Samples\EmptyQuery.cs" />
   </ItemGroup>
   <ItemGroup>
