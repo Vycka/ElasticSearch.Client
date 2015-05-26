@@ -213,5 +213,24 @@ namespace ElasticSearch.Playground.Samples
             Assert.NotNull(result.some_sum.value);
             Assert.NotNull(result.heavy_stats.count);
         }
+
+        [Test]
+        public void TermsAggregates()
+        {
+            var repSecIndex = new TimeStampedIndexDescriptor("5-reporting-scheduler-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
+            ElasticSearchClient client = new ElasticSearchClient("http://10.0.22.16:9200/", repSecIndex);
+
+            QueryBuilder builder = new QueryBuilder();
+            builder.Filtered.Filters.Add(FilterType.Must, new LuceneFilter("Level:(ERROR)"));
+            builder.Filtered.Filters.Add(FilterType.Must, new FixedTimeRange("@timestamp", DateTime.UtcNow.Yesterday(), DateTime.UtcNow));
+
+            builder.Aggregates.Add("errors_count", new TermsAggregate("Event.ScheduleId", 1000));
+
+            builder.PrintQuery();
+
+            dynamic result = client.ExecuteAggregate(builder);
+
+            Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
+        }
     }
 }

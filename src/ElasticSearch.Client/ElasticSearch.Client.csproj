@@ -68,6 +68,7 @@
     <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\StatsAggregate.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\SumAggregate.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\TermAggregate.cs" />
+    <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\TermsAggregate.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\ValueCountAggregate.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\AggregationQuery.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\Groups\RangeGroup.cs" />
