@@ -11,6 +11,8 @@ __Currently supported__
   
 ___See Playground (Tests?) project for more usage examples___
 
+___Need a feature? Write  issue with a feature request___
+
 __You can execute queries as simple as these__
 
 ```cs
