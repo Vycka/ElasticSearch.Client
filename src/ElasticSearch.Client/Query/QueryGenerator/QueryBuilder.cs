@@ -16,7 +16,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator
         public readonly IndicesSectionBuilder Indices = new IndicesSectionBuilder();
         public readonly SortListBuilder Sort = new SortListBuilder();
         // Aggregation is temporary, proper builder should be created
-        public readonly AggregationQueryBuilder Aggregates = new AggregationQueryBuilder();
+        public readonly AggregationQuery Aggregates = new AggregationQuery();
 
         public void SetQuery(IQueryComponent queryComponent)
         {
@@ -38,7 +38,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator
 
 
             requestObject.AddIfNotNull("query", querySection);
-            requestObject.AddIfNotNull("aggs", Aggregates.BuildRequestEntity());
+            requestObject.AddIfNotNull("aggs", Aggregates.BuildRequestComponent());
             requestObject.AddIfNotNull("size", Size);
             requestObject.AddIfNotNull("sort", Sort.BuildSortSection());
 

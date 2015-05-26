@@ -11,7 +11,8 @@ namespace ElasticSearch.Client.Query.QueryGenerator.Models
         Stats,
         ExtendedStats,
         ValueCount,
-        Percentiles
+        Percentiles,
+        Terms,
     }
 
     public static class AggregateTypeExtensions
@@ -44,6 +45,8 @@ namespace ElasticSearch.Client.Query.QueryGenerator.Models
                     return "value_count";
                 case AggregateType.Percentiles:
                     return "percentiles";
+                case AggregateType.Terms:
+                    return "terms";
                 default:
                     throw new ArgumentOutOfRangeException("aggregateType", aggregateType, null);
             }

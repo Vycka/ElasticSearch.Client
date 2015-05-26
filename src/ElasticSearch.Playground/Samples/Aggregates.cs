@@ -12,6 +12,7 @@ using NUnit.Framework;
 
 namespace ElasticSearch.Playground.Samples
 {
+    [TestFixture]
     public class Aggregates
     {
         [Test]
