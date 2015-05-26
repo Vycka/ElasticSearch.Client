@@ -4,8 +4,10 @@ __Currently supported__
 * Basic Query section support (Useful for retrieving raw data)
   * Query, Filter
   * Lucene, Term, Indices, TimeRange
-* Few Aggregations
+* Aggregations
   * Average, Extended Stats, Min, Max, Percentiles, Stats, Sum, Value Count
+* Group By
+  * Range, Term
   
 ___See Playground (Tests?) project for more usage examples___
 
