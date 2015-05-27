@@ -47,7 +47,7 @@ POST: http://localhost:9200/
                           RabbitMQ-2015.03.22,
                           Security-2015.03.21,
                           Security-2015.03.22
-                          /_search/_search 
+                          /_search
 {
   "query": {
     "filtered": {
