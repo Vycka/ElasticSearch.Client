@@ -1,6 +1,7 @@
 ﻿using System;
 using ElasticSearch.Client;
 using ElasticSearch.Client.ElasticSearch.Index;
+using ElasticSearch.Client.ElasticSearch.Results;
 using ElasticSearch.Client.Query.QueryGenerator;
 using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates;
 using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Groups;
@@ -28,7 +29,7 @@ namespace ElasticSearch.Playground.Samples
             var groupQuery = new GroupAggregate(new TermGroup("Event.EventType"), "some_stats", new StatsAggregate("Event.TotalDuration"));
             builder.Aggregates.Add("my_stats_group", groupQuery);
 
-            builder.PrintQuery();
+            builder.PrintQuery(client.IndexDescriptors);
 
             dynamic result = client.ExecuteAggregate(builder);
 
@@ -49,7 +50,7 @@ namespace ElasticSearch.Playground.Samples
             var groupQuery = new GroupAggregate(new RangeGroup("Event.TotalDuration", new Range(0,10), new Range(10,20)), "some_stats", new CountAggregate("Event.TotalDuration"));
             builder.Aggregates.Add("my_stats_group", groupQuery);
 
-            builder.PrintQuery();
+            builder.PrintQuery(client.IndexDescriptors);
 
             dynamic result = client.ExecuteAggregate(builder);
 
@@ -72,13 +73,12 @@ namespace ElasticSearch.Playground.Samples
             builder.Aggregates.Add("term_group", termGroup);
             builder.Aggregates.Add("range_group", rangeGroup);
 
-            builder.PrintQuery();
+            builder.PrintQuery(client.IndexDescriptors);
 
-            dynamic result = client.ExecuteAggregate(builder);
+            AggregateResult result = client.ExecuteAggregate(builder);
+            result.PrintResult();
 
-            Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
-
-            Assert.IsNotNull(result.range_group.buckets);
+            Assert.IsNotNull(result.GetValue("range_group.buckets"));
         }
 
         [Test]
@@ -102,13 +102,12 @@ namespace ElasticSearch.Playground.Samples
             rangeGroup.Aggregates.Add("max", new MaxAggregate("Event.TotalDuration"));
             builder.Aggregates.Add("range_group", rangeGroup);
 
-            builder.PrintQuery();
+            builder.PrintQuery(client.IndexDescriptors);
 
-            dynamic result = client.ExecuteAggregate(builder);
+            AggregateResult result = client.ExecuteAggregate(builder);
+            result.PrintResult();
 
-            Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
-
-            Assert.IsNotNull(result.range_group.buckets);
+            Assert.IsNotNull(result.GetValue("range_group.buckets"));
         }
     }
 }

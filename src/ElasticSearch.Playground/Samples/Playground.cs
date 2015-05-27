@@ -28,7 +28,7 @@ namespace ElasticSearch.Playground.Samples
             QueryBuilder builder = new QueryBuilder();
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp",864000));
 
-            builder.PrintQuery();
+            builder.PrintQuery(client.IndexDescriptors);
 
             ElasticSearchResult result = client.ExecuteQuery(builder);
 
@@ -47,7 +47,7 @@ namespace ElasticSearch.Playground.Samples
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
             builder.Aggregates.Add("my_minimum", new MinAggregate("Event.TotalDuration"));
 
-            builder.PrintQuery();
+            builder.PrintQuery(client.IndexDescriptors);
 
             dynamic result = client.ExecuteAggregate(builder);
 

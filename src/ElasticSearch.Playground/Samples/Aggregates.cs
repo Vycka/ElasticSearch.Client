@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using ElasticSearch.Client;
 using ElasticSearch.Client.ElasticSearch.Index;
+using ElasticSearch.Client.ElasticSearch.Results;
 using ElasticSearch.Client.Query.QueryGenerator;
 using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates;
 using ElasticSearch.Client.Query.QueryGenerator.Models;
 using ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters;
 using ElasticSearch.Client.Utils;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
 namespace ElasticSearch.Playground.Samples
@@ -25,14 +28,13 @@ namespace ElasticSearch.Playground.Samples
             builder.Aggregates.Add("county", new CountAggregate("Event.TotalDuration"));
             builder.Aggregates.Add("valuy", new ValueCountAggregate("Event.TotalDuration"));
 
-            builder.PrintQuery();
+            builder.PrintQuery(client.IndexDescriptors);
 
-            dynamic result = client.ExecuteAggregate(builder);
+            AggregateResult result = client.ExecuteAggregate(builder);
+            result.PrintResult();
 
-            Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
-
-            Assert.NotNull(result.county.value);
-            Assert.AreEqual(result.county.value, result.valuy.value);
+            Assert.NotNull(result.GetValue("county.value"));
+            Assert.AreEqual(result.GetValue<double>("county.value"), result.GetValue<double>("valuy.value"));
         }
 
         [Test]
@@ -45,13 +47,12 @@ namespace ElasticSearch.Playground.Samples
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
             builder.Aggregates.Add("my_result", new AverageAggregate("Event.TotalDuration"));
 
-            builder.PrintQuery();
+            builder.PrintQuery(client.IndexDescriptors);
 
-            dynamic result = client.ExecuteAggregate(builder);
+            AggregateResult result = client.ExecuteAggregate(builder);
+            result.PrintResult();
 
-            Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
-
-            double resultValue = result.my_result.value;
+            double resultValue = result.GetValue<double>("my_result.value");
             Assert.Greater(resultValue, 0.0);
         }
 
@@ -65,14 +66,12 @@ namespace ElasticSearch.Playground.Samples
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
             builder.Aggregates.Add("my_result", new MinAggregate("Event.TotalDuration"));
 
-            builder.PrintQuery();
+            builder.PrintQuery(client.IndexDescriptors);
 
-            dynamic result = client.ExecuteAggregate(builder);
+            AggregateResult result = client.ExecuteAggregate(builder);
+            result.PrintResult();
 
-            Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
-
-            double resultValue = result.my_result.value;
-            Assert.AreEqual(0.0, resultValue);
+            Assert.AreEqual(0.0, result.GetValue<double>("my_result.value"));
         }
 
         [Test]
@@ -85,14 +84,12 @@ namespace ElasticSearch.Playground.Samples
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
             builder.Aggregates.Add("my_result", new MaxAggregate("Event.TotalDuration"));
 
-            builder.PrintQuery();
+            builder.PrintQuery(client.IndexDescriptors);
 
-            dynamic result = client.ExecuteAggregate(builder);
+            AggregateResult result = client.ExecuteAggregate(builder);
+            result.PrintResult();
 
-            Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
-
-            double resultValue = result.my_result.value;
-            Assert.Greater(resultValue, 0.0);
+            Assert.Greater(result.GetValue<double>("my_result.value"), 0.0);
         }
 
         [Test]
@@ -105,14 +102,12 @@ namespace ElasticSearch.Playground.Samples
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
             builder.Aggregates.Add("my_result", new SumAggregate("Event.TotalDuration"));
 
-            builder.PrintQuery();
+            builder.PrintQuery(client.IndexDescriptors);
 
-            dynamic result = client.ExecuteAggregate(builder);
+            AggregateResult result = client.ExecuteAggregate(builder);
+            result.PrintResult();
 
-            Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
-
-            double resultValue = result.my_result.value;
-            Assert.Greater(resultValue, 10000.0);
+            Assert.Greater(result.GetValue<double>("my_result.value"), 10000.0);
         }
 
         [Test]
@@ -125,16 +120,16 @@ namespace ElasticSearch.Playground.Samples
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
             builder.Aggregates.Add("my_result", new PercentilesAggregate("Event.TotalDuration"));
 
-            builder.PrintQuery();
+            builder.PrintQuery(client.IndexDescriptors);
 
-            dynamic result = client.ExecuteAggregate(builder);
+            AggregateResult result = client.ExecuteAggregate(builder);
+            result.PrintResult();
 
-            Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
+            double result25 = (double)result.GetValue<JObject>("my_result.values")["25.0"];
+            double result50 = (double)result.GetValue<JObject>("my_result.values")["50.0"];
 
-            var resultValue = (Newtonsoft.Json.Linq.JObject) result.my_result.values;
-
-            Assert.Greater(resultValue.Value<double>("25.0"), 0.0);
-            Assert.Less(resultValue.Value<double>("50.0"), 100.0);
+            Assert.Greater(result25, 0.0);
+            Assert.Less(result50, 100.0);
         }
 
         [Test]
@@ -148,17 +143,16 @@ namespace ElasticSearch.Playground.Samples
                 new FixedTimeRange("@timestamp", DateTime.UtcNow.Yesterday(), DateTime.UtcNow));
             builder.Aggregates.Add("my_result", new StatsAggregate("Event.TotalDuration"));
 
-            builder.PrintQuery();
+            builder.PrintQuery(client.IndexDescriptors);
 
-            dynamic result = client.ExecuteAggregate(builder);
+            AggregateResult result = client.ExecuteAggregate(builder);
+            result.PrintResult();
 
-            Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
-
-            Assert.NotNull(result.my_result.count);
-            Assert.NotNull(result.my_result.min);
-            Assert.NotNull(result.my_result.max);
-            Assert.NotNull(result.my_result.avg);
-            Assert.NotNull(result.my_result.sum);
+            result.GetValue("my_result.count");
+            result.GetValue("my_result.min");
+            result.GetValue("my_result.max");
+            result.GetValue("my_result.avg");
+            result.GetValue("my_result.sum");
         }
 
         [Test]
@@ -172,21 +166,20 @@ namespace ElasticSearch.Playground.Samples
                 new FixedTimeRange("@timestamp", DateTime.UtcNow.Yesterday(), DateTime.UtcNow));
             builder.Aggregates.Add("my_result", new ExtendedStatsAggregate("Event.TotalDuration"));
 
-            builder.PrintQuery();
+            builder.PrintQuery(client.IndexDescriptors);
 
-            dynamic result = client.ExecuteAggregate(builder);
+            AggregateResult result = client.ExecuteAggregate(builder);
+            result.PrintResult();
 
-            Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
+            result.GetValue("my_result.count");
+            result.GetValue("my_result.min");
+            result.GetValue("my_result.max");
+            result.GetValue("my_result.avg");
+            result.GetValue("my_result.sum");
 
-            Assert.NotNull(result.my_result.count);
-            Assert.NotNull(result.my_result.min);
-            Assert.NotNull(result.my_result.max);
-            Assert.NotNull(result.my_result.avg);
-            Assert.NotNull(result.my_result.sum);
-
-            Assert.NotNull(result.my_result.sum_of_squares);
-            Assert.NotNull(result.my_result.variance);
-            Assert.NotNull(result.my_result.std_deviation);
+            result.GetValue("my_result.sum_of_squares");
+            result.GetValue("my_result.variance");
+            result.GetValue("my_result.std_deviation");
         }
 
         [Test]
@@ -202,22 +195,21 @@ namespace ElasticSearch.Playground.Samples
             builder.Aggregates.Add("serious_min", new MinAggregate("Event.TotalDuration"));
             builder.Aggregates.Add("heavy_stats", new StatsAggregate("Event.TotalDuration"));
 
-            builder.PrintQuery();
+            builder.PrintQuery(client.IndexDescriptors);
 
-            dynamic result = client.ExecuteAggregate(builder);
+            AggregateResult result = client.ExecuteAggregate(builder);
+            result.PrintResult();
 
-            Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
-
-            Assert.NotNull(result.serious_min.value);
-            Assert.NotNull(result.some_sum.value);
-            Assert.NotNull(result.heavy_stats.count);
+            result.GetValue("serious_min.value");
+            result.GetValue("some_sum.value");
+            result.GetValue("heavy_stats.count");
         }
 
         [Test]
         public void TermsAggregates()
         {
             var repSecIndex = new TimeStampedIndexDescriptor("5-reporting-scheduler-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
-            ElasticSearchClient client = new ElasticSearchClient("http://10.0.22.16:9200/", repSecIndex);
+            ElasticSearchClient client = new ElasticSearchClient("http://172.22.1.31:9200/", repSecIndex);
 
             QueryBuilder builder = new QueryBuilder();
             builder.Filtered.Filters.Add(FilterType.Must, new LuceneFilter("Level:(ERROR)"));
@@ -225,13 +217,12 @@ namespace ElasticSearch.Playground.Samples
 
             builder.Aggregates.Add("errors_count", new TermsAggregate("Event.ScheduleId", 1000));
 
-            builder.PrintQuery();
+            builder.PrintQuery(client.IndexDescriptors);
 
-            dynamic result = client.ExecuteAggregate(builder);
+            AggregateResult result = client.ExecuteAggregate(builder);
+            result.PrintResult();
 
-            Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
-
-            Assert.IsNotNull(result.errors_count.buckets);
+            result.GetValue("errors_count.buckets");
         }
     }
 }

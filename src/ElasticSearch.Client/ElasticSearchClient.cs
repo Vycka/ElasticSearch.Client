@@ -30,29 +30,26 @@ namespace ElasticSearch.Client
             _elasticSearchExecutor = new ElasticSearchQueryExecutor(httpRequest);
         }
 
-        public dynamic ExecuteAggregate(QueryBuilder filledQuery)
+        public AggregateResult ExecuteAggregate(QueryBuilder filledQuery)
         {
-            SmartIndexListBuilder indexBuilder = new SmartIndexListBuilder(IndexDescriptors, filledQuery);
+            ElasticSearchQuery query = BuildQuery(filledQuery);
+            SearchResult<ResultItem> result = _elasticSearchExecutor.ExecuteQuery<ResultItem>(query, new GetParam("search_type", "count"));
 
-            string queryJson = _querySerializer.BuildJsonQuery(filledQuery);
-            string[] queryInexes = indexBuilder.BuildLookupIndexes();
-
-            ElasticSearchQuery query = new ElasticSearchQuery(queryJson, queryInexes);
-            return _elasticSearchExecutor.ExecuteAggregateQuery(query);
+            return result.Aggregations;
         }
-
-
-        //public ElasticSearchResult ExecuteQuery(QueryBuilder filledQuery, params string[] overrideExecuteIndexes)
-        //{
-        //    return new ElasticSearchResult(ExecuteQuery<ResultItem>(filledQuery, overrideExecuteIndexes).SearchResultObject.ToString());
-        //}
 
         public ElasticSearchResult ExecuteQuery(QueryBuilder filledQuery)
         {
-            return new ElasticSearchResult(ExecuteQuery<ResultItem>(filledQuery).SearchResultObject.ToString());
+            return new ElasticSearchResult(ExecuteQuery<ResultItem>(filledQuery).SearchResultObject);
         }
 
         public SearchResult<TResultModel> ExecuteQuery<TResultModel>(QueryBuilder filledQuery)
+        {
+            ElasticSearchQuery query = BuildQuery(filledQuery);
+            return _elasticSearchExecutor.ExecuteQuery<TResultModel>(query);
+        }
+
+        private ElasticSearchQuery BuildQuery(QueryBuilder filledQuery)
         {
             var indexBuilder = new SmartIndexListBuilder(IndexDescriptors, filledQuery);
 
@@ -60,17 +57,8 @@ namespace ElasticSearch.Client
             string[] queryInexes = indexBuilder.BuildLookupIndexes();
 
             ElasticSearchQuery query = new ElasticSearchQuery(queryJson, queryInexes);
-            return _elasticSearchExecutor.ExecuteQuery<TResultModel>(query);
+
+            return query;
         }
-
-        //public SearchResult<TResultModel> ExecuteQuery<TResultModel>(QueryBuilder filledQuery, params string[] overrideExecuteIndexes)
-        //{
-        //    string queryJson = _querySerializer.BuildJsonQuery(filledQuery);
-
-        //    ElasticSearchQuery query = new ElasticSearchQuery(queryJson, overrideExecuteIndexes);
-        //    return _elasticSearchExecutor.ExecuteQuery<TResultModel>(query);
-        //}
-
-
     }
 }

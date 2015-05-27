@@ -21,7 +21,7 @@ namespace ElasticSearch.Playground.Samples
 
             builder.Filtered.Filters.Add(FilterType.Must, new TermFilter("_type","rep-sec"));
 
-            builder.PrintQuery();
+            builder.PrintQuery(client.IndexDescriptors);
 
             ElasticSearchResult result = client.ExecuteQuery(builder);
 

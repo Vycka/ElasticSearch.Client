@@ -34,7 +34,7 @@ namespace ElasticSearch.Client.Query.IndexListGenerator
             {
                 QueryDate queryDate = LookupBestQueryRange(indexDescriptor.IndexTimeStampField);
 
-                if (queryDate == null)
+                if (queryDate == null || queryDate.FieldName != indexDescriptor.IndexTimeStampField)
                 {
                     lookupIndexes.AddRange(indexDescriptor.GetIndexDescriptors());
                 }

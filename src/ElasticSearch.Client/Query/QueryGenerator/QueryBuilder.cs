@@ -15,8 +15,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator
         public readonly FilteredSectionBuilder Filtered = new FilteredSectionBuilder();
         public readonly IndicesSectionBuilder Indices = new IndicesSectionBuilder();
         public readonly SortListBuilder Sort = new SortListBuilder();
-        // Aggregation is temporary, proper builder should be created
-        public readonly AggregationQuery Aggregates = new AggregationQuery();
+        public readonly AggregationBuilder Aggregates = new AggregationBuilder();
 
         public void SetQuery(IQueryComponent queryComponent)
         {
@@ -32,12 +31,10 @@ namespace ElasticSearch.Client.Query.QueryGenerator
 
             if (querySection != null && Query != null)
                 throw new InvalidOperationException("Simple QUERY must be alone, it can't work with INDICES or FILTERED");
-
             if (Query != null)
                 requestObject.Add("query", Query.BuildRequestComponent());
-
-
             requestObject.AddIfNotNull("query", querySection);
+
             requestObject.AddIfNotNull("aggs", Aggregates.BuildRequestComponent());
             requestObject.AddIfNotNull("size", Size);
             requestObject.AddIfNotNull("sort", Sort.BuildSortSection());

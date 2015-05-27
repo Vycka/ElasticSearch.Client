@@ -17,14 +17,8 @@ namespace ElasticSearch.Client.ElasticSearch
             _httpRequest = httpRequest;
         }
 
-        public dynamic ExecuteAggregateQuery(ElasticSearchQuery query)
-        {
-            SearchResult<ResultItem> result = ExecuteQueryInner<ResultItem>(query, new Tuple<string, string>("search_type", "count"));
 
-            return result.Aggregations;
-        }
-
-        public SearchResult<TResultModel> ExecuteQuery<TResultModel>(ElasticSearchQuery query, params Tuple<string, string>[] additionalGetParams)
+        public SearchResult<TResultModel> ExecuteQuery<TResultModel>(ElasticSearchQuery query, params GetParam[] additionalGetParams)
         {
             // First, try to execute query by quering all shards (try to save one http request for getting shard names)
             try
@@ -44,39 +38,44 @@ namespace ElasticSearch.Client.ElasticSearch
             }
         }
 
-        private SearchResult<TResultModel> ExecuteQueryInner<TResultModel>(ElasticSearchQuery query, params Tuple<string,string>[] additionalGetParams)
+        private SearchResult<TResultModel> ExecuteQueryInner<TResultModel>(ElasticSearchQuery query, params GetParam[] additionalGetParams)
         {
             if (query.LookupIndexes.Length == 0)
                 throw new NoShardsException(
-                    string.Format("Not even a single shard overlaps with requested time period!")
+                    "Not even a single shard overlaps with requested time period!"
                 );
 
-            string additionalParams = "";
-            if (additionalGetParams.Length != 0)
-                additionalParams = "?" + String.Join("&", additionalGetParams.Select(p => String.Concat(p.Item1, "=", p.Item2)));
-
-            string concatedShardNames = String.Join(",", query.LookupIndexes);
-            string requestUrl = concatedShardNames + "/_search" + additionalParams;
+            string requestUrl = BuildRequestUri(query, "_search", additionalGetParams);
 
             string jsonResponse = _httpRequest.MakePostJsonRequest(requestUrl, query.QueryJson);
+            dynamic deserializedResponse = JsonConvert.DeserializeObject(jsonResponse);
 
-            var result = new SearchResult<TResultModel>(jsonResponse);
+            var result = new SearchResult<TResultModel>(deserializedResponse);
 
             if (result.TimedOut)
                 throw new TimeoutException("There was a timeout while getting data from ElasticSearch");
             if (result.Shards.Failed != 0 && result.Shards.Total != 0)
-                throw new Exception(string.Format("One or more shards returned failure [{0}]", concatedShardNames));
+                throw new Exception(string.Format("One or more shards returned failure [{0}]", requestUrl));
 
             return result;
         }
 
+        public static string BuildRequestUri(ElasticSearchQuery query, string operationName, params GetParam[] additionalGetParams)
+        {
+            string additionalParams = "";
+            if (additionalGetParams.Length != 0)
+                additionalParams = "?" + String.Join("&", additionalGetParams.Select(p => String.Concat(p.Key, "=", p.Value)));
 
+            string concatedShardNames = String.Join(",", query.LookupIndexes);
+            string requestUrl = concatedShardNames + "/" + operationName + additionalParams;
+
+            return requestUrl;
+        }
 
         private ElasticSearchQuery RemoveInexistingShards(ElasticSearchQuery query)
         {
-            string concatedShardNames = String.Join(",", query.LookupIndexes);
-            string requestUrl = concatedShardNames + "/_aliases?ignore_missing=true";
-
+            string requestUrl = BuildRequestUri(query, "_aliases", new GetParam("ignore_missing", "true"));
+                
             string jsonResponse = _httpRequest.MakeGetRequest(requestUrl);
             var parsedResponse = JsonConvert.DeserializeObject<IDictionary<string, object>>(jsonResponse);
 
@@ -94,6 +93,22 @@ namespace ElasticSearch.Client.ElasticSearch
     {
         public NoShardsException(string message) : base(message)
         {
+        }
+    }
+
+    public class GetParam
+    {
+        public readonly string Key;
+        public readonly string Value;
+
+        public GetParam(string key, string value)
+        {
+            if (key == null) 
+                throw new ArgumentNullException("key");
+            if (value == null)
+                throw new ArgumentNullException("value");
+            Key = key;
+            Value = value;
         }
     }
 }

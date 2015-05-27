@@ -2,8 +2,8 @@
 {
     public class ElasticSearchResult : SearchResult<ResultItem>
     {
-        internal ElasticSearchResult(string searchResultJson)
-            : base(searchResultJson)
+        internal ElasticSearchResult(dynamic searchResult)
+            : base((object)searchResult)
         {
            
         }

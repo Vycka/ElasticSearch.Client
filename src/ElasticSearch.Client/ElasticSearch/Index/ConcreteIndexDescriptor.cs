@@ -6,7 +6,7 @@ namespace ElasticSearch.Client.ElasticSearch.Index
     {
         private readonly string[] _concreteIndex;
 
-        public ConcreteIndexDescriptor(string indexName, string indexTimeStampField) : base(indexTimeStampField)
+        public ConcreteIndexDescriptor(string indexName) : base(null)
         {
             if (indexName == null)
                 throw new ArgumentNullException("indexName");

@@ -22,7 +22,7 @@ namespace ElasticSearch.Playground.Samples
 
             builder.SetQuery(new LuceneQuery("_type:rep-sec"));
 
-            builder.PrintQuery();
+            builder.PrintQuery(client.IndexDescriptors);
 
             ElasticSearchResult result = client.ExecuteQuery(builder);
 
@@ -41,7 +41,7 @@ namespace ElasticSearch.Playground.Samples
             builder.SetQuery(new MatchAll());
             builder.Size = 1;
 
-            builder.PrintQuery();
+            builder.PrintQuery(client.IndexDescriptors);
 
             ElasticSearchResult result = client.ExecuteQuery(builder);
 

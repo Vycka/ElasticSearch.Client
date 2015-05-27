@@ -137,20 +137,6 @@ namespace ElasticSearch.Client.Utils
         private void PrintRequestInformation(HttpWebRequest httpRequest)
         {
             Debug.WriteLine(" # API {0} [{1}]", httpRequest.Method, httpRequest.Address);
-            
-            if (!String.IsNullOrWhiteSpace(_requestData))
-            {
-                const int trimLength = 200;
-
-                bool trimData = _requestData.Length > trimLength;
-                
-                string trimmedString = trimData ? _requestData.Substring(0, trimLength) : _requestData;
-                if (trimData)
-                    trimmedString += "...";
-
-                Debug.WriteLine(string.Format(" # REQ -> [{0}]", trimmedString));
-                Debug.WriteLine("##");
-            }
         }
 
         /// <summary>

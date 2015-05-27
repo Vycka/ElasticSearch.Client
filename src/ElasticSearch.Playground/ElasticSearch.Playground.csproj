@@ -55,6 +55,7 @@
     <Compile Include="Samples\Aggregates.cs" />
     <Compile Include="Samples\AggregateWithGroup.cs" />
     <Compile Include="Samples\FilteredQueries.cs" />
+    <Compile Include="Samples\Indexes\ConcreteIndex.cs" />
     <Compile Include="Samples\Indices.cs" />
     <Compile Include="Samples\Playground.cs" />
     <Compile Include="Samples\SimpleQuery.cs" />

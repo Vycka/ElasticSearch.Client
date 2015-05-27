@@ -18,7 +18,7 @@ namespace ElasticSearch.Playground.Samples
 
             QueryBuilder builder = new QueryBuilder();
 
-            builder.PrintQuery();
+            builder.PrintQuery(client.IndexDescriptors);
 
             ElasticSearchResult result = client.ExecuteQuery(builder);
 

@@ -47,8 +47,8 @@
     <Compile Include="ElasticSearchClient.cs" />
     <Compile Include="ElasticSearch\ElasticSearchQuery.cs" />
     <Compile Include="ElasticSearch\ElasticSearchQueryExecutor.cs" />
+    <Compile Include="ElasticSearch\Results\AggregateResult.cs" />
     <Compile Include="ElasticSearch\Results\ElasticSearchResult.cs" />
-    <Compile Include="ElasticSearch\Results\ElasticSearchResultBase.cs" />
     <Compile Include="ElasticSearch\Results\SearchResult.cs" />
     <Compile Include="ElasticSearch\Index\ConcreteIndexDescriptor.cs" />
     <Compile Include="ElasticSearch\Index\ElasticSearchIndexDescriptor.cs" />
@@ -70,7 +70,7 @@
     <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\TermAggregate.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\TermsAggregate.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\ValueCountAggregate.cs" />
-    <Compile Include="Query\QueryGenerator\AggregationComponents\AggregationQuery.cs" />
+    <Compile Include="Query\QueryGenerator\AggregationComponents\AggregationBuilder.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\Groups\RangeGroup.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\Groups\TermGroup.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\IAggregateComponent.cs" />
@@ -103,6 +103,7 @@
     <Compile Include="Query\QueryGenerator\SectionBuilders\SortSectionBuilder.cs" />
     <Compile Include="Serializer\Converters\AggregateItemConverter.cs" />
     <Compile Include="Serializer\JsonQuerySerializer.cs" />
+    <Compile Include="Utils\AggregateResultExtensions.cs" />
     <Compile Include="Utils\DateTimeExtensions.cs" />
     <Compile Include="Utils\DateTimeUnixTimeExtensions.cs" />
     <Compile Include="Utils\ExpandoObjectExtensions.cs" />

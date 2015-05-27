@@ -7,7 +7,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
     public class GroupAggregate : IAggregateComponent
     {
         private readonly IGroupComponent _groupComponent;
-        public readonly AggregationQuery Aggregates = new AggregationQuery(); 
+        public readonly AggregationBuilder Aggregates = new AggregationBuilder(); 
 
         public GroupAggregate(IGroupComponent groupComponent)
         {

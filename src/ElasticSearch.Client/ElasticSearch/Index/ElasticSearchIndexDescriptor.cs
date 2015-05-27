@@ -8,9 +8,6 @@ namespace ElasticSearch.Client.ElasticSearch.Index
 
         protected ElasticSearchIndexDescriptor(string indexTimeStampField)
         {
-            if (indexTimeStampField == null)
-                throw new ArgumentNullException("indexTimeStampField");
-
             IndexTimeStampField = indexTimeStampField;
         }
 

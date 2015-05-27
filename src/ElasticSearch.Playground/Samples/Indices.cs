@@ -22,8 +22,8 @@ namespace ElasticSearch.Playground.Samples
             QueryBuilder builder = new QueryBuilder();
             builder.Indices.AddIndices("rep-templates-reader-*");
             builder.Indices.SetQuery(new LuceneQuery("Level:\"INFO\""));
-            
-            builder.PrintQuery();
+
+            builder.PrintQuery(client.IndexDescriptors);
 
             ElasticSearchResult result = client.ExecuteQuery(builder);
 
@@ -40,10 +40,10 @@ namespace ElasticSearch.Playground.Samples
 
             QueryBuilder builder = new QueryBuilder();
             builder.Indices.AddIndices("rep-templates-reader-*");
-            builder.Indices.SetQuery(new LuceneQuery("type:\"rep-sec\""));
+            builder.Indices.SetQuery(new LuceneQuery("type:(rep-sec)"));
             builder.Indices.SetNoMatchQuery(new LuceneQuery("*"));
 
-            builder.PrintQuery();
+            builder.PrintQuery(client.IndexDescriptors);
 
             ElasticSearchResult result = client.ExecuteQuery(builder);
 

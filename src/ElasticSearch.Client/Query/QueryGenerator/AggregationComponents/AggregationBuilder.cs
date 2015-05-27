@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents
 {
-    public class AggregationQuery : IAggregateComponent
+    public class AggregationBuilder : IAggregateComponent
     {
         private readonly Dictionary<string, IAggregateComponent> _aggregateItems;
 
-        public AggregationQuery()
+        public AggregationBuilder()
         {
             _aggregateItems = new Dictionary<string, IAggregateComponent>();
         }
