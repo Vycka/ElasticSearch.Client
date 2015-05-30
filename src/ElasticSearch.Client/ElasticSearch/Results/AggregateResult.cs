@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Dynamic;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 
 namespace ElasticSearch.Client.ElasticSearch.Results
@@ -25,6 +26,16 @@ namespace ElasticSearch.Client.ElasticSearch.Results
         public TValue GetValue<TValue>(string fieldPath)
         {
             return ResultObject.SelectToken(fieldPath, true).Value<TValue>();
+        }
+
+        public object[] GetValues(string fieldPath)
+        {
+            return GetValues<object>(fieldPath);
+        }
+
+        public TValue[] GetValues<TValue>(string fieldPath)
+        {
+            return ResultObject.SelectToken(fieldPath, true).Values<TValue>().ToArray();
         }
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)

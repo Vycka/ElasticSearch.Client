@@ -1,11 +1,21 @@
 ﻿using System.Collections.Generic;
+using System.Dynamic;
+using ElasticSearch.Client.Utils;
 
 namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates
 {
     public class AggregateComponentBase : IAggregateComponent
     {
 
+        private readonly string _operationName;
         private readonly Dictionary<string, object> _aggregateRequestValues = new Dictionary<string, object>();
+
+        public AggregateComponentBase(string operationName)
+        {
+            _operationName = operationName;
+        }
+
+        public string OperationName { get { return _operationName; } }
 
         public object BuildRequestComponent()
         {
@@ -15,14 +25,21 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
             return _aggregateRequestValues;
         }
 
-        protected void Add(string aggregateOperation, object value)
+        protected void AddSubItem(string itemName, object subItemValue)
         {
-            _aggregateRequestValues.Add(aggregateOperation, value);
+            ((ExpandoObject)_aggregateRequestValues[_operationName]).Add(itemName, subItemValue);
         }
 
-        protected static object Field(string value)
+        protected void Set(ExpandoObject operationValue)
         {
-            return new { field = value };
+            _aggregateRequestValues.Add(_operationName, operationValue);
+        }
+
+        protected static ExpandoObject Field(string value)
+        {
+            var expandoObject = new ExpandoObject();
+            expandoObject.Add("field",value);
+            return expandoObject;
         }
     }
 }

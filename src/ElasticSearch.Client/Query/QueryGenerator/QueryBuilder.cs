@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents;
 using ElasticSearch.Client.Query.QueryGenerator.QueryComponents;
@@ -14,7 +15,8 @@ namespace ElasticSearch.Client.Query.QueryGenerator
 
         public readonly FilteredSectionBuilder Filtered = new FilteredSectionBuilder();
         public readonly IndicesSectionBuilder Indices = new IndicesSectionBuilder();
-        public readonly SortListBuilder Sort = new SortListBuilder();
+
+        public readonly List<ISortComponent> Sort = new List<ISortComponent>();
         public readonly AggregationBuilder Aggregates = new AggregationBuilder();
 
         public void SetQuery(IQueryComponent queryComponent)
@@ -37,7 +39,9 @@ namespace ElasticSearch.Client.Query.QueryGenerator
 
             requestObject.AddIfNotNull("aggs", Aggregates.BuildRequestComponent());
             requestObject.AddIfNotNull("size", Size);
-            requestObject.AddIfNotNull("sort", Sort.BuildSortSection());
+
+            if (Sort.Count != 0)
+                requestObject.Add("sort", Sort);
 
             return requestObject;
         }

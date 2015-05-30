@@ -16,6 +16,8 @@ namespace ElasticSearch.Client.Query.IndexListGenerator
                     return DayPeriodGenerator.Generate(timeFrom, timeTo);
                 case IndexStep.Hour:
                     return HourPeriodGenerator.Generate(timeFrom, timeTo);
+                case IndexStep.Month:
+                    return MonthPeriodGenerator.Generate(timeFrom, timeTo);
                 default:
                     throw new InvalidEnumArgumentException("Unsupported IndexStep provided");
             }

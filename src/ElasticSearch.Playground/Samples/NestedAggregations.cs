@@ -4,7 +4,6 @@ using ElasticSearch.Client.ElasticSearch.Index;
 using ElasticSearch.Client.ElasticSearch.Results;
 using ElasticSearch.Client.Query.QueryGenerator;
 using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates;
-using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Groups;
 using ElasticSearch.Client.Query.QueryGenerator.Models;
 using ElasticSearch.Client.Query.QueryGenerator.Models.Ranges;
 using ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters;
@@ -15,7 +14,7 @@ using NUnit.Framework;
 namespace ElasticSearch.Playground.Samples
 {
     [TestFixture]
-    public class AggregateWithGroup
+    public class NestedAggregations
     {
         [Test]
         public void GroupByTerm()
@@ -26,7 +25,7 @@ namespace ElasticSearch.Playground.Samples
             QueryBuilder builder = new QueryBuilder();
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
 
-            var groupQuery = new GroupAggregate(new TermGroup("Event.EventType"), "some_stats", new StatsAggregate("Event.TotalDuration"));
+            var groupQuery = new NestedAggregate(new TermsAggregate("Event.EventType"), "some_stats", new StatsAggregate("Event.TotalDuration"));
             builder.Aggregates.Add("my_stats_group", groupQuery);
 
             builder.PrintQuery(client.IndexDescriptors);
@@ -47,7 +46,7 @@ namespace ElasticSearch.Playground.Samples
             QueryBuilder builder = new QueryBuilder();
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
 
-            var groupQuery = new GroupAggregate(new RangeGroup("Event.TotalDuration", new Range(0,10), new Range(10,20)), "some_stats", new CountAggregate("Event.TotalDuration"));
+            var groupQuery = new NestedAggregate(new RangeAggregate("Event.TotalDuration", new Range(0, 10), new Range(10, 20)), "some_stats", new CountAggregate("Event.TotalDuration"));
             builder.Aggregates.Add("my_stats_group", groupQuery);
 
             builder.PrintQuery(client.IndexDescriptors);
@@ -68,8 +67,8 @@ namespace ElasticSearch.Playground.Samples
             QueryBuilder builder = new QueryBuilder();
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
 
-            var termGroup = new GroupAggregate(new TermGroup("Event.EventType"), "some_stats", new StatsAggregate("Event.TotalDuration"));
-            var rangeGroup = new GroupAggregate(new RangeGroup("Event.TotalDuration", new Range(0, 10), new Range(10, 20)), "some_stats", new CountAggregate("Event.TotalDuration"));
+            var termGroup = new NestedAggregate(new TermsAggregate("Event.EventType"), "some_stats", new StatsAggregate("Event.TotalDuration"));
+            var rangeGroup = new NestedAggregate(new RangeAggregate("Event.TotalDuration", new Range(0, 10), new Range(10, 20)), "some_stats", new CountAggregate("Event.TotalDuration"));
             builder.Aggregates.Add("term_group", termGroup);
             builder.Aggregates.Add("range_group", rangeGroup);
 
@@ -90,10 +89,10 @@ namespace ElasticSearch.Playground.Samples
             QueryBuilder builder = new QueryBuilder();
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
 
-            var rangeGroup = new GroupAggregate(
-                new RangeGroup(
+            var rangeGroup = new NestedAggregate(
+                new RangeAggregate(
                     "Event.TotalDuration", 
-                    new Range(0, 10),
+                    new Range(null, 10),
                     new Range(10, 20),
                     new Range(30, 40)
                 )

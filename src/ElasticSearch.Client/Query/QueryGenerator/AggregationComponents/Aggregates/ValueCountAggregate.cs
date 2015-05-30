@@ -5,8 +5,9 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
     public class ValueCountAggregate : AggregateComponentBase
     {
         public ValueCountAggregate(string aggregateField)
+            : base("value_count")
         {
-            Add(AggregateType.ValueCount.GetName(), Field(aggregateField));
+            Set(Field(aggregateField));
         }
     }
 

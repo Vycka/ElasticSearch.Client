@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents;
 
-namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents
+namespace ElasticSearch.Client.Query.QueryGenerator.SectionBuilders
 {
-    public class AggregationBuilder : IAggregateComponent
+    public class AggregationBuilder 
     {
         private readonly Dictionary<string, IAggregateComponent> _aggregateItems;
 
@@ -27,6 +28,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents
                 return _aggregateItems;
             }
         }
+
 
         public object BuildRequestComponent()
         {

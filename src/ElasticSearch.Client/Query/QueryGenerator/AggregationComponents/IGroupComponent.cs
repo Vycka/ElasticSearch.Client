@@ -2,10 +2,7 @@
 
 namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents
 {
-    public interface IGroupComponent
+    public interface IGroupComponent : IAggregateComponent
     {
-
-        string OperationName { get; }
-        object BuildRequestComponent();
     }
 }

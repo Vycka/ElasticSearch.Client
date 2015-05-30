@@ -21,7 +21,7 @@
 	<licenseUrl>https://github.com/Vycka/ElasitcSearchClient/blob/master/LICENSE</licenseUrl>
 	<projectUrl>https://github.com/Vycka/ElasitcSearchClient</projectUrl>
     <copyright>2015</copyright>
-    <tags>ElasticSearch ES C# CS connection client </tags>
+    <tags>ElasticSearch ES .net c# cs connection client lucene strong-typed self-explained</tags>
     <dependencies>
         <dependency id="Newtonsoft.Json" version="6.0.0" />
     </dependencies>

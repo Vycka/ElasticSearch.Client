@@ -2,6 +2,7 @@
 {
     public interface IAggregateComponent
     {
+        string OperationName { get; }
         object BuildRequestComponent();
     }
 }

@@ -53,10 +53,12 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Samples\Aggregates.cs" />
-    <Compile Include="Samples\AggregateWithGroup.cs" />
+    <Compile Include="Samples\NestedAggregations.cs" />
     <Compile Include="Samples\FilteredQueries.cs" />
     <Compile Include="Samples\Indexes\ConcreteIndex.cs" />
+    <Compile Include="Samples\IndexStepGenerator\MonthStepGeneratorTests.cs" />
     <Compile Include="Samples\Indices.cs" />
+    <Compile Include="Samples\NestedAggregationsV2.cs" />
     <Compile Include="Samples\Playground.cs" />
     <Compile Include="Samples\SimpleQuery.cs" />
     <Compile Include="Samples\Term.cs" />

@@ -16,13 +16,13 @@ namespace ElasticSearch.Client.Query.QueryGenerator.Models.Ranges
             To = to;
         }
 
-        public Range(int @from, int to)
+        public Range(int? @from, int? to)
         {
             From = @from;
             To = to;
         }
 
-        public Range(double @from, double to)
+        public Range(double? @from, double? to)
         {
             From = @from;
             To = to;

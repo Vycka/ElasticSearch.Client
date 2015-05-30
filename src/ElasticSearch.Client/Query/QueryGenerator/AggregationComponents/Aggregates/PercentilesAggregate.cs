@@ -5,8 +5,9 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
     public class PercentilesAggregate : AggregateComponentBase
     {
         public PercentilesAggregate(string aggregateField)
+            : base("percentiles")
         {
-            Add(AggregateType.Percentiles.GetName(), Field(aggregateField));
+            Set(Field(aggregateField));
         }
     }
 }

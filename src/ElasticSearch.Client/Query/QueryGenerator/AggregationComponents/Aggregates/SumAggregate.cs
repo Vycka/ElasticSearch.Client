@@ -5,8 +5,9 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
     public class SumAggregate : AggregateComponentBase
     {
         public SumAggregate(string aggregateField)
+            : base("sum")
         {
-            Add(AggregateType.Sum.GetName(), Field(aggregateField));
+            Set(Field(aggregateField));
         }
     }
 }

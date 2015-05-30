@@ -8,7 +8,6 @@ using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates
 using ElasticSearch.Client.Query.QueryGenerator.Models;
 using ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters;
 using ElasticSearch.Client.Utils;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
@@ -208,21 +207,20 @@ namespace ElasticSearch.Playground.Samples
         [Test]
         public void TermsAggregates()
         {
-            var repSecIndex = new TimeStampedIndexDescriptor("5-reporting-scheduler-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
+            var repSecIndex = new TimeStampedIndexDescriptor("rep-sec-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
             ElasticSearchClient client = new ElasticSearchClient("http://172.22.1.31:9200/", repSecIndex);
 
             QueryBuilder builder = new QueryBuilder();
-            builder.Filtered.Filters.Add(FilterType.Must, new LuceneFilter("Level:(ERROR)"));
             builder.Filtered.Filters.Add(FilterType.Must, new FixedTimeRange("@timestamp", DateTime.UtcNow.Yesterday(), DateTime.UtcNow));
 
-            builder.Aggregates.Add("errors_count", new TermsAggregate("Event.ScheduleId", 1000));
+            builder.Aggregates.Add("my_term", new TermsAggregate("Event.EventType", 10));
 
             builder.PrintQuery(client.IndexDescriptors);
 
             AggregateResult result = client.ExecuteAggregate(builder);
             result.PrintResult();
 
-            result.GetValue("errors_count.buckets");
+            Assert.AreEqual(10, result.GetValues<dynamic>("my_term.buckets").Length);
         }
     }
 }

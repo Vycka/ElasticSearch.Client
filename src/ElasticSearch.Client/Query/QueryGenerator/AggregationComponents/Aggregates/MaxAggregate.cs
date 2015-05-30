@@ -5,8 +5,9 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
     public class MaxAggregate : AggregateComponentBase
     {
         public MaxAggregate(string aggregateField)
+            : base("max")
         {
-            Add(AggregateType.Max.GetName(), Field(aggregateField));
+            Set(Field(aggregateField));
         }
     }
 }

@@ -47,6 +47,7 @@ namespace ElasticSearch.Client.ElasticSearch.Index
     public enum IndexStep
     {
         Hour,
-        Day
+        Day,
+        Month
     };
 }

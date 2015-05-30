@@ -40,8 +40,10 @@ namespace ElasticSearch.Client.Serializer
             JsonSerializer serializer = JsonSerializer.Create();
 
             serializer.NullValueHandling = NullValueHandling.Ignore;
+
             serializer.Converters.Add(new ObjectDictionaryConverter());
             serializer.Converters.Add(new AggregateItemConverter());
+            serializer.Converters.Add(new SortItemConverter());
 
             return serializer;
         }

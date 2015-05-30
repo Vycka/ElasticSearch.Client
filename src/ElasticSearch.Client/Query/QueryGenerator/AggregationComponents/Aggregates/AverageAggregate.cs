@@ -5,8 +5,9 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
     public class AverageAggregate : AggregateComponentBase
     {
         public AverageAggregate(string aggregateField)
+            : base("avg")
         {
-            Add(AggregateType.Average.GetName(), Field(aggregateField));
+            Set(Field(aggregateField));
         }
     }
 }

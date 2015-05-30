@@ -1,18 +1,36 @@
-﻿using System.Dynamic;
-using ElasticSearch.Client.Query.QueryGenerator.Models;
+﻿using System.Collections.Generic;
+using System.Dynamic;
+using ElasticSearch.Client.Query.QueryGenerator.QueryComponents;
 using ElasticSearch.Client.Utils;
 
 namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates
 {
-    public class TermsAggregate : AggregateComponentBase
+    public class TermsAggregate : AggregateComponentBase, IGroupComponent
     {
-        public TermsAggregate(string aggregateField, int? size = null)
+        public TermsAggregate(string aggregateField, int? size = null) 
+            : base("terms")
         {
-            ExpandoObject termRequest = new ExpandoObject();
-            termRequest.Add("field", aggregateField);
-            termRequest.AddIfNotNull("size", size);
+            ExpandoObject termsRequest = new ExpandoObject();
 
-            Add(AggregateType.Terms.GetName(), termRequest);
+            termsRequest.Add("field", aggregateField);
+            termsRequest.AddIfNotNull("size", size);
+
+            Set(termsRequest);
+        }
+
+        private List<ISortComponent> _sortComponents;
+        public List<ISortComponent> Sort
+        {
+            get
+            {
+                if (_sortComponents == null)
+                {
+                    _sortComponents = new List<ISortComponent>();
+                    AddSubItem("order", _sortComponents);
+                }
+
+                return _sortComponents;
+            }
         }
     }
 }
