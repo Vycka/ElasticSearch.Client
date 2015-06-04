@@ -25,5 +25,16 @@ namespace ElasticSearch.Client.Utils
             IDictionary<string, object> expandoObjectDictionary = expandoObject;
             expandoObjectDictionary.Add(key, value);
         }
+
+        public static void AddOrUpdate(this ExpandoObject expandoObject, string key, object value)
+        {
+            IDictionary<string, object> expandoObjectDictionary = expandoObject;
+
+
+            if (expandoObjectDictionary.ContainsKey(key))
+                expandoObjectDictionary[key] = value;
+            else
+                expandoObjectDictionary.Add(key, value);
+        }
     }
 }

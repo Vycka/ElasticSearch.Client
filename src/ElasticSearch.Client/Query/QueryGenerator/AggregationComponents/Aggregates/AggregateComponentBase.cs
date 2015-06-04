@@ -6,7 +6,6 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
 {
     public class AggregateComponentBase : IAggregateComponent
     {
-
         private readonly string _operationName;
         private readonly Dictionary<string, object> _aggregateRequestValues = new Dictionary<string, object>();
 
@@ -16,6 +15,21 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
         }
 
         public string OperationName { get { return _operationName; } }
+
+        public string Script
+        {
+            get
+            {
+                object result;
+                _aggregateRequestValues.TryGetValue("script", out result);
+                return (string)result;
+            }
+
+            set
+            {
+                _aggregateRequestValues.AddOrUpdate("script", value);
+            }
+        }
 
         public object BuildRequestComponent()
         {
@@ -30,7 +44,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
             ((ExpandoObject)_aggregateRequestValues[_operationName]).Add(itemName, subItemValue);
         }
 
-        protected void Set(ExpandoObject operationValue)
+        protected void SetOperationObject(ExpandoObject operationValue)
         {
             _aggregateRequestValues.Add(_operationName, operationValue);
         }

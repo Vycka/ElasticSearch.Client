@@ -7,7 +7,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
         public SumAggregate(string aggregateField)
             : base("sum")
         {
-            Set(Field(aggregateField));
+            SetOperationObject(Field(aggregateField));
         }
     }
 }

@@ -7,7 +7,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
         public MinAggregate(string aggregateField)
             : base("min")
         {
-            Set(Field(aggregateField));
+            SetOperationObject(Field(aggregateField));
         }
     }
 }

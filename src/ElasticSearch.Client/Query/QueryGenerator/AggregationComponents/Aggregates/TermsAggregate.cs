@@ -15,7 +15,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
             termsRequest.Add("field", aggregateField);
             termsRequest.AddIfNotNull("size", size);
 
-            Set(termsRequest);
+            SetOperationObject(termsRequest);
         }
 
         private List<ISortComponent> _sortComponents;

@@ -18,5 +18,13 @@ namespace ElasticSearch.Client.Utils
         {
             dictionary.Add(key, value);
         }
+
+        public static void AddOrUpdate(this Dictionary<string, object> obj, string key, object value)
+        {
+            if (obj.ContainsKey(key))
+                obj[key] = value;
+            else
+                obj.Add(key, value);
+        }
     }
 }

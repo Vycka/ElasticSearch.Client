@@ -7,7 +7,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
         public PercentilesAggregate(string aggregateField)
             : base("percentiles")
         {
-            Set(Field(aggregateField));
+            SetOperationObject(Field(aggregateField));
         }
     }
 }

@@ -24,7 +24,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
             rangeRequest.Add("keyed", keyed);
             rangeRequest.Add("ranges", ranges);
 
-            Set(rangeRequest);
+            SetOperationObject(rangeRequest);
         }
 
     }

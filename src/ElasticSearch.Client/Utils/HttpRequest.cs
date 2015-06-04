@@ -43,6 +43,12 @@ namespace ElasticSearch.Client.Utils
 
         #region Exposed Requests
 
+        public string MakeRequest(string relativeUrl, RequestType requestType)
+        {
+            HttpWebRequest httpRequest = BuildRelativeBaseHttpWebRequest(relativeUrl, requestType.ToString().ToUpperInvariant());
+            return ExecuteWebRequest(httpRequest);
+        }
+
         public string MakeGetRequest(string relativeUrl)
         {
             HttpWebRequest httpRequest = BuildRelativeBaseHttpWebRequest(relativeUrl, "GET");
@@ -216,6 +222,14 @@ namespace ElasticSearch.Client.Utils
         }
 
         #endregion
+    }
+
+    public enum RequestType
+    {
+        Get,
+        Post,
+        Put,
+        Delete
     }
 
     public class ExtendedWebException : Exception
