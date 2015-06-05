@@ -58,7 +58,7 @@ namespace ElasticSearch.Playground.Samples
 
         [Test]
         [Ignore]
-        public void QueryKibana4()
+        public void CopyKibana4SettingsFromProdToDevs()
         {
             var kibana4Index = new ConcreteIndexDescriptor(".kibana");
             ElasticSearchClient client = new ElasticSearchClient("http://10.1.14.98:9200/", kibana4Index);
@@ -73,40 +73,42 @@ namespace ElasticSearch.Playground.Samples
             PrintIndexes(result);
 
             MigrateConfig("http://172.22.9.99:9200/", result);
+            MigrateConfig("http://172.22.12.135:9200/", result);
+            MigrateConfig("http://10.2.40.27:9200/", result);
         }
 
         private void MigrateConfig(string targetUrl, ElasticSearchResult queriedConfig)
         {
             HttpRequest httpRequest = new HttpRequest(targetUrl);
 
-            foreach (ResultItem index in queriedConfig.Items)
+            foreach (ResultItem configItem in queriedConfig.Items)
             {
-                try
-                {
-                    httpRequest.MakeRequest(BuildRequestUrl(index), RequestType.Delete);
-                }
-                catch (ExtendedWebException ex)
-                {
-                    if (!ex.Message.Contains("404"))
-                        throw;
-                }
-                
-
-                httpRequest.MakePostJsonRequest(BuildRequestUrl(index), index.Source.ToString());
+                AddOrReplaceConfigEntry(httpRequest, configItem);
             }
+        }
+
+        private void AddOrReplaceConfigEntry(HttpRequest httpRequest, ResultItem configEntry)
+        {
+            try
+            {
+                httpRequest.MakeRequest(configEntry.ToString(), RequestType.Delete);
+            }
+            catch (ExtendedWebException ex)
+            {
+                if (!ex.Message.Contains("404"))
+                    throw;
+            }
+
+            httpRequest.MakePostJsonRequest(configEntry.ToString(), configEntry.Source.ToString());
         }
 
         private static void PrintIndexes(ElasticSearchResult result)
         {
             foreach (ResultItem index in result.Items)
             {
-                Console.Out.WriteLine(BuildRequestUrl(index));
+                Console.Out.WriteLine(index);
             }
         }
 
-        private static string BuildRequestUrl(ResultItem item)
-        {
-            return string.Format("{0}/{1}/{2}", item.Index, item.Type, item.Id);
-        }
     }
 }

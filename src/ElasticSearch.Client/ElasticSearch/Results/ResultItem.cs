@@ -16,5 +16,10 @@ namespace ElasticSearch.Client.ElasticSearch.Results
 
         [DataMember(Name = "_source")]
         public dynamic Source { get; set; }
-     }
+
+        public override string ToString()
+        {
+            return string.Format("{0}/{1}/{2}", Index, Type, Id);
+        }
+    }
 }

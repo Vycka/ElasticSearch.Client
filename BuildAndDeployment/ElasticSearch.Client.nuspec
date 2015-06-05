@@ -6,7 +6,7 @@
     <version></version>
     <authors>Vytautas Klumbys</authors>
     <owners></owners>
-    <description>User-Friendly ElasticSearch c# querying client. It's still in early in development, so things like the name-spaces can still change.</description>
+    <description>User-Friendly ElasticSearch c# client for SELECTING/AGGREGATING data. It's still in early in development, so things like the name-spaces can still change.</description>
 	<summary>Currently supported:
 * Basic Query section support (Useful for retrieving raw data)
   - Query, Filter
