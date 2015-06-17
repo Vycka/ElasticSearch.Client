@@ -10,10 +10,10 @@ using ElasticSearch.Client.Utils;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
-namespace ElasticSearch.Playground.Samples
+namespace ElasticSearch.Playground.Samples.Aggregates
 {
     [TestFixture]
-    public class Aggregates
+    public class AggregatesOld
     {
         [Test]
         public void CountAggregate()
