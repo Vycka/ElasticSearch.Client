@@ -18,12 +18,9 @@ namespace ElasticSearch.Playground.Samples.Aggregates
             QueryBuilder builder = new QueryBuilder();
             
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
-
             DateHistogramAggregate aggregate = new DateHistogramAggregate("@timestamp", "6h");
-
-
             builder.Aggregates.Add("test", aggregate);
-            
+
 
             builder.PrintQuery(_client.IndexDescriptors);
 

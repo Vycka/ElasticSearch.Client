@@ -21,6 +21,7 @@ namespace ElasticSearch.Playground.Samples.Aggregates
             HistogramAggregate aggregate = new HistogramAggregate("TotalDuration", "1000");
             builder.Aggregates.Add("test", aggregate);
 
+
             builder.PrintQuery(_client.IndexDescriptors);
 
             AggregateResult result = _client.ExecuteAggregate(builder);
