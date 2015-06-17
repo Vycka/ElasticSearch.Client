@@ -7,20 +7,20 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
 {
     public class RangeAggregate : AggregateComponentBase, IGroupComponent
     {
-        public RangeAggregate(string aggregateFieldName, params Range[] ranges)
-            : this(aggregateFieldName, false, ranges)
+        public RangeAggregate(string field, params Range[] ranges)
+            : this(field, false, ranges)
         {
         }
 
-        public RangeAggregate(string aggregateFieldName, bool keyed, params Range[] ranges)
+        public RangeAggregate(string field, bool keyed, params Range[] ranges)
             : base("range")
         {
-            if (aggregateFieldName == null)
-                throw new ArgumentNullException("aggregateFieldName");
+            if (field == null)
+                throw new ArgumentNullException("field");
 
             ExpandoObject rangeRequest = new ExpandoObject();
 
-            rangeRequest.Add("field", aggregateFieldName);
+            rangeRequest.Add("field", field);
             rangeRequest.Add("keyed", keyed);
             rangeRequest.Add("ranges", ranges);
 

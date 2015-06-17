@@ -1,19 +1,17 @@
-﻿using ElasticSearch.Client.Query.QueryGenerator.Models;
-
-namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates
+﻿namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates
 {
     public class ValueCountAggregate : AggregateComponentBase
     {
-        public ValueCountAggregate(string aggregateField)
+        public ValueCountAggregate(string field)
             : base("value_count")
         {
-            SetOperationObject(Field(aggregateField));
+            SetOperationObject(Field(field));
         }
     }
 
     public class CountAggregate : ValueCountAggregate
     {
-        public CountAggregate(string aggregateField) : base(aggregateField)
+        public CountAggregate(string field) : base(field)
         {
         }
     }

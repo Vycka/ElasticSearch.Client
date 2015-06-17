@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using ElasticSearch.Client;
-using ElasticSearch.Client.ElasticSearch;
 using ElasticSearch.Client.ElasticSearch.Index;
 using ElasticSearch.Client.ElasticSearch.Results;
 using ElasticSearch.Client.Query.QueryGenerator;
 using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates;
 using ElasticSearch.Client.Query.QueryGenerator.Models;
 using ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters;
-using ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Queries;
-using ElasticSearch.Client.Query.QueryGenerator.SectionBuilders;
 using ElasticSearch.Client.Utils;
 using Newtonsoft.Json;
 using NUnit.Framework;

@@ -2,7 +2,6 @@
 using ElasticSearch.Client.ElasticSearch.Index;
 using ElasticSearch.Client.ElasticSearch.Results;
 using ElasticSearch.Client.Query.QueryGenerator;
-using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents;
 using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates;
 using ElasticSearch.Client.Query.QueryGenerator.Models;
 using ElasticSearch.Client.Query.QueryGenerator.Models.Ranges;

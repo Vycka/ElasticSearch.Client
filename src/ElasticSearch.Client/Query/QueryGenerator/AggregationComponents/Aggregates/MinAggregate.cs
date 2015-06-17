@@ -2,10 +2,10 @@
 {
     public class MinAggregate : AggregateComponentBase
     {
-        public MinAggregate(string aggregateField)
+        public MinAggregate(string field)
             : base("min")
         {
-            SetOperationObject(Field(aggregateField));
+            SetOperationObject(Field(field));
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
-using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents;
 using ElasticSearch.Client.Query.QueryGenerator.QueryComponents;
 using ElasticSearch.Client.Query.QueryGenerator.SectionBuilders;
 using ElasticSearch.Client.Utils;

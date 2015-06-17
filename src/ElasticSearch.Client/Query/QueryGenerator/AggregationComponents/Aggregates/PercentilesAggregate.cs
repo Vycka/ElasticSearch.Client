@@ -1,13 +1,11 @@
-﻿using ElasticSearch.Client.Query.QueryGenerator.Models;
-
-namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates
+﻿namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates
 {
     public class PercentilesAggregate : AggregateComponentBase
     {
-        public PercentilesAggregate(string aggregateField)
+        public PercentilesAggregate(string field)
             : base("percentiles")
         {
-            SetOperationObject(Field(aggregateField));
+            SetOperationObject(Field(field));
         }
     }
 }

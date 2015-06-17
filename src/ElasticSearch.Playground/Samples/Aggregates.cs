@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using ElasticSearch.Client;
 using ElasticSearch.Client.ElasticSearch.Index;
 using ElasticSearch.Client.ElasticSearch.Results;
@@ -68,9 +67,11 @@ namespace ElasticSearch.Playground.Samples
             builder.PrintQuery(client.IndexDescriptors);
 
             AggregateResult result = client.ExecuteAggregate(builder);
+            dynamic resultDynamic = result;
             result.PrintResult();
 
             Assert.AreEqual(0.0, result.GetValue<double>("my_result.value"));
+            Assert.AreEqual(0.0, (double)resultDynamic.my_result.value);
         }
 
         [Test]

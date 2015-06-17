@@ -2,9 +2,9 @@
 {
     public class NestedPathAggregate : AggregateComponentBase, IGroupComponent
     {
-        public NestedPathAggregate(string nestingPath) : base("nested")
+        public NestedPathAggregate(string path) : base("nested")
         {
-            SetOperationObject(Field("path", nestingPath));
+            SetOperationObject(Field("path", path));
         }
     }
 }

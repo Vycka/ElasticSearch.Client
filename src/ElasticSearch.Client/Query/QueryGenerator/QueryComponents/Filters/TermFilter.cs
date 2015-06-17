@@ -1,8 +1,5 @@
-﻿using System;
-using System.Dynamic;
-using System.Linq;
+﻿using System.Dynamic;
 using ElasticSearch.Client.Utils;
-using Newtonsoft.Json.Schema;
 
 namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters
 {

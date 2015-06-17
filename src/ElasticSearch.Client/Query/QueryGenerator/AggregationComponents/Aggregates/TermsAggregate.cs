@@ -12,12 +12,12 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
         {
         }
 
-        public TermsAggregate(string aggregateField, int? size = null) 
+        public TermsAggregate(string field, int? size = null) 
             : base("terms")
         {
             ExpandoObject termsRequest = new ExpandoObject();
 
-            termsRequest.AddIfNotNull("field", aggregateField);
+            termsRequest.AddIfNotNull("field", field);
             termsRequest.AddIfNotNull("size", size);
 
             SetOperationObject(termsRequest);

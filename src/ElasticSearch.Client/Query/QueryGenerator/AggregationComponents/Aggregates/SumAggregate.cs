@@ -1,13 +1,11 @@
-﻿using ElasticSearch.Client.Query.QueryGenerator.Models;
-
-namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates
+﻿namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates
 {
     public class SumAggregate : AggregateComponentBase
     {
-        public SumAggregate(string aggregateField)
+        public SumAggregate(string field)
             : base("sum")
         {
-            SetOperationObject(Field(aggregateField));
+            SetOperationObject(Field(field));
         }
     }
 }
