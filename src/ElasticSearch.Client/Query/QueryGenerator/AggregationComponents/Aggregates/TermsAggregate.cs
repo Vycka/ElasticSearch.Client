@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Dynamic;
-using ElasticSearch.Client.Query.QueryGenerator.QueryComponents;
+﻿using System.Dynamic;
+using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Order;
 using ElasticSearch.Client.Utils;
 
 namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates
@@ -23,19 +22,10 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
             SetOperationObject(termsRequest);
         }
 
-        private List<ISortComponent> _sortComponents;
-        public List<ISortComponent> Sort
+        public IAggregateOrder Order
         {
-            get
-            {
-                if (_sortComponents == null)
-                {
-                    _sortComponents = new List<ISortComponent>();
-                    AddSubItem("order", _sortComponents);
-                }
-
-                return _sortComponents;
-            }
+            get { return (IAggregateOrder)GetFromOperationObject("order"); }
+            set { UpdateOperationObject("order", value); }
         }
     }
 }

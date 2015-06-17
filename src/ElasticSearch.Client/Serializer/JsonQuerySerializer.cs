@@ -41,9 +41,7 @@ namespace ElasticSearch.Client.Serializer
 
             serializer.NullValueHandling = NullValueHandling.Ignore;
 
-            serializer.Converters.Add(new ObjectDictionaryConverter());
-            serializer.Converters.Add(new AggregateItemConverter());
-            serializer.Converters.Add(new SortItemConverter());
+            serializer.Converters.Add(new RequestComponentConverter());
 
             return serializer;
         }

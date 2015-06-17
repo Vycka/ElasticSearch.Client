@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using ElasticSearch.Client;
 using ElasticSearch.Client.ElasticSearch.Index;
 using ElasticSearch.Client.ElasticSearch.Results;
 using ElasticSearch.Client.Query.QueryGenerator;
 using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates;
+using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Order;
 using ElasticSearch.Client.Query.QueryGenerator.Models;
+using ElasticSearch.Client.Query.QueryGenerator.QueryComponents;
 using ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters;
+using ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Sort;
 using ElasticSearch.Client.Utils;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -57,6 +61,30 @@ namespace ElasticSearch.Playground.Samples
             dynamic result = client.ExecuteQuery(builder);
 
             Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
+        }
+
+        [Test]
+        [Ignore]
+        public void TimeZoneErrors()
+        {
+            var repSecIndex = new TimeStampedIndexDescriptor("einstein_engine-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
+            ElasticSearchClient client = new ElasticSearchClient("http://10.1.14.98:9200/", repSecIndex);
+
+            QueryBuilder builder = new QueryBuilder();
+            builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
+            builder.Filtered.Filters.Add(FilterType.Must, new LuceneFilter("Exception.Message:\"Can not get timezone offset. Time zone name is invalid.\" AND _exists_:CurrentUserId"));
+            var termAggregate = new TermsAggregate("CurrentUserId");
+            termAggregate.Order = new OrderField();
+            builder.Aggregates.Add("terms", termAggregate);
+
+            builder.PrintQuery(client.IndexDescriptors);
+
+            AggregateResult result = client.ExecuteAggregate(builder);
+            dynamic[] values = result.GetValues("terms.buckets");
+            foreach (dynamic value in values)
+            {
+                Console.WriteLine(value.key + "  " + value.doc_count);
+            }
         }
     }
 }

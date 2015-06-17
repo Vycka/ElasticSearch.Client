@@ -74,6 +74,8 @@
     <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\SumAggregate.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\TermsAggregate.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\ValueCountAggregate.cs" />
+    <Compile Include="Query\QueryGenerator\AggregationComponents\Order\IAggregateOrder.cs" />
+    <Compile Include="Query\QueryGenerator\AggregationComponents\Order\OrderField.cs" />
     <Compile Include="Query\QueryGenerator\SectionBuilders\AggregationSectionBuilder.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\IAggregateComponent.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\IGroupComponent.cs" />
@@ -101,8 +103,7 @@
     <Compile Include="Query\IndexListGenerator\SmartIndexListBuilder.cs" />
     <Compile Include="Query\QueryGenerator\SectionBuilders\IndicesSectionBuilder.cs" />
     <Compile Include="Query\QueryGenerator\SectionBuilders\QuerySectionBuilder.cs" />
-    <Compile Include="Serializer\Converters\AggregateItemConverter.cs" />
-    <Compile Include="Serializer\Converters\SortItemConverter.cs" />
+    <Compile Include="Serializer\Converters\RequestComponentConverter.cs" />
     <Compile Include="Serializer\JsonQuerySerializer.cs" />
     <Compile Include="Utils\AggregateResultExtensions.cs" />
     <Compile Include="Utils\DateTimeExtensions.cs" />
@@ -110,7 +111,6 @@
     <Compile Include="Utils\DictionaryStringObjectExtensions.cs" />
     <Compile Include="Utils\ExpandoObjectExtensions.cs" />
     <Compile Include="Utils\HttpRequest.cs" />
-    <Compile Include="Serializer\Converters\ObjectDictionaryConverter.cs" />
     <Compile Include="Utils\QueryBuilderExtension.cs" />
   </ItemGroup>
   <ItemGroup>

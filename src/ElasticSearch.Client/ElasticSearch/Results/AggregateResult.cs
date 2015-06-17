@@ -18,9 +18,9 @@ namespace ElasticSearch.Client.ElasticSearch.Results
             ResultObject = aggregateObject;
         }
 
-        public object GetValue(string fieldPath)
+        public dynamic GetValue(string fieldPath)
         {
-            return GetValue<object>(fieldPath);
+            return GetValue<dynamic>(fieldPath);
         }
 
         public TValue GetValue<TValue>(string fieldPath)
@@ -28,9 +28,9 @@ namespace ElasticSearch.Client.ElasticSearch.Results
             return ((JObject)ResultObject).SelectToken(fieldPath, true).Value<TValue>();
         }
 
-        public object[] GetValues(string fieldPath)
+        public dynamic[] GetValues(string fieldPath)
         {
-            return GetValues<object>(fieldPath);
+            return GetValues<dynamic>(fieldPath);
         }
 
         public TValue[] GetValues<TValue>(string fieldPath)

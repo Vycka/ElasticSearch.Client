@@ -1,19 +1,19 @@
 ﻿using System;
-using ElasticSearch.Client.Query.QueryGenerator.QueryComponents;
+using ElasticSearch.Client.Query.QueryGenerator;
 using Newtonsoft.Json;
 
 namespace ElasticSearch.Client.Serializer.Converters
 {
-    public class SortItemConverter : JsonConverter
+    public class RequestComponentConverter : JsonConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            serializer.Serialize(writer, ((ISortComponent)value).BuildRequestComponent());
+            serializer.Serialize(writer, ((IRequestComponent)value).BuildRequestComponent());
         }
 
         public override bool CanConvert(Type objectType)
         {
-            return typeof(ISortComponent).IsAssignableFrom(objectType);
+            return typeof(IRequestComponent).IsAssignableFrom(objectType);
         }
 
         public override bool CanWrite

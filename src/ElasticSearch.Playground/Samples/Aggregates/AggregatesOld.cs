@@ -4,6 +4,7 @@ using ElasticSearch.Client.ElasticSearch.Index;
 using ElasticSearch.Client.ElasticSearch.Results;
 using ElasticSearch.Client.Query.QueryGenerator;
 using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates;
+using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Order;
 using ElasticSearch.Client.Query.QueryGenerator.Models;
 using ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters;
 using ElasticSearch.Client.Utils;
@@ -214,7 +215,7 @@ namespace ElasticSearch.Playground.Samples.Aggregates
             QueryBuilder builder = new QueryBuilder();
             builder.Filtered.Filters.Add(FilterType.Must, new FixedTimeRange("@timestamp", DateTime.UtcNow.Yesterday(), DateTime.UtcNow));
 
-            builder.Aggregates.Add("my_term", new TermsAggregate("Event.EventType", 10));
+            builder.Aggregates.Add("my_term", new TermsAggregate("Event.EventType", 10) { Order = new OrderField()});
 
             builder.PrintQuery(client.IndexDescriptors);
 
