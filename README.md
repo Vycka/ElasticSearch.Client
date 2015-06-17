@@ -5,7 +5,7 @@ __Currently supported__
   * Query, Filter
   * Lucene, Term, Indices, TimeRange
 * Aggregations
-  * Average, ExtendedStats, Min, Max, Percentiles, Stats, Sum, ValueCount, Terms
+  * Average, ExtendedStats, Min, Max, Percentiles, Stats, Sum, ValueCount, Terms, DateHistogram, Histogram
 * Group By
   * Range, Term
   
