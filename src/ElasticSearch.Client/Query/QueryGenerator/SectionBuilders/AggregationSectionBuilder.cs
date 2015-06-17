@@ -4,7 +4,7 @@ using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents;
 
 namespace ElasticSearch.Client.Query.QueryGenerator.SectionBuilders
 {
-    public class AggregationBuilder 
+    public class AggregationBuilder
     {
         private readonly Dictionary<string, IAggregateComponent> _aggregateItems;
 
@@ -28,7 +28,6 @@ namespace ElasticSearch.Client.Query.QueryGenerator.SectionBuilders
                 return _aggregateItems;
             }
         }
-
 
         public object BuildRequestComponent()
         {

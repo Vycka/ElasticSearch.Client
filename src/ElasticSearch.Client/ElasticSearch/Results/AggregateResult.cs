@@ -11,7 +11,7 @@ namespace ElasticSearch.Client.ElasticSearch.Results
     /// </summary>
     public class AggregateResult : DynamicObject
     {
-        public readonly JObject ResultObject;
+        public readonly dynamic ResultObject;
 
         internal AggregateResult(dynamic aggregateObject)
         {
@@ -25,7 +25,7 @@ namespace ElasticSearch.Client.ElasticSearch.Results
 
         public TValue GetValue<TValue>(string fieldPath)
         {
-            return ResultObject.SelectToken(fieldPath, true).Value<TValue>();
+            return ((JObject)ResultObject).SelectToken(fieldPath, true).Value<TValue>();
         }
 
         public object[] GetValues(string fieldPath)
@@ -35,7 +35,7 @@ namespace ElasticSearch.Client.ElasticSearch.Results
 
         public TValue[] GetValues<TValue>(string fieldPath)
         {
-            return ResultObject.SelectToken(fieldPath, true).Values<TValue>().ToArray();
+            return ((JObject)ResultObject).SelectToken(fieldPath, true).Values<TValue>().ToArray();
         }
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)

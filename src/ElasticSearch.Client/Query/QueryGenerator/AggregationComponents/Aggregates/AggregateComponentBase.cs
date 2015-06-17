@@ -16,21 +16,6 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
 
         public string OperationName { get { return _operationName; } }
 
-        public string Script
-        {
-            get
-            {
-                object result;
-                _aggregateRequestValues.TryGetValue("script", out result);
-                return (string)result;
-            }
-
-            set
-            {
-                _aggregateRequestValues.AddOrUpdate("script", value);
-            }
-        }
-
         public object BuildRequestComponent()
         {
             if (_aggregateRequestValues.Count == 0)
@@ -44,6 +29,11 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
             ((ExpandoObject)_aggregateRequestValues[_operationName]).Add(itemName, subItemValue);
         }
 
+        private ExpandoObject OperationObject
+        {
+            get { return (ExpandoObject)_aggregateRequestValues[_operationName]; }
+        }
+
         protected void SetOperationObject(ExpandoObject operationValue)
         {
             _aggregateRequestValues.Add(_operationName, operationValue);
@@ -53,6 +43,37 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
         {
             var expandoObject = new ExpandoObject();
             expandoObject.Add("field",value);
+            return expandoObject;
+        }
+
+        public string Script
+        {
+            get { return (string)GetFromOperationObject("script"); }
+            set { UpdateOperationObject("script", value); }
+        }
+
+        public int Size
+        {
+            get { return (int)GetFromOperationObject("size"); }
+            set { UpdateOperationObject("size", value); }
+        }
+
+        protected void UpdateOperationObject(string key, object value)
+        {
+            OperationObject.AddOrUpdate(key, value);
+        }
+
+        protected object GetFromOperationObject(string key)
+        {
+            object result;
+            ((IDictionary<string, object>)OperationObject).TryGetValue("script", out result);
+            return result;
+        }
+
+        protected static ExpandoObject Field(string fieldName, string fieldValue)
+        {
+            var expandoObject = new ExpandoObject();
+            expandoObject.Add(fieldName, fieldValue);
             return expandoObject;
         }
     }

@@ -7,12 +7,17 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
 {
     public class TermsAggregate : AggregateComponentBase, IGroupComponent
     {
+        public TermsAggregate()
+            : this(null)
+        {
+        }
+
         public TermsAggregate(string aggregateField, int? size = null) 
             : base("terms")
         {
             ExpandoObject termsRequest = new ExpandoObject();
 
-            termsRequest.Add("field", aggregateField);
+            termsRequest.AddIfNotNull("field", aggregateField);
             termsRequest.AddIfNotNull("size", size);
 
             SetOperationObject(termsRequest);

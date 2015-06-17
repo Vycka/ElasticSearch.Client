@@ -42,7 +42,8 @@ namespace ElasticSearch.Client.ElasticSearch
         {
             if (query.LookupIndexes.Length == 0)
                 throw new NoShardsException(
-                    "Not even a single shard overlaps with requested time period!"
+                    "No matching indexes by provided query",
+                    query
                 );
 
             string requestUrl = BuildRequestUri(query, "_search", additionalGetParams);
@@ -91,8 +92,15 @@ namespace ElasticSearch.Client.ElasticSearch
 
     public class NoShardsException : Exception
     {
-        public NoShardsException(string message) : base(message)
+        public readonly ElasticSearchQuery Query;
+
+        public NoShardsException(string message, ElasticSearchQuery query)
+            : base(message)
         {
+            if (query == null) 
+                throw new ArgumentNullException("query");
+
+            Query = query;
         }
     }
 

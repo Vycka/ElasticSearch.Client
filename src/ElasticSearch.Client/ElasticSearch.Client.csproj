@@ -65,6 +65,7 @@
     <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\MaxAggregate.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\MinAggregate.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\NestedAggregate.cs" />
+    <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\NestedPathAggregate.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\PercentilesAggregate.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\RangeAggregate.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\StatsAggregate.cs" />

@@ -25,7 +25,7 @@ namespace ElasticSearch.Playground.Samples
             QueryBuilder builder = new QueryBuilder();
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
 
-            var groupQuery = new NestedAggregate(new TermsAggregate("Event.EventType"), "some_stats", new StatsAggregate("Event.TotalDuration"));
+            var groupQuery = new SubAggregate(new TermsAggregate("Event.EventType"), "some_stats", new StatsAggregate("Event.TotalDuration"));
             builder.Aggregates.Add("my_stats_group", groupQuery);
 
             builder.PrintQuery(client.IndexDescriptors);
@@ -46,7 +46,7 @@ namespace ElasticSearch.Playground.Samples
             QueryBuilder builder = new QueryBuilder();
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
 
-            var groupQuery = new NestedAggregate(new RangeAggregate("Event.TotalDuration", new Range(0, 10), new Range(10, 20)), "some_stats", new CountAggregate("Event.TotalDuration"));
+            var groupQuery = new SubAggregate(new RangeAggregate("Event.TotalDuration", new Range(0, 10), new Range(10, 20)), "some_stats", new CountAggregate("Event.TotalDuration"));
             builder.Aggregates.Add("my_stats_group", groupQuery);
 
             builder.PrintQuery(client.IndexDescriptors);
@@ -67,8 +67,8 @@ namespace ElasticSearch.Playground.Samples
             QueryBuilder builder = new QueryBuilder();
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
 
-            var termGroup = new NestedAggregate(new TermsAggregate("Event.EventType"), "some_stats", new StatsAggregate("Event.TotalDuration"));
-            var rangeGroup = new NestedAggregate(new RangeAggregate("Event.TotalDuration", new Range(0, 10), new Range(10, 20)), "some_stats", new CountAggregate("Event.TotalDuration"));
+            var termGroup = new SubAggregate(new TermsAggregate("Event.EventType"), "some_stats", new StatsAggregate("Event.TotalDuration"));
+            var rangeGroup = new SubAggregate(new RangeAggregate("Event.TotalDuration", new Range(0, 10), new Range(10, 20)), "some_stats", new CountAggregate("Event.TotalDuration"));
             builder.Aggregates.Add("term_group", termGroup);
             builder.Aggregates.Add("range_group", rangeGroup);
 

@@ -1,4 +1,6 @@
-﻿using ElasticSearch.Client.Query.QueryGenerator.Models;
+﻿using System.Collections.Generic;
+using ElasticSearch.Client.Query.QueryGenerator.Models;
+using ElasticSearch.Client.Utils;
 
 namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates
 {

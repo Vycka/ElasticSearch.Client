@@ -220,6 +220,7 @@ namespace ElasticSearch.Playground.Samples
             AggregateResult result = client.ExecuteAggregate(builder);
             result.PrintResult();
 
+
             Assert.AreEqual(10, result.GetValues<dynamic>("my_term.buckets").Length);
         }
     }

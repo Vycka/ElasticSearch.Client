@@ -5,6 +5,7 @@ using ElasticSearch.Client.Utils;
 
 namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates
 {
+    [Obsolete("Use SubAggregate")]
     public class NestedAggregate : IAggregateComponent
     {
         private readonly IGroupComponent _groupByAggregate;
@@ -37,5 +38,16 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
 
             return groupAggregateComponent;
         } 
+    }
+
+    public class SubAggregate : NestedAggregate
+    {
+        public SubAggregate(IGroupComponent groupByAggregate) : base(groupByAggregate)
+        {
+        }
+
+        public SubAggregate(IGroupComponent groupByAggregate, string childAggregateName, IAggregateComponent childAggregateComponent) : base(groupByAggregate, childAggregateName, childAggregateComponent)
+        {
+        }
     }
 }

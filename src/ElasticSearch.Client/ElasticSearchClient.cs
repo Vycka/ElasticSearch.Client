@@ -30,10 +30,14 @@ namespace ElasticSearch.Client
             _elasticSearchExecutor = new ElasticSearchQueryExecutor(httpRequest);
         }
 
-        public AggregateResult ExecuteAggregate(QueryBuilder filledQuery)
+        public dynamic ExecuteAggregate(QueryBuilder filledQuery, bool countOnly = true)
         {
             ElasticSearchQuery query = BuildQuery(filledQuery);
-            SearchResult<ResultItem> result = _elasticSearchExecutor.ExecuteQuery<ResultItem>(query, new GetParam("search_type", "count"));
+            SearchResult<ResultItem> result;
+            if (countOnly)
+                result = _elasticSearchExecutor.ExecuteQuery<ResultItem>(query, new GetParam("search_type", "count"));
+            else
+                result = _elasticSearchExecutor.ExecuteQuery<ResultItem>(query);
 
             return result.Aggregations;
         }

@@ -1,6 +1,4 @@
-﻿using ElasticSearch.Client.Query.QueryGenerator.Models;
-
-namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates
+﻿namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates
 {
     public class MinAggregate : AggregateComponentBase
     {
