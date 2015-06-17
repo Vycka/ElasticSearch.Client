@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace ElasticSearch.Client.ElasticSearch.Results
 {
@@ -24,19 +27,19 @@ namespace ElasticSearch.Client.ElasticSearch.Results
         }
 
         // Items
-        private List<TResultModel> _logItems; 
-        public IReadOnlyList<TResultModel> Items
+        private List<ResultItem<TResultModel>> _logItems;
+        public IReadOnlyList<ResultItem<TResultModel>> Items
         {
             get
             {
                 if (_logItems == null)
-                    _logItems = new List<TResultModel>(
-                        JsonConvert.DeserializeObject<List<TResultModel>>(
-                            SearchResultObject.hits.hits.ToString()
-                        )
-                    );
+                {
+                    JArray resultArray = SearchResultObject.hits.hits;
+                    IEnumerable<ResultItem<TResultModel>> resultDeserialized = resultArray.Select(r => ((JObject) r).ToObject<ResultItem<TResultModel>>());
+                    _logItems = new List<ResultItem<TResultModel>>(resultDeserialized);
+                }
 
-                return _logItems.AsReadOnly();
+                return _logItems;
             }
         }
 

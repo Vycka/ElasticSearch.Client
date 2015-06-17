@@ -33,18 +33,18 @@ namespace ElasticSearch.Client
         public dynamic ExecuteAggregate(QueryBuilder filledQuery, bool countOnly = true)
         {
             ElasticSearchQuery query = BuildQuery(filledQuery);
-            SearchResult<ResultItem> result;
+            SearchResult<dynamic> result;
             if (countOnly)
-                result = _elasticSearchExecutor.ExecuteQuery<ResultItem>(query, new GetParam("search_type", "count"));
+                result = _elasticSearchExecutor.ExecuteQuery<dynamic>(query, new GetParam("search_type", "count"));
             else
-                result = _elasticSearchExecutor.ExecuteQuery<ResultItem>(query);
+                result = _elasticSearchExecutor.ExecuteQuery<dynamic>(query);
 
             return result.Aggregations;
         }
 
         public ElasticSearchResult ExecuteQuery(QueryBuilder filledQuery)
         {
-            return new ElasticSearchResult(ExecuteQuery<ResultItem>(filledQuery).SearchResultObject);
+            return new ElasticSearchResult(ExecuteQuery<dynamic>(filledQuery).SearchResultObject);
         }
 
         public SearchResult<TResultModel> ExecuteQuery<TResultModel>(QueryBuilder filledQuery)

@@ -2,6 +2,5 @@
 {
     public interface IAggregateComponent : IRequestComponent
     {
-        string OperationName { get; }
     }
 }

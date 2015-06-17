@@ -28,8 +28,6 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
             Aggregates.Add(childAggregateName, childAggregateComponent);
         }
 
-        public string OperationName { get { return _groupByAggregate.OperationName; } }
-
         public object BuildRequestComponent()
         {
             var groupAggregateComponent = new Dictionary<string, object>((Dictionary<string, object>) _groupByAggregate.BuildRequestComponent());

@@ -3,7 +3,7 @@
 namespace ElasticSearch.Client.ElasticSearch.Results
 {
     [DataContract]
-    public class ResultItem
+    public class ResultItem<TResultItem>
     {
         [DataMember(Name = "_index")]
         public string Index { get; set; }
@@ -15,7 +15,7 @@ namespace ElasticSearch.Client.ElasticSearch.Results
         public string Id { get; set; }
 
         [DataMember(Name = "_source")]
-        public dynamic Source { get; set; }
+        public TResultItem Source { get; set; }
 
         public override string ToString()
         {

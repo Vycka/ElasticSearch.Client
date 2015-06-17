@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using ElasticSearch.Client;
 using ElasticSearch.Client.ElasticSearch.Index;
 using ElasticSearch.Client.ElasticSearch.Results;
@@ -9,6 +10,7 @@ using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Order;
 using ElasticSearch.Client.Query.QueryGenerator.Models;
 using ElasticSearch.Client.Query.QueryGenerator.QueryComponents;
 using ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters;
+using ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Queries;
 using ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Sort;
 using ElasticSearch.Client.Utils;
 using Newtonsoft.Json;
@@ -85,6 +87,25 @@ namespace ElasticSearch.Playground.Samples
             {
                 Console.WriteLine(value.key + "  " + value.doc_count);
             }
+        }
+
+        [Test]
+        [Ignore]
+        public void Aaa()
+        {
+            var reportingAnalyticsIndex = new TimeStampedIndexDescriptor("reporting_analytics_ui-", "yyyy.MM.*", "@timestamp", IndexStep.Month);
+            var client = new ElasticSearchClient("http://10.1.14.98:9200/", reportingAnalyticsIndex);
+
+            var builder = new QueryBuilder { Size = 1000 };
+            builder.SetQuery(new LuceneQuery("Level: Error OR LogType: Error"));
+
+            ElasticSearchResult result = client.ExecuteQuery(builder);
+            var x = result.Items[0].Source.Message;
+        }
+
+        public class MessageItem
+        {
+            public string Message { get; set; }
         }
     }
 }
