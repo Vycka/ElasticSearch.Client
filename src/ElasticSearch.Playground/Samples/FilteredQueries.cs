@@ -6,6 +6,7 @@ using ElasticSearch.Client.Query.QueryGenerator;
 using ElasticSearch.Client.Query.QueryGenerator.Models;
 using ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters;
 using ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Queries;
+using ElasticSearch.Client.Utils;
 using NUnit.Framework;
 
 namespace ElasticSearch.Playground.Samples
@@ -21,6 +22,9 @@ namespace ElasticSearch.Playground.Samples
             QueryBuilder builder = new QueryBuilder();
             builder.Filtered.Queries.Add(QueryType.Must, new TermQuery("_type","rep-sec"));
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp",86400));
+            
+            builder.PrintQuery();
+            
             ElasticSearchResult result = client.ExecuteQuery(builder);
 
             Assert.AreNotEqual(0, result.Items.Count);

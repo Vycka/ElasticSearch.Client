@@ -21,13 +21,16 @@ namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Queries
         {
         }
 
-        public object BuildRequestComponent()
+        public ExpandoObject BuildRequestComponent()
         {
             ExpandoObject matchAllValue = new ExpandoObject();
 
             matchAllValue.AddIfNotNull(_key, _value);
 
-            return new { match_all = matchAllValue };
+            ExpandoObject result = new ExpandoObject();
+            result.Add("match_all", matchAllValue);
+
+            return result;
         }
     }
 }

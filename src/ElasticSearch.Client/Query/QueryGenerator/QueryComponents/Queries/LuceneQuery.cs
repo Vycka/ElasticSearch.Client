@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Dynamic;
+using ElasticSearch.Client.Utils;
 
 namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Queries
 {
@@ -14,9 +16,13 @@ namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Queries
             _queryString = queryString;
         }
 
-        public object BuildRequestComponent()
+        public ExpandoObject BuildRequestComponent()
         {
-            return new {  query_string = new { query = _queryString } };
+            ExpandoObject result = new ExpandoObject();
+
+            result.Add("query_string", new { query = _queryString });
+
+            return result;
         }
     }
 }

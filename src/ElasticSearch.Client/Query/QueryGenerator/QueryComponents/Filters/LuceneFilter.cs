@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Dynamic;
+using ElasticSearch.Client.Utils;
 
 namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters
 {
@@ -14,9 +16,13 @@ namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters
             _queryString = queryString;
         }
 
-        public object BuildRequestComponent()
+        public ExpandoObject BuildRequestComponent()
         {
-            return new { fquery = new { query = new { query_string = new { query = _queryString } }, _cache = true } };
+            ExpandoObject result = new ExpandoObject();
+            result.Add("fquery", new {query = new {query_string = new {query = _queryString}}});
+            result.Add("_cache", true);
+
+            return result;
         }
 
         public QueryDate GetQueryDate()

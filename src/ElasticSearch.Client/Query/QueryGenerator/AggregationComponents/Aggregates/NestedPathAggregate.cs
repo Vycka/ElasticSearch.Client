@@ -4,7 +4,7 @@
     {
         public NestedPathAggregate(string path) : base("nested")
         {
-            SetOperationObject(Field("path", path));
+            SetComponentProperty("path", path);
         }
     }
 }

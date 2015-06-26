@@ -5,7 +5,7 @@
         public StatsAggregate(string field)
             : base("stats")
         {
-            SetOperationObject(Field(field));
+            SetComponentProperty("field", field);
         }
     }
 }

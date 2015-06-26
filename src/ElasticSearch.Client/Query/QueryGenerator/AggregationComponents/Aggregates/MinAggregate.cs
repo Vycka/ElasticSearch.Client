@@ -5,7 +5,7 @@
         public MinAggregate(string field)
             : base("min")
         {
-            SetOperationObject(Field(field));
+            Field = field;
         }
     }
 }

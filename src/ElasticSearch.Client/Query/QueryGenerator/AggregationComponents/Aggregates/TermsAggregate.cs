@@ -14,18 +14,16 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
         public TermsAggregate(string field, int? size = null) 
             : base("terms")
         {
-            ExpandoObject termsRequest = new ExpandoObject();
 
-            termsRequest.AddIfNotNull("field", field);
-            termsRequest.AddIfNotNull("size", size);
+            SetComponentProperty("field", field);
+            Size = size;
 
-            SetOperationObject(termsRequest);
         }
 
         public IAggregateOrder Order
         {
-            get { return (IAggregateOrder)GetFromOperationObject("order"); }
-            set { UpdateOperationObject("order", value); }
+            get { return (IAggregateOrder)GetComponentProperty("order"); }
+            set { SetComponentProperty("order", value); }
         }
     }
 }

@@ -6,75 +6,61 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
 {
     public class AggregateComponentBase : IAggregateComponent
     {
-        private readonly string _operationName;
-        private readonly Dictionary<string, object> _aggregateRequestValues = new Dictionary<string, object>();
+        private readonly string _aggregateOperationName;
+        private readonly Dictionary<string, object> _aggregateOperationComponent = new Dictionary<string, object>();
 
-        public AggregateComponentBase(string operationName)
+        public AggregateComponentBase(string aggregateOperationName)
         {
-            _operationName = operationName;
+            _aggregateOperationName = aggregateOperationName;
         }
 
-        public string OperationName { get { return _operationName; } }
-
-        public object BuildRequestComponent()
+        public ExpandoObject BuildRequestComponent()
         {
-            if (_aggregateRequestValues.Count == 0)
+            if (_aggregateOperationComponent.Count == 0)
                 return null;
 
-            return _aggregateRequestValues;
+            ExpandoObject requestComponent = new ExpandoObject();
+            requestComponent.Add(_aggregateOperationName, _aggregateOperationComponent);
+
+            return requestComponent;
         }
 
         protected void AddSubItem(string itemName, object subItemValue)
         {
-            ((ExpandoObject)_aggregateRequestValues[_operationName]).Add(itemName, subItemValue);
+            ((ExpandoObject)_aggregateOperationComponent[_aggregateOperationName]).Add(itemName, subItemValue);
         }
 
-        private ExpandoObject OperationObject
+        protected string Field
         {
-            get { return (ExpandoObject)_aggregateRequestValues[_operationName]; }
-        }
-
-        protected void SetOperationObject(ExpandoObject operationValue)
-        {
-            _aggregateRequestValues.Add(_operationName, operationValue);
-        }
-
-        protected static ExpandoObject Field(string value)
-        {
-            var expandoObject = new ExpandoObject();
-            expandoObject.Add("field",value);
-            return expandoObject;
+            get { return (string)GetComponentProperty("field"); }
+            set { SetComponentProperty("field", value); }
         }
 
         public string Script
         {
-            get { return (string)GetFromOperationObject("script"); }
-            set { UpdateOperationObject("script", value); }
+            get { return (string)GetComponentProperty("script"); }
+            set { SetComponentProperty("script", value); }
         }
 
-        public int Size
+        public int? Size
         {
-            get { return (int)GetFromOperationObject("size"); }
-            set { UpdateOperationObject("size", value); }
+            get { return (int?)GetComponentProperty("size"); }
+            set { SetComponentProperty("size", value); }
         }
 
-        protected void UpdateOperationObject(string key, object value)
+        protected void SetComponentProperty(string key, object value)
         {
-            OperationObject.AddOrUpdate(key, value);
+            if (value == null)
+                _aggregateOperationComponent.Remove(key);
+            else
+                _aggregateOperationComponent.AddOrUpdate(key, value);
         }
 
-        protected object GetFromOperationObject(string key)
+        protected object GetComponentProperty(string key)
         {
             object result;
-            ((IDictionary<string, object>)OperationObject).TryGetValue("script", out result);
+            _aggregateOperationComponent.TryGetValue("script", out result);
             return result;
-        }
-
-        protected static ExpandoObject Field(string fieldName, string fieldValue)
-        {
-            var expandoObject = new ExpandoObject();
-            expandoObject.Add(fieldName, fieldValue);
-            return expandoObject;
         }
     }
 }

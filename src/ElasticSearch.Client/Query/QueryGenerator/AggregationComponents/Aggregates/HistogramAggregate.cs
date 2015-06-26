@@ -14,18 +14,20 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
             if (interval == null)
                 throw new ArgumentNullException("interval");
 
-            ExpandoObject rangeRequest = new ExpandoObject();
-
-            rangeRequest.Add("field", field);
-            rangeRequest.Add("interval", interval);
-
-            SetOperationObject(rangeRequest);
+            Field = field;
+            Interval = interval;
         }
 
         public string MinDocCount
         {
-            get { return (string)GetFromOperationObject("min_doc_count"); }
-            set { UpdateOperationObject("min_doc_count", value); }
+            get { return (string)GetComponentProperty("min_doc_count"); }
+            set { SetComponentProperty("min_doc_count", value); }
+        }
+
+        public string Interval
+        {
+            get { return (string)GetComponentProperty("interval"); }
+            set { SetComponentProperty("interval", value); }
         }
     }
 }

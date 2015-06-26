@@ -5,7 +5,7 @@
         public ValueCountAggregate(string field)
             : base("value_count")
         {
-            SetOperationObject(Field(field));
+            SetComponentProperty("field", field);
         }
     }
 

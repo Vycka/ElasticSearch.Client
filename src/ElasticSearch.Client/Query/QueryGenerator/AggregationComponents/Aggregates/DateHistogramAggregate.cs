@@ -14,28 +14,30 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
             if (interval == null)
                 throw new ArgumentNullException("interval");
 
-            ExpandoObject rangeRequest = new ExpandoObject();
-
-            rangeRequest.Add("field", field);
-            rangeRequest.Add("interval", interval);
-
-            SetOperationObject(rangeRequest);
+            Field = field;
+            Interval = interval;
         }
 
         public string Format
         {
-            get { return (string)GetFromOperationObject("format"); }
-            set { UpdateOperationObject("format", value); }
+            get { return (string)GetComponentProperty("format"); }
+            set { SetComponentProperty("format", value); }
         }
 
         public void SetTimeZoneOffset(int offset)
         {
-            UpdateOperationObject("time_zone", offset);
+            SetComponentProperty("time_zone", offset);
         }
 
         public void SetTimeZoneOffset(string offsetFormatted)
         {
-            UpdateOperationObject("time_zone", offsetFormatted);
+            SetComponentProperty("time_zone", offsetFormatted);
+        }
+
+        public string Interval
+        {
+            get { return (string)GetComponentProperty("interval"); }
+            set { SetComponentProperty("interval", value); }
         }
     }
 }

@@ -18,14 +18,23 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
             if (field == null)
                 throw new ArgumentNullException("field");
 
-            ExpandoObject rangeRequest = new ExpandoObject();
 
-            rangeRequest.Add("field", field);
-            rangeRequest.Add("keyed", keyed);
-            rangeRequest.Add("ranges", ranges);
+            SetComponentProperty("field", field);
 
-            SetOperationObject(rangeRequest);
+            Keyed = keyed;
+            Ranges = ranges;
         }
 
+        public bool? Keyed
+        {
+            get { return (bool?)GetComponentProperty("keyed"); }
+            set { SetComponentProperty("keyed", value); }
+        }
+
+        public Range[] Ranges
+        {
+            get { return (Range[])GetComponentProperty("ranges"); }
+            set { SetComponentProperty("ranges", value); }
+        }
     }
 }

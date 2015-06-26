@@ -5,7 +5,7 @@
         public ExtendedStatsAggregate(string field)
             : base("extended_stats")
         {
-            SetOperationObject(Field(field));
+            Field = field;
         }
     }
 }

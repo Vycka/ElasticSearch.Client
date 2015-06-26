@@ -5,7 +5,7 @@
         public MaxAggregate(string field)
             : base("max")
         {
-            SetOperationObject(Field(field));
+            Field = field;
         }
     }
 }

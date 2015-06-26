@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using ElasticSearch.Client.Query.QueryGenerator.SectionBuilders;
 using ElasticSearch.Client.Utils;
 
@@ -28,10 +29,9 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
             Aggregates.Add(childAggregateName, childAggregateComponent);
         }
 
-        public object BuildRequestComponent()
+        public ExpandoObject BuildRequestComponent()
         {
-            var groupAggregateComponent = new Dictionary<string, object>((Dictionary<string, object>) _groupByAggregate.BuildRequestComponent());
-
+            ExpandoObject groupAggregateComponent = _groupByAggregate.BuildRequestComponent();
             groupAggregateComponent.AddIfNotNull("aggs", Aggregates.BuildRequestComponent());
 
             return groupAggregateComponent;

@@ -1,4 +1,5 @@
-﻿using System.Dynamic;
+﻿using System.Collections.Generic;
+using System.Dynamic;
 using ElasticSearch.Client.Utils;
 
 namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Queries
@@ -54,12 +55,12 @@ namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Queries
             _termQuery = termQuery;
         }
 
-        public object BuildRequestComponent()
+        public ExpandoObject BuildRequestComponent()
         {
-            object result = new
-            {
-                term = _termQuery
-            };
+
+            var result = new ExpandoObject();
+
+            result.Add("term",_termQuery);
 
             return result;
         }

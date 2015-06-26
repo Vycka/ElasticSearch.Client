@@ -5,7 +5,7 @@
         public AverageAggregate(string field)
             : base("avg")
         {
-            SetOperationObject(Field(field));
+            Field = field;
         }
     }
 }

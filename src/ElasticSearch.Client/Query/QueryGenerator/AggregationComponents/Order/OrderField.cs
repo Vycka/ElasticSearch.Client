@@ -15,7 +15,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Order
             _sortOrder = sortOrder;
         }
 
-        public object BuildRequestComponent()
+        public ExpandoObject BuildRequestComponent()
         {
             ExpandoObject orderObject = new ExpandoObject();
 

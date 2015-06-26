@@ -6,7 +6,7 @@
     <version></version>
     <authors>Vytautas Klumbys</authors>
     <owners></owners>
-    <description>User-Friendly ElasticSearch c# client for SELECTING/AGGREGATING data. It's still in early in development, so things like the name-spaces can still change.</description>
+    <description>User-Friendly ElasticSearch c# client for Selecting and Aggregating data queries. It's still in early in development, so things like the name-spaces can still change.</description>
 	<summary>Currently supported:
 	
 Basic Query section support (Useful for retrieving raw data)
@@ -20,8 +20,8 @@ Group By
 See Project site for details</summary>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <releaseNotes></releaseNotes>
-	<licenseUrl>https://github.com/Vycka/ElasitcSearchClient/blob/master/LICENSE</licenseUrl>
-	<projectUrl>https://github.com/Vycka/ElasitcSearchClient</projectUrl>
+	<licenseUrl>https://github.com/Vycka/ElasticSearch.Client/blob/master/LICENSE</licenseUrl>
+	<projectUrl>https://github.com/Vycka/ElasticSearch.Client</projectUrl>
     <copyright>2015</copyright>
     <tags>ElasticSearch ES .net c# cs connection client lucene strong-typed self-explained</tags>
     <dependencies>

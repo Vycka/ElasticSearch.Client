@@ -5,7 +5,7 @@
         public SumAggregate(string field)
             : base("sum")
         {
-            SetOperationObject(Field(field));
+            SetComponentProperty("field", field);
         }
     }
 }

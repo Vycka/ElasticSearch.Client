@@ -54,12 +54,11 @@ namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters
             _termFilter = termFilter;
         }
 
-        public object BuildRequestComponent()
+        public ExpandoObject BuildRequestComponent()
         {
-            object result = new
-            {
-                term = _termFilter
-            };
+            ExpandoObject result = new ExpandoObject();
+
+            result.Add("term", _termFilter);
 
             return result;
         }

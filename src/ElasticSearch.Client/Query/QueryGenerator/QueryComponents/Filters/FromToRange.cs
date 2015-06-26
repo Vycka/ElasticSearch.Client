@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using ElasticSearch.Client.Utils;
 
 namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters
 {
@@ -24,13 +25,18 @@ namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters
             FieldTo = fieldTo;
         }
 
-        public object BuildRequestComponent()
+
+
+        public ExpandoObject BuildRequestComponent()
         {
             var rangeFilter = new ExpandoObject();
 
-            ((IDictionary<string, object>)rangeFilter).Add(FieldName, new { from = FieldFrom, to = FieldTo });
+            rangeFilter.Add(FieldName, new { from = FieldFrom, to = FieldTo });
 
-            return new { range = rangeFilter };
+            ExpandoObject result = new ExpandoObject();
+            result.Add("range",rangeFilter);
+
+            return result;
         }
 
     }

@@ -5,7 +5,7 @@
         public PercentilesAggregate(string field)
             : base("percentiles")
         {
-            SetOperationObject(Field(field));
+            SetComponentProperty("field", field);
         }
     }
 }

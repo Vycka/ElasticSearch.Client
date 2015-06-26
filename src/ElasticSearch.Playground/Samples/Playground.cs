@@ -67,45 +67,16 @@ namespace ElasticSearch.Playground.Samples
 
         [Test]
         [Ignore]
-        public void TimeZoneErrors()
+        public void Xxx()
         {
             var repSecIndex = new TimeStampedIndexDescriptor("einstein_engine-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
             ElasticSearchClient client = new ElasticSearchClient("http://10.1.14.98:9200/", repSecIndex);
 
             QueryBuilder builder = new QueryBuilder();
-            builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
-            builder.Filtered.Filters.Add(FilterType.Must, new LuceneFilter("Exception.Message:\"Can not get timezone offset. Time zone name is invalid.\" AND _exists_:CurrentUserId"));
-            var termAggregate = new TermsAggregate("CurrentUserId");
-            termAggregate.Order = new OrderField();
-            builder.Aggregates.Add("terms", termAggregate);
+            builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 3600));
+            builder.Filtered.Filters.Add(FilterType.Must, new TermFilter("CorrelationCode", "an_156498BA-045A-42F2-B540-7D1B6F1692AF"));
 
-            builder.PrintQuery(client.IndexDescriptors);
-
-            AggregateResult result = client.ExecuteAggregate(builder);
-            dynamic[] values = result.GetValues("terms.buckets");
-            foreach (dynamic value in values)
-            {
-                Console.WriteLine(value.key + "  " + value.doc_count);
-            }
-        }
-
-        [Test]
-        [Ignore]
-        public void Aaa()
-        {
-            var reportingAnalyticsIndex = new TimeStampedIndexDescriptor("reporting_analytics_ui-", "yyyy.MM.*", "@timestamp", IndexStep.Month);
-            var client = new ElasticSearchClient("http://10.1.14.98:9200/", reportingAnalyticsIndex);
-
-            var builder = new QueryBuilder { Size = 1000 };
-            builder.SetQuery(new LuceneQuery("Level: Error OR LogType: Error"));
-
-            ElasticSearchResult result = client.ExecuteQuery(builder);
-            var x = result.Items[0].Source.Message;
-        }
-
-        public class MessageItem
-        {
-            public string Message { get; set; }
+            var result = client.ExecuteQuery(builder);
         }
     }
 }
