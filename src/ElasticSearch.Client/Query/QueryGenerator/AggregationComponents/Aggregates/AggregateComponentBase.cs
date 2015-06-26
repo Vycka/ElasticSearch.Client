@@ -25,11 +25,6 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
             return requestComponent;
         }
 
-        protected void AddSubItem(string itemName, object subItemValue)
-        {
-            ((ExpandoObject)_aggregateOperationComponent[_aggregateOperationName]).Add(itemName, subItemValue);
-        }
-
         protected string Field
         {
             get { return (string)GetComponentProperty("field"); }
