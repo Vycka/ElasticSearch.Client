@@ -32,7 +32,7 @@ namespace ElasticSearch.Playground.Samples
             );
             //rangeAggregate.Sort.Add(new SortField("buckets.key"));
 
-            var rangeGroup = new NestedAggregate(rangeAggregate);
+            var rangeGroup = new SubAggregate(rangeAggregate);
             rangeGroup.Aggregates.Add("count", new CountAggregate("Event.TotalDuration"));
             rangeGroup.Aggregates.Add("avg", new AverageAggregate("Event.TotalDuration"));
 

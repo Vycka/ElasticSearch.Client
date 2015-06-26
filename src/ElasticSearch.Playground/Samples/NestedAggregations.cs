@@ -89,7 +89,7 @@ namespace ElasticSearch.Playground.Samples
             QueryBuilder builder = new QueryBuilder();
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
 
-            var rangeGroup = new NestedAggregate(
+            var rangeGroup = new SubAggregate(
                 new RangeAggregate(
                     "Event.TotalDuration", 
                     new Range(null, 10),

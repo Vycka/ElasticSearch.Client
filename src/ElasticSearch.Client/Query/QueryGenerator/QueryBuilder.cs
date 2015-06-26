@@ -33,7 +33,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator
             if (querySection != null && Query != null)
                 throw new InvalidOperationException("Simple QUERY must be alone, it can't work with INDICES or FILTERED");
             if (Query != null)
-                requestObject.Add("query", Query.BuildRequestComponent());
+                requestObject.Add("query", Query);
             requestObject.AddIfNotNull("query", querySection);
 
             requestObject.AddIfNotNull("aggs", Aggregates.BuildRequestComponent());

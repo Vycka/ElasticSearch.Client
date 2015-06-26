@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents;
+using ElasticSearch.Client.Utils;
 
 namespace ElasticSearch.Client.Query.QueryGenerator.SectionBuilders
 {
     public class AggregationBuilder
     {
-        private readonly Dictionary<string, IAggregateComponent> _aggregateItems;
+        private readonly ExpandoObject _aggregateItems;
 
         public AggregationBuilder()
         {
-            _aggregateItems = new Dictionary<string, IAggregateComponent>();
+            _aggregateItems = new ExpandoObject();
         }
 
         public void Add(string aggregateName, IAggregateComponent aggregateComponent)
@@ -21,20 +23,13 @@ namespace ElasticSearch.Client.Query.QueryGenerator.SectionBuilders
             _aggregateItems.Add(aggregateName, aggregateComponent);
         }
 
-        public IReadOnlyDictionary<string, IAggregateComponent> Items
-        {
-            get
-            {
-                return _aggregateItems;
-            }
-        }
 
-        public object BuildRequestComponent()
+        public ExpandoObject BuildRequestComponent()
         {
-            if (Items.Count == 0)
+            if (((IDictionary<string, object>)_aggregateItems).Count == 0)
                 return null;
 
-            return Items;
+            return _aggregateItems;
         }
     }
 }
