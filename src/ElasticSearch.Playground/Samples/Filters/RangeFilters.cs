@@ -32,6 +32,8 @@ namespace ElasticSearch.Playground.Samples.Filters
         public void GteLteQuery()
         {
             QueryBuilder.Filtered.Filters.Add(FilterType.Must, new RangeFilter("@timestamp", DateTime.UtcNow.Yesterday().ToString("O"), DateTime.UtcNow.EndOfDay()));
+            QueryBuilder.Filtered.Filters.Add(FilterType.Must, new RangeFilter("@timestamp", DateTime.UtcNow.Yesterday(), DateTime.UtcNow.EndOfDay()));
+
 
             QueryBuilder.PrintQuery(Client.IndexDescriptors);
 

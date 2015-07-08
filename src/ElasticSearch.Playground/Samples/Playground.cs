@@ -77,6 +77,9 @@ namespace ElasticSearch.Playground.Samples
             builder.Filtered.Filters.Add(FilterType.Must, new LuceneFilter("Level:Error"));
             builder.Filtered.Filters.Add(FilterType.Must, new FixedTimeRange("@timestamp", new DateTime(2015, 06, 29), new DateTime(2015, 07, 08)));
             builder.Aggregates.Add("counts", new TermsAggregate("Event.ScheduleId"));
+
+            builder.PrintQuery(client.IndexDescriptors);
+
             var result = client.ExecuteQuery(builder);
         }
     }

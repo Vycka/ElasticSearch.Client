@@ -56,6 +56,7 @@
     <Compile Include="Samples\Aggregates\AggregatesOld.cs" />
     <Compile Include="Samples\Aggregates\DateHistogram.cs" />
     <Compile Include="Samples\Aggregates\Histogram.cs" />
+    <Compile Include="Samples\Filters\QueryFilter.cs" />
     <Compile Include="Samples\Filters\RangeFilters.cs" />
     <Compile Include="Samples\NestedAggregations.cs" />
     <Compile Include="Samples\FilteredQueries.cs" />

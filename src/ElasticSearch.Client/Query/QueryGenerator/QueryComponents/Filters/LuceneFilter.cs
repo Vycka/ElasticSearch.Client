@@ -19,8 +19,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters
         public ExpandoObject BuildRequestComponent()
         {
             ExpandoObject result = new ExpandoObject();
-            result.Add("fquery", new {query = new {query_string = new {query = _queryString}}});
-            result.Add("_cache", true);
+            result.Add("fquery", new { query = new {query_string = new {query = _queryString}}, _cache = true });
 
             return result;
         }
