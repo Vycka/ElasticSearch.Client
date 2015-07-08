@@ -56,10 +56,9 @@ namespace ElasticSearch.Client.Query.IndexListGenerator
                 .Where(
                     qd => 
                         qd.FilterType != FilterType.MustNot
-                        && qd.FilterComponent.GetQueryDate() != null
-                        && qd.FilterComponent.GetQueryDate().FieldName == fieldName
                 )
-                .Select(f => f.FilterComponent.GetQueryDate())
+                .Select(rqFiltered => rqFiltered.FilterComponent.GetQueryDate())
+                .Where(queryDate => queryDate != null && queryDate.FieldName == fieldName)
                 .ToList();
 
             if (relatedQueries.Count == 0)
