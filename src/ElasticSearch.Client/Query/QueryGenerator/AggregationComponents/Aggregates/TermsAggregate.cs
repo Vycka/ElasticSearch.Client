@@ -15,15 +15,15 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
             : base("terms")
         {
 
-            SetComponentProperty("field", field);
+            Components.Set("field", field);
             Size = size;
 
         }
 
         public IAggregateOrder Order
         {
-            get { return (IAggregateOrder)GetComponentProperty("order"); }
-            set { SetComponentProperty("order", value); }
+            get { return Components.Get<IAggregateOrder>("order"); }
+            set { Components.Set("order", value); }
         }
     }
 }

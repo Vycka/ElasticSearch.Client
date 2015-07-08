@@ -5,7 +5,7 @@
         public StatsAggregate(string field)
             : base("stats")
         {
-            SetComponentProperty("field", field);
+            Components.Set("field", field);
         }
     }
 }

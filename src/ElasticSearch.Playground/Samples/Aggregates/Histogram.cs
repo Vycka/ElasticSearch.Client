@@ -22,9 +22,9 @@ namespace ElasticSearch.Playground.Samples.Aggregates
             builder.Aggregates.Add("test", aggregate);
 
 
-            builder.PrintQuery(_client.IndexDescriptors);
+            builder.PrintQuery(Client.IndexDescriptors);
 
-            AggregateResult result = _client.ExecuteAggregate(builder);
+            AggregateResult result = Client.ExecuteAggregate(builder);
             dynamic resultDynamic = result;
 
             result.PrintResult();

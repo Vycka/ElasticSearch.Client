@@ -4,7 +4,7 @@
     {
         public NestedAggregate(string path) : base("nested")
         {
-            SetComponentProperty("path", path);
+            Components.Set("path", path);
         }
     }
 }

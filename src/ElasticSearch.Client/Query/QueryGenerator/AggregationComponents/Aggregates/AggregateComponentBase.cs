@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Dynamic;
+﻿using System.Dynamic;
+using ElasticSearch.Client.Query.Utils;
 using ElasticSearch.Client.Utils;
 
 namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates
@@ -7,7 +7,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
     public class AggregateComponentBase : IAggregateComponent
     {
         private readonly string _aggregateOperationName;
-        private readonly Dictionary<string, object> _aggregateOperationComponent = new Dictionary<string, object>();
+        protected readonly ComponentBag Components = new ComponentBag();
 
         public AggregateComponentBase(string aggregateOperationName)
         {
@@ -16,46 +16,32 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
 
         public ExpandoObject BuildRequestComponent()
         {
-            if (_aggregateOperationComponent.Count == 0)
+            if (Components.Count == 0)
                 return null;
 
             ExpandoObject requestComponent = new ExpandoObject();
-            requestComponent.Add(_aggregateOperationName, _aggregateOperationComponent);
+            requestComponent.Add(_aggregateOperationName, Components);
 
             return requestComponent;
         }
 
         protected string Field
         {
-            get { return (string)GetComponentProperty("field"); }
-            set { SetComponentProperty("field", value); }
+            get { return Components.Get<string>("field"); }
+            set { Components.Set("field", value); }
         }
 
         public string Script
         {
-            get { return (string)GetComponentProperty("script"); }
-            set { SetComponentProperty("script", value); }
+            get { return Components.Get<string>("script"); }
+            set { Components.Set("script", value); }
         }
 
         public int? Size
         {
-            get { return (int?)GetComponentProperty("size"); }
-            set { SetComponentProperty("size", value); }
+            get { return Components.Get<int?>("size"); }
+            set { Components.Set("size", value); }
         }
 
-        protected void SetComponentProperty(string key, object value)
-        {
-            if (value == null)
-                _aggregateOperationComponent.Remove(key);
-            else
-                _aggregateOperationComponent.AddOrUpdate(key, value);
-        }
-
-        protected object GetComponentProperty(string key)
-        {
-            object result;
-            _aggregateOperationComponent.TryGetValue("script", out result);
-            return result;
-        }
     }
 }

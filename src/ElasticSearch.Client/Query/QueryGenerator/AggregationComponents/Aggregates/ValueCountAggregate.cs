@@ -5,7 +5,7 @@
         public ValueCountAggregate(string field)
             : base("value_count")
         {
-            SetComponentProperty("field", field);
+            Components.Set("field", field);
         }
     }
 

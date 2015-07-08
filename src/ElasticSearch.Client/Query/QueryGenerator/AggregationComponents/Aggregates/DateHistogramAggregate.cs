@@ -20,24 +20,24 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
 
         public string Format
         {
-            get { return (string)GetComponentProperty("format"); }
-            set { SetComponentProperty("format", value); }
+            get { return Components.Get<string>("format"); }
+            set { Components.Set("format", value); }
         }
 
         public void SetTimeZoneOffset(int offset)
         {
-            SetComponentProperty("time_zone", offset);
+            Components.Set("time_zone", offset);
         }
 
         public void SetTimeZoneOffset(string offsetFormatted)
         {
-            SetComponentProperty("time_zone", offsetFormatted);
+            Components.Set("time_zone", offsetFormatted);
         }
 
         public string Interval
         {
-            get { return (string)GetComponentProperty("interval"); }
-            set { SetComponentProperty("interval", value); }
+            get { return Components.Get<string>("interval"); }
+            set { Components.Set("interval", value); }
         }
     }
 }

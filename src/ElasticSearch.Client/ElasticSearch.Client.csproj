@@ -76,6 +76,7 @@
     <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\ValueCountAggregate.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\Order\IAggregateOrder.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\Order\OrderField.cs" />
+    <Compile Include="Query\QueryGenerator\QueryComponents\Filters\RangeFilter.cs" />
     <Compile Include="Query\QueryGenerator\SectionBuilders\AggregationSectionBuilder.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\IAggregateComponent.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\IGroupComponent.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Query\IndexListGenerator\SmartIndexListBuilder.cs" />
     <Compile Include="Query\QueryGenerator\SectionBuilders\IndicesSectionBuilder.cs" />
     <Compile Include="Query\QueryGenerator\SectionBuilders\QuerySectionBuilder.cs" />
+    <Compile Include="Query\Utils\ComponentBag.cs" />
     <Compile Include="Serializer\Converters\RequestComponentConverter.cs" />
     <Compile Include="Serializer\JsonQuerySerializer.cs" />
     <Compile Include="Utils\AggregateResultExtensions.cs" />

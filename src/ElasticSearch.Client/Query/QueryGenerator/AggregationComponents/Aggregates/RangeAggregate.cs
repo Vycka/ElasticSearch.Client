@@ -19,7 +19,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
                 throw new ArgumentNullException("field");
 
 
-            SetComponentProperty("field", field);
+            Components.Set("field", field);
 
             Keyed = keyed;
             Ranges = ranges;
@@ -27,14 +27,14 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
 
         public bool? Keyed
         {
-            get { return (bool?)GetComponentProperty("keyed"); }
-            set { SetComponentProperty("keyed", value); }
+            get { return Components.Get<bool?>("keyed"); }
+            set { Components.Set("keyed", value); }
         }
 
         public Range[] Ranges
         {
-            get { return (Range[])GetComponentProperty("ranges"); }
-            set { SetComponentProperty("ranges", value); }
+            get { return Components.Get<Range[]>("ranges"); }
+            set { Components.Set("ranges", value); }
         }
     }
 }

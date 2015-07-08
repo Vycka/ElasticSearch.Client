@@ -20,14 +20,14 @@ namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggreg
 
         public string MinDocCount
         {
-            get { return (string)GetComponentProperty("min_doc_count"); }
-            set { SetComponentProperty("min_doc_count", value); }
+            get { return Components.Get<string>("min_doc_count"); }
+            set { Components.Set("min_doc_count", value); }
         }
 
         public string Interval
         {
-            get { return (string)GetComponentProperty("interval"); }
-            set { SetComponentProperty("interval", value); }
+            get { return Components.Get<string>("interval"); }
+            set { Components.Set("interval", value); }
         }
     }
 }

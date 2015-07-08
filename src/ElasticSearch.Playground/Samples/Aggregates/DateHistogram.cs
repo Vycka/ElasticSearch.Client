@@ -22,15 +22,15 @@ namespace ElasticSearch.Playground.Samples.Aggregates
             builder.Aggregates.Add("test", aggregate);
 
 
-            builder.PrintQuery(_client.IndexDescriptors);
+            builder.PrintQuery(Client.IndexDescriptors);
 
-            AggregateResult result = _client.ExecuteAggregate(builder);
+            AggregateResult result = Client.ExecuteAggregate(builder);
             dynamic resultDynamic = result;
 
             result.PrintResult();
 
-            Assert.AreEqual(5, result.GetValues<object>("test.buckets").Length);
-            Assert.AreEqual(5, ((JArray)resultDynamic.test.buckets).Count);
+            Assert.GreaterOrEqual(result.GetValues<object>("test.buckets").Length, 2);
+            Assert.GreaterOrEqual(((JArray)resultDynamic.test.buckets).Count, 2);
         }
     }
 }

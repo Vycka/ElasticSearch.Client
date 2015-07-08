@@ -32,7 +32,8 @@ namespace ElasticSearch.Playground.Samples
             ElasticSearchClient client = new ElasticSearchClient("http://10.0.22.16:9200/", repSecIndex, repTempIndex);
 
             QueryBuilder builder = new QueryBuilder();
-            builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp",864000));
+            builder.Filtered.Filters.Add(FilterType.Must, new LuceneFilter("chujeris"));
+            builder.Aggregates.Add("2", new TermsAggregate("key", 9999) { Order = new OrderField("_count", SortOrder.Desc)});
 
             builder.PrintQuery(client.IndexDescriptors);
 
@@ -69,13 +70,13 @@ namespace ElasticSearch.Playground.Samples
         [Ignore]
         public void Xxx()
         {
-            var repSecIndex = new TimeStampedIndexDescriptor("einstein_engine-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
-            ElasticSearchClient client = new ElasticSearchClient("http://10.1.14.98:9200/", repSecIndex);
+            var repSecIndex = new TimeStampedIndexDescriptor("5-reporting-scheduler-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
+            ElasticSearchClient client = new ElasticSearchClient("http://10.0.22.16:9200/", repSecIndex);
 
             QueryBuilder builder = new QueryBuilder();
-            builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 3600));
-            builder.Filtered.Filters.Add(FilterType.Must, new TermFilter("CorrelationCode", "an_156498BA-045A-42F2-B540-7D1B6F1692AF"));
-
+            builder.Filtered.Filters.Add(FilterType.Must, new LuceneFilter("Level:Error"));
+            builder.Filtered.Filters.Add(FilterType.Must, new FixedTimeRange("@timestamp", new DateTime(2015, 06, 29), new DateTime(2015, 07, 08)));
+            builder.Aggregates.Add("counts", new TermsAggregate("Event.ScheduleId"));
             var result = client.ExecuteQuery(builder);
         }
     }

@@ -5,7 +5,7 @@
         public SumAggregate(string field)
             : base("sum")
         {
-            SetComponentProperty("field", field);
+            Components.Set("field", field);
         }
     }
 }
