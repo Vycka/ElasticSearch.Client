@@ -30,27 +30,32 @@ namespace ElasticSearch.Client
             _elasticSearchExecutor = new ElasticSearchQueryExecutor(httpRequest);
         }
 
-        public dynamic ExecuteAggregate(QueryBuilder filledQuery, bool countOnly = true)
+        public dynamic ExecuteAggregate(QueryBuilder filledQuery)
         {
             ElasticSearchQuery query = BuildQuery(filledQuery);
-            SearchResult<dynamic> result;
-            if (countOnly)
-                result = _elasticSearchExecutor.ExecuteQuery<dynamic>(query, new GetParam("search_type", "count"));
-            else
-                result = _elasticSearchExecutor.ExecuteQuery<dynamic>(query);
-
+            var result = _elasticSearchExecutor.ExecuteQuery<dynamic>(query, new GetParam("search_type", "count"));
             return result.Aggregations;
         }
 
-        public ElasticSearchResult ExecuteQuery(QueryBuilder filledQuery)
+        public ElasticSearchResult ExecuteQuery(QueryBuilder filledQuery, params GetParam[] additionGetParams)
         {
-            return new ElasticSearchResult(ExecuteQuery<dynamic>(filledQuery).SearchResultObject);
+            return new ElasticSearchResult(ExecuteQuery<dynamic>(filledQuery, additionGetParams).SearchResultObject);
         }
 
-        public SearchResult<TResultModel> ExecuteQuery<TResultModel>(QueryBuilder filledQuery)
+        /// <summary>
+        /// Executes query and returns original JSON response.
+        /// Usefull when custom deserializer is needed or deserialization is not required 
+        /// </summary>
+        public string ExecuteQueryRaw(QueryBuilder filledQuery, params GetParam[] additionGetParams)
         {
             ElasticSearchQuery query = BuildQuery(filledQuery);
-            return _elasticSearchExecutor.ExecuteQuery<TResultModel>(query);
+            return _elasticSearchExecutor.ExecuteQueryRaw(query, additionGetParams);
+        }
+
+        public SearchResult<TResultModel> ExecuteQuery<TResultModel>(QueryBuilder filledQuery, params GetParam[] additionGetParams)
+        {
+            ElasticSearchQuery query = BuildQuery(filledQuery);
+            return _elasticSearchExecutor.ExecuteQuery<TResultModel>(query, additionGetParams);
         }
 
         private ElasticSearchQuery BuildQuery(QueryBuilder filledQuery)

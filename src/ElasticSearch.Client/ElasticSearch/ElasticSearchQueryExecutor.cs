@@ -38,7 +38,42 @@ namespace ElasticSearch.Client.ElasticSearch
             }
         }
 
+        public string ExecuteQueryRaw(ElasticSearchQuery query, params GetParam[] additionalGetParams)
+        {
+            // First, try to execute query by quering all shards (try to save one http request for getting shard names)
+            try
+            {
+                return ExecuteQueryRawInner(query, additionalGetParams);
+            }
+            catch (Exception ex)
+            {
+                // If full request throws 404 error, then request list of existing shards
+                if (ex.Message.Contains("(404) Not Found"))
+                {
+                    query = RemoveInexistingShards(query);
+
+                    return ExecuteQueryRawInner(query, additionalGetParams);
+                }
+                throw;
+            }
+        }
+
         private SearchResult<TResultModel> ExecuteQueryInner<TResultModel>(ElasticSearchQuery query, params GetParam[] additionalGetParams)
+        {
+            string jsonResponse = ExecuteQueryRawInner(query, additionalGetParams);
+            dynamic deserializedResponse = JsonConvert.DeserializeObject(jsonResponse);
+
+            var result = new SearchResult<TResultModel>(deserializedResponse);
+
+            if (result.TimedOut)
+                throw new TimeoutException("There was a timeout while getting data from ElasticSearch");
+            if (result.Shards.Failed != 0 && result.Shards.Total != 0)
+                throw new Exception(string.Format("One or more shards returned failure [{0}]", BuildRequestUri(query, "_search", additionalGetParams)));
+
+            return result;
+        }
+
+        private string ExecuteQueryRawInner(ElasticSearchQuery query, params GetParam[] additionalGetParams)
         {
             if (query.LookupIndexes.Length == 0)
                 throw new NoShardsException(
@@ -49,19 +84,11 @@ namespace ElasticSearch.Client.ElasticSearch
             string requestUrl = BuildRequestUri(query, "_search", additionalGetParams);
 
             string jsonResponse = _httpRequest.MakePostJsonRequest(requestUrl, query.QueryJson);
-            dynamic deserializedResponse = JsonConvert.DeserializeObject(jsonResponse);
 
-            var result = new SearchResult<TResultModel>(deserializedResponse);
-
-            if (result.TimedOut)
-                throw new TimeoutException("There was a timeout while getting data from ElasticSearch");
-            if (result.Shards.Failed != 0 && result.Shards.Total != 0)
-                throw new Exception(string.Format("One or more shards returned failure [{0}]", requestUrl));
-
-            return result;
+            return jsonResponse;
         }
 
-        public static string BuildRequestUri(ElasticSearchQuery query, string operationName, params GetParam[] additionalGetParams)
+        private static string BuildRequestUri(ElasticSearchQuery query, string operationName, params GetParam[] additionalGetParams)
         {
             string additionalParams = "";
             if (additionalGetParams.Length != 0)

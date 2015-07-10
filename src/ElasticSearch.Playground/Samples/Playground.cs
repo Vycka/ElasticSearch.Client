@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
 using ElasticSearch.Client;
+using ElasticSearch.Client.ElasticSearch;
 using ElasticSearch.Client.ElasticSearch.Index;
 using ElasticSearch.Client.ElasticSearch.Results;
 using ElasticSearch.Client.Query.QueryGenerator;
 using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates;
 using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Order;
 using ElasticSearch.Client.Query.QueryGenerator.Models;
-using ElasticSearch.Client.Query.QueryGenerator.QueryComponents;
 using ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters;
-using ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Queries;
 using ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Sort;
 using ElasticSearch.Client.Utils;
 using Newtonsoft.Json;
@@ -70,17 +67,25 @@ namespace ElasticSearch.Playground.Samples
         [Ignore]
         public void Xxx()
         {
-            var repSecIndex = new TimeStampedIndexDescriptor("5-reporting-scheduler-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
-            ElasticSearchClient client = new ElasticSearchClient("http://10.0.22.16:9200/", repSecIndex);
+            var einsteinIndex = new TimeStampedIndexDescriptor("einstein_engine-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
+            var client = new ElasticSearchClient("http://10.1.14.98:9200/", einsteinIndex);
 
-            QueryBuilder builder = new QueryBuilder();
-            builder.Filtered.Filters.Add(FilterType.Must, new LuceneFilter("Level:Error"));
-            builder.Filtered.Filters.Add(FilterType.Must, new FixedTimeRange("@timestamp", new DateTime(2015, 06, 29), new DateTime(2015, 07, 08)));
-            builder.Aggregates.Add("counts", new TermsAggregate("Event.ScheduleId"));
+            QueryBuilder query = new QueryBuilder();
+            query.Filtered.Filters.Add(
+                FilterType.Must,
+                new FixedTimeRange(
+                    "@timestamp",
+                    DateTime.UtcNow.StartOfWeek(),
+                    DateTime.UtcNow.StartOfWeek().EndOfDay()
+                )
+            );
+            query.Filtered.Filters.Add(FilterType.Must, new LuceneFilter("EventType:GetReportDataVHandler AND _exists_:Request"));
 
-            builder.PrintQuery(client.IndexDescriptors);
+            query.Aggregates.Add("cunt", new ValueCountAggregate("@timestamp"));
 
-            var result = client.ExecuteQuery(builder);
+            var result = client.ExecuteQueryRaw(query,new GetParam("search_type","count"));
+
+            Console.WriteLine(result);
         }
     }
 }

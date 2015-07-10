@@ -25,7 +25,7 @@ See Project site for details</summary>
     <copyright>2015</copyright>
     <tags>ElasticSearch ES .net c# cs connection client lucene strong-typed self-explained</tags>
     <dependencies>
-        <dependency id="Newtonsoft.Json" version="6.0.0" />
+        <dependency id="Newtonsoft.Json" version="7.0.0" />
     </dependencies>
   </metadata>
 </package>
