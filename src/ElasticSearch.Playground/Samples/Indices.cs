@@ -15,12 +15,11 @@ namespace ElasticSearch.Playground.Samples
         [Test]
         public void IndiceMatchQuery()
         {
-            var repSecIndex = new TimeStampedIndexDescriptor("rep-sec-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
-            var repTempIndex = new TimeStampedIndexDescriptor("rep-templates-reader-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
-            ElasticSearchClient client = new ElasticSearchClient("http://172.22.1.31:9200/", repSecIndex, repTempIndex);
+            var repTempIndex = new TimeStampedIndexDescriptor("einstein_engine-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
+            ElasticSearchClient client = new ElasticSearchClient("http://172.22.9.99:9200/", repTempIndex);
 
             QueryBuilder builder = new QueryBuilder();
-            builder.Indices.AddIndices("rep-templates-reader-*");
+            builder.Indices.AddIndices("einstein_engine-*");
             builder.Indices.SetQuery(new LuceneQuery("Level:\"INFO\""));
 
             builder.PrintQuery(client.IndexDescriptors);
@@ -28,7 +27,7 @@ namespace ElasticSearch.Playground.Samples
             ElasticSearchResult result = client.ExecuteQuery(builder);
 
             Assert.AreNotEqual(0, result.Items.Count);
-            Assert.IsTrue(result.Items.All(i => i.Type == "rep-templates-reader"));
+            Assert.IsTrue(result.Items.All(i => i.Type == "einstein_engine"));
         }
 
         [Test]

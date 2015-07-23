@@ -71,8 +71,8 @@ namespace ElasticSearch.Playground.Samples.Aggregates
             dynamic resultDynamic = result;
             result.PrintResult();
 
-            Assert.AreEqual(0.0, result.GetValue<double>("my_result.value"));
-            Assert.AreEqual(0.0, (double)resultDynamic.my_result.value);
+            Assert.IsNotNull(result.GetValue<double>("my_result.value"));
+            Assert.IsNotNull(resultDynamic.my_result.value);
         }
 
         [Test]

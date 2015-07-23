@@ -12,17 +12,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters
         {
         }
 
-        public TermFilter(string key, int[] value)
-            : this(key, (object)value)
-        {
-        }
-
         public TermFilter(string key, double value)
-            : this(key, (object)value)
-        {
-        }
-
-        public TermFilter(string key, double[] value)
             : this(key, (object)value)
         {
         }
@@ -32,22 +22,7 @@ namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters
         {
         }
 
-        public TermFilter(string key, string[] value)
-            : this(key, (object)value)
-        {
-        }
-
-        public TermFilter(string key, object[] value)
-            : this(key, (object)value)
-        {
-        }
-
-        public TermFilter(object termFilter)
-        {
-            _termFilter = termFilter;
-        }
-
-        private TermFilter(string key, object value)
+        public TermFilter(string key, object value)
         {
             var termFilter = new ExpandoObject();
             termFilter.Add(key, value);

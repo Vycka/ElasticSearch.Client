@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Dynamic;
-using ElasticSearch.Client.Utils;
 
 namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates
 {
