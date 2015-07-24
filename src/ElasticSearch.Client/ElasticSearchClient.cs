@@ -30,6 +30,10 @@ namespace ElasticSearch.Client
             _elasticSearchExecutor = new ElasticSearchQueryExecutor(httpRequest);
         }
 
+        /// <summary>
+        /// Executes simple _search query and with sarch_type=count parameter and returns only Aggregations part of result
+        /// </summary>
+        /// <param name="filledQuery">Filled query</param>
         public dynamic ExecuteAggregate(QueryBuilder filledQuery)
         {
             ElasticSearchQuery query = BuildQuery(filledQuery);
@@ -37,6 +41,11 @@ namespace ElasticSearch.Client
             return result.Aggregations;
         }
 
+        /// <summary>
+        /// Executes simple _search query and fills results(_source) into dynamic structure
+        /// </summary>
+        /// <param name="filledQuery">Filled query</param>
+        /// <param name="additionGetParams">Additional get parameters to customize ES request</param>
         public ElasticSearchResult ExecuteQuery(QueryBuilder filledQuery, params GetParam[] additionGetParams)
         {
             return new ElasticSearchResult(ExecuteQuery<dynamic>(filledQuery, additionGetParams).SearchResultObject);
@@ -52,6 +61,11 @@ namespace ElasticSearch.Client
             return _elasticSearchExecutor.ExecuteQueryRaw(query, additionGetParams);
         }
 
+        /// <summary>
+        /// Executes simple _search query and fills results(_source) into provided TResultModel
+        /// </summary>
+        /// <param name="filledQuery">Filled query</param>
+        /// <param name="additionGetParams">Additional get parameters to customize ES request</param>
         public SearchResult<TResultModel> ExecuteQuery<TResultModel>(QueryBuilder filledQuery, params GetParam[] additionGetParams)
         {
             ElasticSearchQuery query = BuildQuery(filledQuery);

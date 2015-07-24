@@ -3,7 +3,7 @@ Trying to create friendly, yet functional __ElasticSearch C# Client__.
 __Currently supported__
 * Basic Query section support (Useful for retrieving raw data)
   * Query, Filter
-  * Lucene, Term, Indices, TimeRange
+  * Lucene, Term(s), Indices, TimeRange
 * Aggregations
   * Average, ExtendedStats, Min, Max, Percentiles, Stats, Sum, ValueCount, Terms, DateHistogram, Histogram
 * Group By

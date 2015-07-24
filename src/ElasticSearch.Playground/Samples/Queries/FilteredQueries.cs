@@ -9,7 +9,7 @@ using ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Queries;
 using ElasticSearch.Client.Utils;
 using NUnit.Framework;
 
-namespace ElasticSearch.Playground.Samples
+namespace ElasticSearch.Playground.Samples.Queries
 {
     [TestFixture]
     public class FilteredQueries

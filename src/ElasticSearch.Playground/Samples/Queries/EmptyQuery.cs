@@ -5,7 +5,7 @@ using ElasticSearch.Client.Query.QueryGenerator;
 using ElasticSearch.Client.Utils;
 using NUnit.Framework;
 
-namespace ElasticSearch.Playground.Samples
+namespace ElasticSearch.Playground.Samples.Queries
 {
     [TestFixture]
     public class EmptyQuery

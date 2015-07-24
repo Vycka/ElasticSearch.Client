@@ -1,7 +1,7 @@
 REM @ECHO OFF
 cd %~dp0
 
-SET minorVersion="1.8"
+SET minorVersion="1.81"
 SET majorVersion="0"
 
 SET projectID=ElasticSearch.Client
