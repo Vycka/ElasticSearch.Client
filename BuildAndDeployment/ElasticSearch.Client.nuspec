@@ -11,7 +11,7 @@
 	
 Basic Query section support (Useful for retrieving raw data)
 * Query, Filter
-* Lucene, Term, Indices, TimeRange
+* Lucene, Term(s), Indices, TimeRange
 Aggregations
 * Average, ExtendedStats, Min, Max, Percentiles, Stats, Sum, ValueCount, Terms, DateHistogram, Histogram
 Group By

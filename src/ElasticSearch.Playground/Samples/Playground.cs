@@ -80,5 +80,22 @@ namespace ElasticSearch.Playground.Samples
 
             Console.WriteLine(result.Total);
         }
+
+        [Test]
+        [Ignore]
+        public void countTest()
+        {
+            var einsteinIndex = new TimeStampedIndexDescriptor("einstein_engine-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
+            var client = new ElasticSearchClient("http://172.22.9.99:9200/", einsteinIndex);
+
+            QueryBuilder qB = new QueryBuilder();
+            qB.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 186400));
+            qB.Aggregates.Add("count_by_correlation", new TermsAggregate("CorrelationCode") { Order = new OrderField("_count", SortOrder.Desc)});
+            qB.PrintQuery();
+
+            ElasticSearchResult result = client.ExecuteQueryCount(qB);
+
+            Console.WriteLine(result.Total);
+        }
     }
 }

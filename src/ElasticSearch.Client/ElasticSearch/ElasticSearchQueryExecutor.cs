@@ -67,8 +67,8 @@ namespace ElasticSearch.Client.ElasticSearch
 
             if (result.TimedOut)
                 throw new TimeoutException("There was a timeout while getting data from ElasticSearch");
-            if (result.Shards.Failed != 0 && result.Shards.Total != 0)
-                throw new Exception(string.Format("One or more shards returned failure [{0}]", BuildRequestUri(query, "_search", additionalGetParams)));
+            if (result.Shards.Total != 0 && result.Shards.Failed == result.Shards.Total)
+                throw new Exception(string.Format("All shards returned failure [{0}]", BuildRequestUri(query, "_search", additionalGetParams)));
 
             return result;
         }

@@ -52,6 +52,15 @@ namespace ElasticSearch.Client
         }
 
         /// <summary>
+        /// Executes simple _search query with search_type=count parameter
+        /// </summary>
+        /// <param name="filledQuery">Filled query</param>
+        public ElasticSearchResult ExecuteQueryCount(QueryBuilder filledQuery)
+        {
+            return new ElasticSearchResult(ExecuteQuery<dynamic>(filledQuery, new GetParam("search_type", "count")).SearchResultObject);
+        }
+
+        /// <summary>
         /// Executes query and returns original JSON response.
         /// Usefull when custom deserializer is needed or deserialization is not required 
         /// </summary>
