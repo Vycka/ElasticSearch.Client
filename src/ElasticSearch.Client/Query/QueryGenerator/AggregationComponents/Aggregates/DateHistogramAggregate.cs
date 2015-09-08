@@ -2,7 +2,7 @@
 
 namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates
 {
-    public class DateHistogramAggregate : AggregateComponentBase
+    public class DateHistogramAggregate : AggregateComponentBase, IGroupComponent
     {
         public DateHistogramAggregate(string field, string interval)
             : base("date_histogram")

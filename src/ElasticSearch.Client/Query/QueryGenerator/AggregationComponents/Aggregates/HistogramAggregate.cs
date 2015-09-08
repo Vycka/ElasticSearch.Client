@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Dynamic;
-using ElasticSearch.Client.Utils;
 
 namespace ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates
 {
-    public class HistogramAggregate : AggregateComponentBase
+    public class HistogramAggregate : AggregateComponentBase, IGroupComponent
     {
         public HistogramAggregate(string field, string interval)
             : base("histogram")
