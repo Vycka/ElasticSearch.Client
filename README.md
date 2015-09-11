@@ -24,7 +24,7 @@ __You can execute queries as simple as these__
   ElasticSearchResult result = client.ExecuteQuery(builder);
 ```
 
-__Or as complex as those__
+__Or something more usual for daily queries__
 
 ```cs
   var rabbitIndex = new TimeStampedIndexDescriptor("RabbitMQ-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
