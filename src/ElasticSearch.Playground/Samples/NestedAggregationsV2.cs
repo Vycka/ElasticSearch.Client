@@ -12,34 +12,31 @@ using NUnit.Framework;
 namespace ElasticSearch.Playground.Samples
 {
     [TestFixture]
-    public class NestedAggregationsV2
+    public class NestedAggregationsV2 : TestBase
     {
 
         [Test]
         public void RangeGroup()
         {
-            var repSecIndex = new TimeStampedIndexDescriptor("rep-sec-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
-            ElasticSearchClient client = new ElasticSearchClient("http://172.22.1.31:9200/", repSecIndex);
-
             QueryBuilder builder = new QueryBuilder();
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
 
             var rangeAggregate = new RangeAggregate(
-                    "Event.TotalDuration",
+                    "TotalDuration",
                     new Range(null, 100),
                     new Range(100, 500),
                     new Range(500, null)
             );
 
             var rangeGroup = new SubAggregate(rangeAggregate);
-            rangeGroup.Aggregates.Add("count", new CountAggregate("Event.TotalDuration"));
-            rangeGroup.Aggregates.Add("avg", new AverageAggregate("Event.TotalDuration"));
+            rangeGroup.Aggregates.Add("count", new CountAggregate("TotalDuration"));
+            rangeGroup.Aggregates.Add("avg", new AverageAggregate("TotalDuration"));
 
             builder.Aggregates.Add("range_group", rangeGroup);
 
-            builder.PrintQuery(client.IndexDescriptors);
+            builder.PrintQuery(Client.IndexDescriptors);
 
-            AggregateResult result = client.ExecuteAggregate(builder);
+            AggregateResult result = Client.ExecuteAggregate(builder);
             result.PrintResult();
 
             Assert.IsNotNull(result.GetValue("range_group.buckets"));

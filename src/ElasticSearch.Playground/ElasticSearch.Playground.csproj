@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FixedTimeRangeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Samples\Aggregates\AggregatesOld.cs" />
     <Compile Include="Samples\Aggregates\DateHistogram.cs" />

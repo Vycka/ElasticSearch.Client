@@ -10,40 +10,36 @@ namespace ElasticSearch.Playground.Samples.Queries
 {
 
     [TestFixture]
-    public class SimpleQuery
+    public class SimpleQuery : TestBase
     {
         [Test]
         public void ExecuteTermQuery()
         {
 
-            ElasticSearchClient client = new ElasticSearchClient("http://172.22.1.31:9200/");
-
             QueryBuilder builder = new QueryBuilder();
 
-            builder.SetQuery(new LuceneQuery("_type:rep-sec"));
+            builder.SetQuery(new LuceneQuery("_type:einstein_engine"));
 
-            builder.PrintQuery(client.IndexDescriptors);
+            builder.PrintQuery(Client.IndexDescriptors);
 
-            ElasticSearchResult result = client.ExecuteQuery(builder);
+            ElasticSearchResult result = Client.ExecuteQuery(builder);
 
             Assert.AreNotEqual(0, result.Items.Count);
-            Assert.IsTrue(result.Items.All(i => i.Type == "rep-sec"));
+            Assert.IsTrue(result.Items.All(i => i.Type == "einstein_engine"));
         }
 
         [Test]
         public void ExecuteMatchAllQuery()
         {
 
-            ElasticSearchClient client = new ElasticSearchClient("http://172.22.1.31:9200/");
-
             QueryBuilder builder = new QueryBuilder();
 
             builder.SetQuery(new MatchAll());
             builder.Size = 1;
 
-            builder.PrintQuery(client.IndexDescriptors);
+            builder.PrintQuery(Client.IndexDescriptors);
 
-            ElasticSearchResult result = client.ExecuteQuery(builder);
+            ElasticSearchResult result = Client.ExecuteQuery(builder);
 
             Assert.AreEqual(1, result.Items.Count);
         }

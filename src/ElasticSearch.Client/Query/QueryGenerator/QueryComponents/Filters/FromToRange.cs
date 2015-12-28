@@ -7,30 +7,22 @@ namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters
     public abstract class FromToRange 
     {
         protected readonly string FieldName;
-        protected readonly object FieldFrom;
-        protected readonly object FieldTo;
+        protected object FromValue;
+        protected object ToValue;
 
-        public FromToRange(string fieldName, object fieldFrom, object fieldTo)
+        protected FromToRange(string fieldName)
         {
             if (fieldName == null)
                 throw new ArgumentNullException("fieldName");
-            if (fieldFrom == null)
-                throw new ArgumentNullException("fieldFrom");
-            if (fieldTo == null)
-                throw new ArgumentNullException("fieldTo");
 
             FieldName = fieldName;
-            FieldFrom = fieldFrom;
-            FieldTo = fieldTo;
         }
-
-
 
         public ExpandoObject BuildRequestComponent()
         {
             var rangeFilter = new ExpandoObject();
 
-            rangeFilter.Add(FieldName, new { from = FieldFrom, to = FieldTo });
+            rangeFilter.Add(FieldName, new { from = FromValue, to = ToValue });
 
             ExpandoObject result = new ExpandoObject();
             result.Add("range",rangeFilter);

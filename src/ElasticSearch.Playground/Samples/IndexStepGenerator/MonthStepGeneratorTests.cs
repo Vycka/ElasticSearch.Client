@@ -15,24 +15,21 @@ using NUnit.Framework;
 namespace ElasticSearch.Playground.Samples.IndexStepGenerator
 {
     [TestFixture]
-    public class MonthStepGeneratorTests
+    public class MonthStepGeneratorTests : TestBase
     {
         [Test]
         public void TestMonthStep()
         {
-            var repSecIndex = new TimeStampedIndexDescriptor("rep-sec-", "yyyy.MM.*", "@timestamp", IndexStep.Month);
-            ElasticSearchClient client = new ElasticSearchClient("http://172.22.1.31:9200/", repSecIndex);
-
             QueryBuilder builder = new QueryBuilder();
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 8640000));
-            builder.PrintQuery(client.IndexDescriptors);
+            builder.PrintQuery(Client.IndexDescriptors);
 
             IEnumerable<DateTime> resultTimeStamps = 
                 IndexTimeStampGenerator.Generate(DateTime.UtcNow.AddMonths(-2).StartOfMonth(), DateTime.UtcNow.StartOfDay(), IndexStep.Month);
 
 
 
-            ElasticSearchResult result = client.ExecuteQuery(builder);
+            ElasticSearchResult result = Client.ExecuteQuery(builder);
             Assert.Greater(result.Shards.Successful, resultTimeStamps.Count());
         }
     }

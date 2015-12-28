@@ -42,6 +42,8 @@ namespace ElasticSearch.Playground.Samples
         }
 
 
+
+
         [Test]
         [Ignore]
         public void AggregateTest()

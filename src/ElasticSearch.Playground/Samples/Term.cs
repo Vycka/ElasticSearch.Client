@@ -10,23 +10,20 @@ using NUnit.Framework;
 namespace ElasticSearch.Playground.Samples
 {
     [TestFixture]
-    public class Term
+    public class Term : TestBase
     {
 
         [Test]
         public void QueryByTerm()
         {
-            ElasticSearchClient client = new ElasticSearchClient("http://172.22.1.31:9200/");
-            QueryBuilder builder = new QueryBuilder();
+            QueryBuilder.Filtered.Filters.Add(FilterType.Must, new TermFilter("_type","einstein_engine"));
 
-            builder.Filtered.Filters.Add(FilterType.Must, new TermFilter("_type","rep-sec"));
+            QueryBuilder.PrintQuery(Client.IndexDescriptors);
 
-            builder.PrintQuery(client.IndexDescriptors);
-
-            ElasticSearchResult result = client.ExecuteQuery(builder);
+            ElasticSearchResult result = Client.ExecuteQuery(QueryBuilder);
 
             Assert.AreEqual(10, result.Items.Count);
-            Assert.IsTrue(result.Items.All(i => i.Type == "rep-sec"));
+            Assert.IsTrue(result.Items.All(i => i.Type == "einstein_engine"));
         }
     }
 }

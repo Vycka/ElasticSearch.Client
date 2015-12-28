@@ -7,8 +7,11 @@ namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters
         private readonly int _lookupTimeSeconds;
 
         public MovingTimeRange(string fieldName, int lookupTimeSeconds)
-            : base(fieldName, String.Format("now-{0}s", lookupTimeSeconds), "now")
+            : base(fieldName)
         {
+            FromValue = String.Format("now-{0}s", lookupTimeSeconds);
+            ToValue = "now";
+
             _lookupTimeSeconds = lookupTimeSeconds;
         }
 

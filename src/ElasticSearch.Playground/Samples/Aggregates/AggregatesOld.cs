@@ -1,6 +1,4 @@
 ﻿using System;
-using ElasticSearch.Client;
-using ElasticSearch.Client.ElasticSearch.Index;
 using ElasticSearch.Client.ElasticSearch.Results;
 using ElasticSearch.Client.Query.QueryGenerator;
 using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates;
@@ -14,22 +12,19 @@ using NUnit.Framework;
 namespace ElasticSearch.Playground.Samples.Aggregates
 {
     [TestFixture]
-    public class AggregatesOld
+    public class AggregatesOld : TestBase
     {
         [Test]
         public void CountAggregate()
         {
-            var repSecIndex = new TimeStampedIndexDescriptor("rep-sec-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
-            ElasticSearchClient client = new ElasticSearchClient("http://172.22.1.31:9200/", repSecIndex);
-
             QueryBuilder builder = new QueryBuilder();
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
-            builder.Aggregates.Add("county", new CountAggregate("Event.TotalDuration"));
-            builder.Aggregates.Add("valuy", new ValueCountAggregate("Event.TotalDuration"));
+            builder.Aggregates.Add("county", new CountAggregate("TotalDuration"));
+            builder.Aggregates.Add("valuy", new ValueCountAggregate("TotalDuration"));
 
-            builder.PrintQuery(client.IndexDescriptors);
+            builder.PrintQuery(Client.IndexDescriptors);
 
-            AggregateResult result = client.ExecuteAggregate(builder);
+            AggregateResult result = Client.ExecuteAggregate(builder);
             result.PrintResult();
 
             Assert.NotNull(result.GetValue("county.value"));
@@ -39,16 +34,13 @@ namespace ElasticSearch.Playground.Samples.Aggregates
         [Test]
         public void AverageAggregate()
         {
-            var repSecIndex = new TimeStampedIndexDescriptor("rep-sec-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
-            ElasticSearchClient client = new ElasticSearchClient("http://172.22.1.31:9200/", repSecIndex);
-
             QueryBuilder builder = new QueryBuilder();
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
-            builder.Aggregates.Add("my_result", new AverageAggregate("Event.TotalDuration"));
+            builder.Aggregates.Add("my_result", new AverageAggregate("TotalDuration"));
 
-            builder.PrintQuery(client.IndexDescriptors);
+            builder.PrintQuery(Client.IndexDescriptors);
 
-            AggregateResult result = client.ExecuteAggregate(builder);
+            AggregateResult result = Client.ExecuteAggregate(builder);
             result.PrintResult();
 
             double resultValue = result.GetValue<double>("my_result.value");
@@ -58,16 +50,13 @@ namespace ElasticSearch.Playground.Samples.Aggregates
         [Test]
         public void MinAggregate()
         {
-            var repSecIndex = new TimeStampedIndexDescriptor("rep-sec-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
-            ElasticSearchClient client = new ElasticSearchClient("http://172.22.1.31:9200/", repSecIndex);
-
             QueryBuilder builder = new QueryBuilder();
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
-            builder.Aggregates.Add("my_result", new MinAggregate("Event.TotalDuration"));
+            builder.Aggregates.Add("my_result", new MinAggregate("TotalDuration"));
 
-            builder.PrintQuery(client.IndexDescriptors);
+            builder.PrintQuery(Client.IndexDescriptors);
 
-            AggregateResult result = client.ExecuteAggregate(builder);
+            AggregateResult result = Client.ExecuteAggregate(builder);
             dynamic resultDynamic = result;
             result.PrintResult();
 
@@ -78,16 +67,13 @@ namespace ElasticSearch.Playground.Samples.Aggregates
         [Test]
         public void MaxAggregate()
         {
-            var repSecIndex = new TimeStampedIndexDescriptor("rep-sec-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
-            ElasticSearchClient client = new ElasticSearchClient("http://172.22.1.31:9200/", repSecIndex);
-
             QueryBuilder builder = new QueryBuilder();
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
-            builder.Aggregates.Add("my_result", new MaxAggregate("Event.TotalDuration"));
+            builder.Aggregates.Add("my_result", new MaxAggregate("TotalDuration"));
 
-            builder.PrintQuery(client.IndexDescriptors);
+            builder.PrintQuery(Client.IndexDescriptors);
 
-            AggregateResult result = client.ExecuteAggregate(builder);
+            AggregateResult result = Client.ExecuteAggregate(builder);
             result.PrintResult();
 
             Assert.Greater(result.GetValue<double>("my_result.value"), 0.0);
@@ -96,16 +82,13 @@ namespace ElasticSearch.Playground.Samples.Aggregates
         [Test]
         public void SumAggregate()
         {
-            var repSecIndex = new TimeStampedIndexDescriptor("rep-sec-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
-            ElasticSearchClient client = new ElasticSearchClient("http://172.22.1.31:9200/", repSecIndex);
-
             QueryBuilder builder = new QueryBuilder();
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
-            builder.Aggregates.Add("my_result", new SumAggregate("Event.TotalDuration"));
+            builder.Aggregates.Add("my_result", new SumAggregate("TotalDuration"));
 
-            builder.PrintQuery(client.IndexDescriptors);
+            builder.PrintQuery(Client.IndexDescriptors);
 
-            AggregateResult result = client.ExecuteAggregate(builder);
+            AggregateResult result = Client.ExecuteAggregate(builder);
             result.PrintResult();
 
             Assert.Greater(result.GetValue<double>("my_result.value"), 10000.0);
@@ -114,39 +97,33 @@ namespace ElasticSearch.Playground.Samples.Aggregates
         [Test]
         public void PercentilesAggregate()
         {
-            var repSecIndex = new TimeStampedIndexDescriptor("rep-sec-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
-            ElasticSearchClient client = new ElasticSearchClient("http://172.22.1.31:9200/", repSecIndex);
-
             QueryBuilder builder = new QueryBuilder();
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
-            builder.Aggregates.Add("my_result", new PercentilesAggregate("Event.TotalDuration"));
+            builder.Aggregates.Add("my_result", new PercentilesAggregate("TotalDuration"));
 
-            builder.PrintQuery(client.IndexDescriptors);
+            builder.PrintQuery(Client.IndexDescriptors);
 
-            AggregateResult result = client.ExecuteAggregate(builder);
+            AggregateResult result = Client.ExecuteAggregate(builder);
             result.PrintResult();
 
             double result25 = (double)result.GetValue<JObject>("my_result.values")["25.0"];
             double result50 = (double)result.GetValue<JObject>("my_result.values")["50.0"];
 
             Assert.Greater(result25, 0.0);
-            Assert.Less(result50, 100.0);
+            Assert.Greater(result50, 0.0);
         }
 
         [Test]
         public void StatsAggregate()
         {
-            var repSecIndex = new TimeStampedIndexDescriptor("rep-sec-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
-            ElasticSearchClient client = new ElasticSearchClient("http://172.22.1.31:9200/", repSecIndex);
-
             QueryBuilder builder = new QueryBuilder();
             builder.Filtered.Filters.Add(FilterType.Must,
                 new FixedTimeRange("@timestamp", DateTime.UtcNow.Yesterday(), DateTime.UtcNow));
-            builder.Aggregates.Add("my_result", new StatsAggregate("Event.TotalDuration"));
+            builder.Aggregates.Add("my_result", new StatsAggregate("TotalDuration"));
 
-            builder.PrintQuery(client.IndexDescriptors);
+            builder.PrintQuery(Client.IndexDescriptors);
 
-            AggregateResult result = client.ExecuteAggregate(builder);
+            AggregateResult result = Client.ExecuteAggregate(builder);
             result.PrintResult();
 
             result.GetValue("my_result.count");
@@ -159,17 +136,14 @@ namespace ElasticSearch.Playground.Samples.Aggregates
         [Test]
         public void ExtendedStatsAggregate()
         {
-            var repSecIndex = new TimeStampedIndexDescriptor("rep-sec-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
-            ElasticSearchClient client = new ElasticSearchClient("http://172.22.1.31:9200/", repSecIndex);
-
             QueryBuilder builder = new QueryBuilder();
             builder.Filtered.Filters.Add(FilterType.Must,
                 new FixedTimeRange("@timestamp", DateTime.UtcNow.Yesterday(), DateTime.UtcNow));
-            builder.Aggregates.Add("my_result", new ExtendedStatsAggregate("Event.TotalDuration"));
+            builder.Aggregates.Add("my_result", new ExtendedStatsAggregate("TotalDuration"));
 
-            builder.PrintQuery(client.IndexDescriptors);
+            builder.PrintQuery(Client.IndexDescriptors);
 
-            AggregateResult result = client.ExecuteAggregate(builder);
+            AggregateResult result = Client.ExecuteAggregate(builder);
             result.PrintResult();
 
             result.GetValue("my_result.count");
@@ -186,19 +160,16 @@ namespace ElasticSearch.Playground.Samples.Aggregates
         [Test]
         public void MultipleAggregates()
         {
-            var repSecIndex = new TimeStampedIndexDescriptor("rep-sec-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
-            ElasticSearchClient client = new ElasticSearchClient("http://172.22.1.31:9200/", repSecIndex);
-
             QueryBuilder builder = new QueryBuilder();
             builder.Filtered.Filters.Add(FilterType.Must,
                 new FixedTimeRange("@timestamp", DateTime.UtcNow.Yesterday(), DateTime.UtcNow));
-            builder.Aggregates.Add("some_sum", new SumAggregate("Event.TotalDuration"));
-            builder.Aggregates.Add("serious_min", new MinAggregate("Event.TotalDuration"));
-            builder.Aggregates.Add("heavy_stats", new StatsAggregate("Event.TotalDuration"));
+            builder.Aggregates.Add("some_sum", new SumAggregate("TotalDuration"));
+            builder.Aggregates.Add("serious_min", new MinAggregate("TotalDuration"));
+            builder.Aggregates.Add("heavy_stats", new StatsAggregate("TotalDuration"));
 
-            builder.PrintQuery(client.IndexDescriptors);
+            builder.PrintQuery(Client.IndexDescriptors);
 
-            AggregateResult result = client.ExecuteAggregate(builder);
+            AggregateResult result = Client.ExecuteAggregate(builder);
             result.PrintResult();
 
             result.GetValue("serious_min.value");
@@ -209,21 +180,18 @@ namespace ElasticSearch.Playground.Samples.Aggregates
         [Test]
         public void TermsAggregates()
         {
-            var repSecIndex = new TimeStampedIndexDescriptor("rep-sec-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
-            ElasticSearchClient client = new ElasticSearchClient("http://172.22.1.31:9200/", repSecIndex);
-
             QueryBuilder builder = new QueryBuilder();
             builder.Filtered.Filters.Add(FilterType.Must, new FixedTimeRange("@timestamp", DateTime.UtcNow.Yesterday(), DateTime.UtcNow));
 
-            builder.Aggregates.Add("my_term", new TermsAggregate("Event.EventType", 10) { Order = new OrderField()});
+            builder.Aggregates.Add("my_term", new TermsAggregate("EventType", 10) { Order = new OrderField()});
 
-            builder.PrintQuery(client.IndexDescriptors);
+            builder.PrintQuery(Client.IndexDescriptors);
 
-            AggregateResult result = client.ExecuteAggregate(builder);
+            AggregateResult result = Client.ExecuteAggregate(builder);
             result.PrintResult();
 
 
-            Assert.AreEqual(10, result.GetValues<dynamic>("my_term.buckets").Length);
+            Assert.Greater(result.GetValues<dynamic>("my_term.buckets").Length, 0);
         }
     }
 }

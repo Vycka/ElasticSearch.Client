@@ -11,7 +11,7 @@ namespace ElasticSearch.Playground.Samples.Filters
         public void QueryFilterTest()
         {
             QueryBuilder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp",86400));
-            QueryBuilder.Filtered.Filters.Add(FilterType.Must, new LuceneFilter("Level:Error"));
+            QueryBuilder.Filtered.Filters.Add(FilterType.Must, new LuceneFilter("Level:Info"));
 
             QueryBuilder.PrintQuery(Client.IndexDescriptors);
 

@@ -8,19 +8,16 @@ using NUnit.Framework;
 namespace ElasticSearch.Playground.Samples.Queries
 {
     [TestFixture]
-    public class EmptyQuery
+    public class EmptyQuery : TestBase
     {
         [Test]
         public void ExpectDefaultCountReturned()
         {
-            ElasticSearchIndexDescriptor repSecIndex = new TimeStampedIndexDescriptor("rep-sec-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
-            ElasticSearchClient client = new ElasticSearchClient("http://172.22.1.31:9200/", repSecIndex);
-
             QueryBuilder builder = new QueryBuilder();
 
-            builder.PrintQuery(client.IndexDescriptors);
+            builder.PrintQuery(Client.IndexDescriptors);
 
-            ElasticSearchResult result = client.ExecuteQuery(builder);
+            ElasticSearchResult result = Client.ExecuteQuery(builder);
 
             Assert.AreEqual(10, result.Items.Count);
         }

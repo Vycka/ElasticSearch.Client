@@ -11,19 +11,16 @@ using NUnit.Framework;
 namespace ElasticSearch.Playground.Samples.Indexes
 {
     [TestFixture]
-    public class ConcreteIndex
+    public class ConcreteIndex : TestBase
     {
         [Test]
         public void TestConcreteIndex()
         {
-            var repSecIndex = new ConcreteIndexDescriptor("rep-sec-" + DateTime.UtcNow.ToString("yyyy.MM.dd"));
-            ElasticSearchClient client = new ElasticSearchClient("http://172.22.1.31:9200/", repSecIndex);
-
             QueryBuilder builder = new QueryBuilder();
             builder.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 86400));
-            builder.PrintQuery(client.IndexDescriptors);
+            builder.PrintQuery(Client.IndexDescriptors);
 
-            ElasticSearchResult result = client.ExecuteQuery(builder);
+            ElasticSearchResult result = Client.ExecuteQuery(builder);
 
             Assert.AreEqual(1, result.Shards.Successful);
         }

@@ -5,13 +5,45 @@ namespace ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters
 {
     public class FixedTimeRange : FromToRange, IFilterComponent
     {
-        private readonly DateTime _utcFrom, _utcTo;
+        private DateTime _utcFrom, _utcTo;
+
+        public DateTime UtcFrom
+        {
+            set
+            {
+                _utcFrom = value;
+                FromValue = value.ToUnixTimeMs();
+            }
+            get
+            {
+                return _utcFrom;
+            }
+        }
+
+        public DateTime UtcTo
+        {
+            set
+            {
+                _utcTo = value;
+                ToValue = value.ToUnixTimeMs();
+            }
+            get
+            {
+                return _utcTo;
+            }
+        }
+
+        public FixedTimeRange(string fieldName) : base(fieldName)
+        {
+            UtcFrom = DateTimeUnixTimeExtensions.UnixTimeStart;
+            UtcTo = DateTimeUnixTimeExtensions.UnixTimeStart;
+        }
 
         public FixedTimeRange(string fieldName, DateTime utcFrom, DateTime utcTo)
-            : base(fieldName, utcFrom.ToUnixTimeMs(), utcTo.ToUnixTimeMs())
+            : base(fieldName)
         {
-            _utcFrom = utcFrom;
-            _utcTo = utcTo;
+            UtcFrom = utcFrom;
+            UtcTo = utcTo;
         }
 
 
