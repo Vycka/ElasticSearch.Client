@@ -63,6 +63,7 @@
     <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\AverageAggregate.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\DateHistogramAggregate.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\ExtendedStatsAggregate.cs" />
+    <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\FiltersAggregate.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\HistogramAggregate.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\MaxAggregate.cs" />
     <Compile Include="Query\QueryGenerator\AggregationComponents\Aggregates\MinAggregate.cs" />

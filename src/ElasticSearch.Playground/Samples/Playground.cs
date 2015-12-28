@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using ElasticSearch.Client;
 using ElasticSearch.Client.ElasticSearch;
 using ElasticSearch.Client.ElasticSearch.Index;
@@ -8,6 +9,7 @@ using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Aggregates
 using ElasticSearch.Client.Query.QueryGenerator.AggregationComponents.Order;
 using ElasticSearch.Client.Query.QueryGenerator.Models;
 using ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Filters;
+using ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Queries;
 using ElasticSearch.Client.Query.QueryGenerator.QueryComponents.Sort;
 using ElasticSearch.Client.Utils;
 using Newtonsoft.Json;
@@ -83,19 +85,16 @@ namespace ElasticSearch.Playground.Samples
 
         [Test]
         [Ignore]
-        public void countTest()
+        public void DumpKibana()
         {
-            var einsteinIndex = new TimeStampedIndexDescriptor("einstein_engine-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
-            var client = new ElasticSearchClient("http://172.22.9.99:9200/", einsteinIndex);
+            var einsteinIndex = new ConcreteIndexDescriptor("reporting_*_ui*");
+            var client = new ElasticSearchClient("http://10.1.14.98:9200/", einsteinIndex);
 
-            QueryBuilder qB = new QueryBuilder();
-            qB.Filtered.Filters.Add(FilterType.Must, new MovingTimeRange("@timestamp", 186400));
-            qB.Aggregates.Add("count_by_correlation", new TermsAggregate("CorrelationCode") { Order = new OrderField("_count", SortOrder.Desc)});
-            qB.PrintQuery();
+            QueryBuilder queryBuilder = new QueryBuilder();
+            queryBuilder.Aggregates.Add("indexes",new TermsAggregate("_index",9999999));
 
-            ElasticSearchResult result = client.ExecuteQueryCount(qB);
-
-            Console.WriteLine(result.Total);
+            AggregateResult result = client.ExecuteAggregate(queryBuilder);
+            Console.WriteLine(result.ResultObject.ToString());
         }
     }
 }
