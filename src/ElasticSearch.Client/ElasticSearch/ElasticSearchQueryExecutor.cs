@@ -102,7 +102,7 @@ namespace ElasticSearch.Client.ElasticSearch
 
         private ElasticSearchQuery RemoveInexistingShards(ElasticSearchQuery query)
         {
-            string requestUrl = BuildRequestUri(query, "_aliases", new GetParam("ignore_missing", "true"));
+            string requestUrl = BuildRequestUri(query, "_aliases", new GetParam("ignore_unavailable", "true"));
                 
             string jsonResponse = _httpRequest.MakeGetRequest(requestUrl);
             var parsedResponse = JsonConvert.DeserializeObject<IDictionary<string, object>>(jsonResponse);
