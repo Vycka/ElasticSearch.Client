@@ -12,12 +12,11 @@ namespace ElasticSearch.Playground.Samples
 
         public TestBase()
         {
-            var repSecIndex = new TimeStampedIndexDescriptor("einstein_engine-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
-            Client = new ElasticSearchClient("http://172.22.9.99:9200/", repSecIndex);
-            QueryBuilder = new QueryBuilder();
+            var index = new TimeStampedIndexDescriptor("einstein_agency-", "yyyy.MM.dd", "@timestamp", IndexStep.Day);
+            Client = new ElasticSearchClient("http://10.8.58.65:9200/", index);
         }
 
-        [TearDown]
+        [SetUp]
         public void TearDown()
         {
             QueryBuilder = new QueryBuilder();

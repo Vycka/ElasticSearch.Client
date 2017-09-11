@@ -59,6 +59,7 @@
     <Compile Include="Samples\Aggregates\DateHistogram.cs" />
     <Compile Include="Samples\Aggregates\FiltersAggregateTest.cs" />
     <Compile Include="Samples\Aggregates\Histogram.cs" />
+    <Compile Include="Samples\Aggregates\PercentilesAggregateTest.cs" />
     <Compile Include="Samples\Aggregates\SubAggregates.cs" />
     <Compile Include="Samples\Filters\QueryFilter.cs" />
     <Compile Include="Samples\Filters\RangeFilters.cs" />

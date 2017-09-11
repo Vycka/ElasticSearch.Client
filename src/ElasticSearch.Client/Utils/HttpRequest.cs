@@ -15,6 +15,8 @@ namespace ElasticSearch.Client.Utils
 
         private string _requestData;
 
+        public TimeSpan Timeout = TimeSpan.FromMinutes(5);
+
         #endregion
 
         #region Constructors
@@ -100,6 +102,8 @@ namespace ElasticSearch.Client.Utils
         /// <returns>Response Data</returns>
         private string ExecuteWebRequest(HttpWebRequest httpRequest)
         {
+            httpRequest.Timeout = Convert.ToInt32(Timeout.TotalMilliseconds);
+
             PrintRequestInformation(httpRequest);
 
             string responseString;

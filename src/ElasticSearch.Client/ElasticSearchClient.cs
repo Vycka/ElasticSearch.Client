@@ -14,8 +14,23 @@ namespace ElasticSearch.Client
     {
         public readonly List<ElasticSearchIndexDescriptor> IndexDescriptors;
         private readonly ElasticSearchQueryExecutor _elasticSearchExecutor;
+        private readonly HttpRequest _httpClient;
+
 
         private readonly JsonQuerySerializer _querySerializer = new JsonQuerySerializer();
+
+        public TimeSpan Timeout
+        {
+            get
+            {
+                return _httpClient.Timeout;
+            }
+
+            set
+            {
+                _httpClient.Timeout = value;
+            }
+        }
 
         public ElasticSearchClient(string elasticSearchServiceUrl, params ElasticSearchIndexDescriptor[] indexDescriptors)
         {
@@ -26,8 +41,8 @@ namespace ElasticSearch.Client
                 throw new ArgumentNullException("indexDescriptors");
 
             IndexDescriptors = new List<ElasticSearchIndexDescriptor>(indexDescriptors);
-            HttpRequest httpRequest = new HttpRequest(elasticSearchServiceUrl);
-            _elasticSearchExecutor = new ElasticSearchQueryExecutor(httpRequest);
+            _httpClient = new HttpRequest(elasticSearchServiceUrl);
+            _elasticSearchExecutor = new ElasticSearchQueryExecutor(_httpClient);
         }
 
         /// <summary>
