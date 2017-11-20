@@ -1,4 +1,5 @@
 Trying to create friendly, yet functional __ElasticSearch C# Client__.
+* This project is a bit outdated and doesn't work with ElasticSearch V5 and newer
 
 __Currently supported__
 * Basic Query section support (Useful for retrieving raw data)
