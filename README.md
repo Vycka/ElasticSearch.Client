@@ -1,5 +1,5 @@
-Trying to create friendly, yet functional __ElasticSearch C# Client__.
-* This project is a bit outdated and doesn't work with ElasticSearch V5 and newer
+__This project is outdated and wont work with ElasticSearch V5 and newer__
+* I no longer work on this as NEST client is now mature enough and i can't keep up with the features appearing in ElasticSearch.
 
 __Currently supported__
 * Basic Query section support (Useful for retrieving raw data)
