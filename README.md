@@ -1,5 +1,11 @@
-__This project is outdated and wont work with ElasticSearch V5 and newer__
+__This project is OUTDATED and wont work with ElasticSearch V5 and newer__
 * I no longer work on this as NEST client is now mature enough. And I can't keep up with with ElasticSearch development.
+
+.
+
+.
+
+.
 
 __Currently supported__
 * Basic Query section support (Useful for retrieving raw data)
